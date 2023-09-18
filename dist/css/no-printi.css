@@ -1,0 +1,15 @@
+#buttons {
+    display: none;
+}
+
+@media print {
+    @page {
+        size: 155mm 220mm;
+        margin: 1px;
+
+        /* auto is the initial value */
+    }
+
+}
+
+
