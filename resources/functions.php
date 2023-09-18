@@ -172,7 +172,7 @@ function qr_teacher_id()
     $idd = $_GET['id'];
     $query =  query("SELECT * FROM tbl_students WHERE sd_id='$idd'");
     confirm($query);
-    $uel = 'http://175.41.189.54/pos_manage_learning_centers/teacher_id.php?id=' . $idd;
+    $uel = 'http://54.254.62.28/teacher_id.php?id=' . $idd;
     $qrcode = 'https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=' . $uel . '&choe=UTF-8';
     echo $qrcode;
 }
@@ -182,7 +182,7 @@ function qr()
     $idd = $_GET['id'];
     $query =  query("SELECT * FROM tbl_students WHERE sd_id='$idd'");
     confirm($query);
-    $uel = 'http://175.41.189.54/pos_manage_learning_centers/students_id.php?id=' . $idd;
+    $uel = 'http://54.254.62.28/students_id.php?id=' . $idd;
     $qrcode = 'https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=' . $uel . '&choe=UTF-8';
     echo $qrcode;
 }
@@ -191,7 +191,7 @@ function qr_driver_id()
     $idd = $_GET['id'];
     $query =  query("SELECT * FROM tbl_students WHERE sd_id='$idd'");
     confirm($query);
-    $uel = 'http://175.41.189.54/pos_manage_learning_centers/driver_id.php?id=' . $idd;
+    $uel = 'http://54.254.62.28/driver_id.php?id=' . $idd;
     $qrcode = 'https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=' . $uel . '&choe=UTF-8';
     echo $qrcode;
 }
