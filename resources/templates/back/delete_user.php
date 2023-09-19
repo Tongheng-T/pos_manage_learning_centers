@@ -12,7 +12,10 @@ if (isset($id)) {
     $delete = query("DELETE from tbl_user where user_id =" . $id);
     confirm($delete);
     if ($delete) {
-        unlink("../../../productimages/user/$db_image");
+        
+        if ($db_image != 'hello.png') {
+            unlink("../../../productimages/user/$db_image");
+        }
 
         set_message(' <script>
         Swal.fire({
