@@ -26,10 +26,5 @@ while ($row = $select->fetch_assoc()) {
             </div>';
 	$i++;
 }
-$html .= '<div class="user">
-<a href="itemt?registration">
-<img src="../productimages/plus.png">
-<h2>More</h2>
-<p>New User</p></a>
-</div>';
+
 echo $html;
