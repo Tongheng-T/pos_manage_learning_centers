@@ -8,6 +8,7 @@
 display_message();
 registration();
 ?>
+
 <!-- Main content -->
 <div class="content">
     <div class="container-fluid">
@@ -28,7 +29,9 @@ registration();
                                         <td>Name</td>
                                         <td>Email</td>
                                         <td>Password</td>
+                                        <td>Branch</td>
                                         <td>Role</td>
+                                        <td>Edit</td>
                                         <td>Delete</td>
                                     </tr>
 
@@ -45,6 +48,9 @@ registration();
                                     $admin = 'Admin';
                                     $user = 'User';
                                     while ($row = $select->fetch_object()) {
+
+                                        $branch = show_branch_name($row->id_branch);
+
                                         if ($row->role == $admin or $row->role == $user) {
                                             $password = "********";
                                         } else {
@@ -60,7 +66,8 @@ registration();
                                        <td>' . $row->user_id . '</td>
                                        <td> <img height="50" src="../productimages/user/' . $row->img . '" alt=""> ' . $row->username . '</td>
                                        <td>' . $row->useremail . '</td>
-                                       <td>' . $password . '</td>  
+                                       <td>' . $password . '</td> 
+                                       <td>'.$branch.'</td>
                                        <td>' . $row->role . '</td>
                                        <td><button type="submit" class="btn btn-primary" value="' . $row->user_id . '" name="btnedit">Edit</button></td>
                                        <td>' . $delete . '</td>

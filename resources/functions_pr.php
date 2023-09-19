@@ -34,19 +34,18 @@ function show_car_driver($car_id)
 {
     $scaleL_query = query("SELECT * FROM tbl_car_driver WHERE car_id = '{$car_id}'");
     confirm($scaleL_query);
-    if ($car_id != 1){
+    if ($car_id != 1) {
         while ($scale_row = fetch_array($scaleL_query)) {
 
             $car_id = " - លេខសម្គាល់ ";
             $license = " ស្លាកលេខរថយន្ត ";
-    
+
             return $license . $scale_row['car_license_plate'] . $car_id . $scale_row['car_vehicle_id'];
         }
-    }else{
+    } else {
         $car_id = "ដោយខ្លួនឯង";
-        return $car_id ;
+        return $car_id;
     }
-   
 }
 
 function show_classroom($sdi_id)
@@ -68,7 +67,7 @@ function show_classroom($sdi_id)
 
 function fill_subject()
 {
-    $id_branch =branch_id();
+    $id_branch = branch_id();
     $output = '';
     $select = query("SELECT * from tbl_subject WHERE id_branch='$id_branch' order by sj_name asc");
     confirm($select);
@@ -94,7 +93,7 @@ function fill_studytime()
 }
 function fill_classroom()
 {
-    $id_branch =branch_id();
+    $id_branch = branch_id();
     $output = '';
     $select = query("SELECT * from tbl_classroom WHERE id_branch='$id_branch'");
     confirm($select);
@@ -107,7 +106,7 @@ function fill_classroom()
 }
 function fill_car_driver()
 {
-    $id_branch =branch_id();
+    $id_branch = branch_id();
     $output = '';
     $select = query("SELECT * from tbl_car_driver WHERE id_branch='$id_branch'");
     confirm($select);
@@ -120,7 +119,7 @@ function fill_car_driver()
 }
 function fill_teacher()
 {
-    $id_branch =branch_id();
+    $id_branch = branch_id();
     $output = '';
     $select = query("SELECT * from tbl_teacher WHERE id_branch='$id_branch'");
     confirm($select);
@@ -331,7 +330,7 @@ function edit_category()
 
 function query_category()
 {
-    $id_branch =branch_id();
+    $id_branch = branch_id();
 
     $select = query("SELECT * from tbl_subject  where id_branch= $id_branch order by sj_id ASC");
     confirm($select);
@@ -836,7 +835,7 @@ function edit_branch()
 
 function query_Classroom()
 {
-    $id_branch =branch_id();
+    $id_branch = branch_id();
     $select = query("SELECT * from tbl_classroom where id_branch= $id_branch order by cr_id ASC");
     confirm($select);
 
@@ -917,5 +916,75 @@ function branch_id()
         $id_branch = $row['id_branch'];
     }
     return  $id_branch;
+}
+function show_branch_name($id)
+{
+    $query =  query("SELECT * FROM tbl_branch WHERE id =  $id ");
+    confirm($query);
+    $row = $query->fetch_assoc();
+    $id_branch = $row['branch_name'];
 
+    return  $id_branch;
+}
+
+
+
+
+function timeago($date, $tense = 'ago')
+{
+    date_default_timezone_set("asia/phnom_penh");
+    $time = date($date);
+    static $periods = array('year', 'month', 'day', 'hour', 'minute', 'second');
+    if (!(strtotime($time) > 0)) {
+        return trigger_error("wrong time format: '$time'", E_USER_ERROR);
+    }
+    $now = new DateTime('now', new DateTimeZone('Asia/bangkok'));
+    $time = new DateTime($time);
+    $diff = $now->diff($time)->format('%y %m %d %h %i %s');
+    $diff = explode(' ', $diff);
+    $diff = array_combine($periods, $diff);
+    $diff = array_filter($diff);
+
+    $period = key($diff);
+    $value = current($diff);
+    if (!$value) {
+        $period = '';
+        $tense = '';
+        $value = 'just now';
+    } else {
+        if ($period == 'day' && $value >= 7) {
+            $period = 'week';
+            $value = floor($value / 7);
+        }
+        if ($value > 1) {
+            $period .= 's';
+        }
+    }
+    return "$value $period $tense";
+}
+
+
+function show_online()
+{
+    $id = $_SESSION['userid'];
+    $time = new DateTime('now', new DateTimeZone('Asia/bangkok'));
+    $datee =  $time->format('Y-m-d H:i:s');
+    $time = time();
+    $select = query("SELECT * from tbl_user WHERE user_id =  $id ");
+    confirm($select);
+
+    while ($row = $select->fetch_assoc()) {
+ 
+        $date = date($row['last_login']);
+        $timeago = timeago($date);
+        $status = $timeago;
+        $class = "text-danger";
+
+        if ($row['login_online'] > $time) {
+            $status = 'Online';
+            $class = "text-success";
+        }
+        echo $status;
+    }
+    
 }

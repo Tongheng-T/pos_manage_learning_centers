@@ -5,7 +5,7 @@ if ($_SESSION['useremail'] == ""  or $_SESSION['role'] == "User") {
 
     header('location:../');
 }
-$id_branch =branch_id();
+$id_branch = branch_id();
 $selectt = query("SELECT * from tbl_students where id_branch= $id_branch");
 confirm($selectt);
 $total_tudents = 0;
@@ -135,8 +135,55 @@ $total_subject = $row->cate;
                 </div>
                 <!-- /.row -->
 
+                <div class="card card-success card-outline">
+                    <div class="card-header">
+                        <h5 class="m-0">Users</h5>
+                    </div>
+                    <!-- New Users Section -->
+                    <div class="new-users">
+
+                        <div class="user-list" id="user_grid">
+                            <?php
+                            $time = new DateTime('now', new DateTimeZone('Asia/bangkok'));
+                            $datee =  $time->format('Y-m-d H:i:s');
+                            $time = time();
+                            $select = query("SELECT * from tbl_user ");
+                            confirm($select);
+
+                            while ($row = $select->fetch_assoc()) {
+                                extract($row);
+                                $date = date($row['last_login']);
+                                $timeago = timeago($date);
+                                $status = $timeago;
+                                $class = "text-danger";
+
+                                if ($row['login_online'] > $time) {
+                                    $status = 'Online';
+                                    $class = "text-success";
+                                }
+                            ?>
+
+                                <div class="user">
+                                    <img src="../productimages/user/<?php echo $row['img'] ?>">
+                                    <h2><?php echo $row['username'] ?></h2>
+                                    <p class="<?php echo $class ?>"><i class="fas fa-signal"></i> <?php echo $status ?></p>
+                                </div>
+                            <?php } ?>
+                            <!-- <div class="user">
+                                <a href="itemt?registration">
+                                    <img src="../productimages/plus.png">
+                                    <h2>More</h2>
+                                    <p>New User</p>
+                                </a>
+                            </div> -->
+                        </div>
+                        
+                    </div>
+                    <!-- End of New Users Section -->
+                </div>
 
                 <div class="card card-primary card-outline">
+
                     <div class="card-header">
                         <h5 class="m-0">Number of students By Date</h5>
                     </div>

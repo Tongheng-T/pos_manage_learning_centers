@@ -29,6 +29,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/adminlte.min.css">
     <link rel="stylesheet" href="../dist/css/castermm.css">
+    <link rel="stylesheet" href="../dist/css/stylek.css">
     <!-- DataTables -->
     <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -46,7 +47,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- jautocalcg -->
     <script src="../dist/js/jquery.js"></script>
     <script src="../dist/js/jautocalcg.min.js"></script>
-    <script src="../dist/js/scriptss.js"></script>
+    <script src="../dist/js/scripts.js"></script>
 
     <!-- daterange picker -->
     <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
@@ -148,7 +149,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <img src="../productimages/user/<?php img_user(); ?>" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block"><?php name_user(); ?></a>
+                    <p class="text-white" style="margin-bottom: unset;">WELCOME- <?php name_user(); ?></p>
+                        <a href="#"><i class="fa fa-circle text-success"></i> <?php show_online();?></a>
                     </div>
                 </div>
 

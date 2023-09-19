@@ -27,3 +27,30 @@ function displayImage_edit(e) {
         reader.readAsDataURL(e.files[0]);
     }
 }
+
+
+function updateUserStatus(){
+    jQuery.ajax({
+      url:'../resources/templates/update_user_status.php',
+      success:function(){
+  
+      }
+    })
+  }
+  function getUserStatus(){
+    jQuery.ajax({
+      url:'../resources/templates/get_user_status.php',
+      success:function(result){
+        jQuery('#user_grid').html(result);
+      }
+    })
+  }
+  
+  setInterval(function(){
+    updateUserStatus();
+  },3000);
+  
+  setInterval(function(){
+    getUserStatus();
+  },7000);
+  
