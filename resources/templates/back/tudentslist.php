@@ -26,7 +26,7 @@ display_message();
           </div>
           <div class="card-body">
             <div style="overflow-x:auto;">
-              <table class="table table-striped table-hover " id="">
+              <table class="table table-striped table-hover " id="table_tudentslist">
                 <thead class="bg_color">
                   <tr>
                     <th>id</th>
@@ -34,7 +34,7 @@ display_message();
                     <th>ឈ្មោះឡាតាំង</th>
                     <th>ភេទ</th>
                     <th>ថ្ងៃខែឆ្នាំកំណើត</th>
-                    <th>លេខទូរសព្ទ</th>
+                    <!-- <th>លេខទូរសព្ទ</th> -->
                     <th>មុខវិជ្ជា</th>
                     <th>គ្រូបង្រៀន</th>
                     <th>ថ្នាក់រៀន</th>
@@ -254,7 +254,16 @@ display_message();
       }
     })
   })
+
+
+  $(document).ready(function() {
+    $('#table_tudentslist').DataTable({
+
+        "order": [
+            [0, "desc"]
+        ]
+    });
+});
 </script>
 
 
-</script>

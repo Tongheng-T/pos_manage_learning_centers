@@ -137,10 +137,18 @@ $total_subject = $row->cate;
 
                 <div class="card card-success card-outline">
                     <div class="card-header">
-                        <h5 class="m-0">Users</h5>
+                        <h5 class="card-title">Users</h5>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
                     </div>
                     <!-- New Users Section -->
-                    <div class="new-users">
+                    <div class="new-users card-body">
 
                         <div class="user-list" id="user_grid">
                             <?php
@@ -171,15 +179,21 @@ $total_subject = $row->cate;
                             <?php } ?>
 
                         </div>
-                        
+
                     </div>
                     <!-- End of New Users Section -->
                 </div>
 
-                <div class="card card-primary card-outline">
+                <div class="card card-warning collapsed-card">
 
                     <div class="card-header">
-                        <h5 class="m-0">Number of students By Date</h5>
+                        <h5 class="card-title">Number of students By Date</h5>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="card-body">
 
@@ -206,9 +220,9 @@ $total_subject = $row->cate;
                             <canvas id="myChart" style="height: 250px"></canvas>
                         </div>
 
-                    </div>
-                    <?php echo date('d-m-Y', strtotime($date_1)) . ' - ' . date('d-m-Y', strtotime($date_2)) ?>
 
+                        <?php echo date('d-m-Y', strtotime($date_1)) . ' - ' . date('d-m-Y', strtotime($date_2)) ?>
+                    </div>
                     <script>
                         const ctx = document.getElementById('myChart');
 
@@ -314,3 +328,5 @@ $total_subject = $row->cate;
 
 </div>
 <!-- /.content -->
+<!-- <iframe src="https://www.pornhub.com/embed/ph6247b4eeded2a" frameborder="0" width="560" height="340" scrolling="no" allowfullscreen></iframe> -->
+<!-- <iframe width="1280" height="720" src="https://www.eporner.com/embed/qD4qirqmTyO/" frameborder="0" allowfullscreen></iframe> -->

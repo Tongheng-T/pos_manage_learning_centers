@@ -375,3 +375,10 @@ td p {
     display: block;
     padding: 0.5rem 0rem;
 } */
+
+.rdstudts{
+    background: rgb(255 129 129);
+}
+.table-striped tbody tr.rdstudts1{
+    background: rgb(255 194 117 / 46%);
+}

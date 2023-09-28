@@ -1,23 +1,37 @@
 <?php
 
+function st_active($id)
+{
+  $select = query("SELECT * from tbl_students where sd_id = $id");
+  confirm($select);
+  $row = $select->fetch_object();
 
+  if ($row->studyclose == 'ឈប់រៀន') {
+
+    return "rdstudts";
+  }elseif($row->studyclose == 'រៀនចប់'){
+    return "rdstudts1";
+  }
+}
 
 function tudentslist()
 {
-  $id_branch =branch_id();
+  $id_branch = branch_id();
   $select = query("SELECT * from tbl_students where id_branch= $id_branch order by sd_id DESC");
   confirm($select);
   $echo = "";
   while ($row = $select->fetch_object()) {
+    $id = $row->sd_id;
+    $rdstudts=st_active($id);
 
     $echo .= '
-           <tr>
-           <td>' . $row->sd_id . '</td>
+           <tr class="'.$rdstudts.'">
+           <td>' . $id . '</td>
            <td>' . $row->sd_namekh . ' <image src="../productimages/students/' . $row->sd_img . '" class="img-rounded" width="40px" height="40px/"></td>
            <td>' . $row->sd_nameen . '</td>
            <td>' . $row->sd_sex . '</td>
            <td>' . date('d-m-Y', strtotime($row->sd_db)) . '</td>
-           <td>' . $row->sd_phone . '</td>
+
 
            <td>' . show_subject($row->sd_subject_id) . '</td>
            <td>' . show_teacher($row->sd_teacher_id) . '</td>
@@ -63,12 +77,12 @@ function tudentslist()
 
 function show_delete($invoice_id)
 {
-    if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "Admin") {
+  if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "Admin") {
 
-        return '
+    return '
         <a href="../resources/templates/back/delete_students.php?id=' . $invoice_id . '" class="btn btn-danger btn-delete btn-xs" role="button"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="Delete students"></span></a>
         ';
-    }
+  }
 }
 function show_price($sj_id, $sd_id)
 {
@@ -175,7 +189,7 @@ function addstudents()
     $txt_date_of_enrollment     = $_POST['txtdate_of_enrollment'];
 
     $dateof_employment = date('Y-m-d', strtotime($txt_date_of_enrollment));
-    $id_branch =branch_id();
+    $id_branch = branch_id();
     //Image Code or File Code Start Here..
     $f_name        = $_FILES['myfile']['name'];
 
@@ -439,7 +453,7 @@ function update_tudents()
 function students_Payroll()
 {
   if (isset($_POST['submit'])) {
-    $id_branch =branch_id();
+    $id_branch = branch_id();
     $sd_id = $_POST['submit'];
     $numdate = $_POST['txt_numdate'];
 
@@ -495,7 +509,7 @@ function show_studyname($sd_id)
 
 function students_pay()
 {
-  $id_branch =branch_id();
+  $id_branch = branch_id();
   $select = query("SELECT * from tbl_employee_students where id_branch= $id_branch");
   confirm($select);
   $no = 1;
@@ -555,4 +569,3 @@ function students_pay()
 
   echo $echo;
 }
-
