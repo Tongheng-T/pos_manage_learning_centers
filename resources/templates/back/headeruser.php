@@ -26,7 +26,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="../dist/css/castermm.css">
+    <link rel="stylesheet" href="../dist/css/castermv.css">
 
     <!-- DataTables -->
     <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
