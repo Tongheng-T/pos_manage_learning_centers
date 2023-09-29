@@ -376,7 +376,7 @@ td p {
     padding: 0.5rem 0rem;
 } */
 
-.rdstudts{
+.table-striped tbody tr.rdstudts{
     background: rgb(255 129 129);
 }
 .table-striped tbody tr.rdstudts1{

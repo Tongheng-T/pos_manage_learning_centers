@@ -9,7 +9,7 @@ function st_active($id)
   if ($row->studyclose == 'ឈប់រៀន') {
 
     return "rdstudts";
-  }elseif($row->studyclose == 'រៀនចប់'){
+  } elseif ($row->studyclose == 'រៀនចប់') {
     return "rdstudts1";
   }
 }
@@ -22,10 +22,10 @@ function tudentslist()
   $echo = "";
   while ($row = $select->fetch_object()) {
     $id = $row->sd_id;
-    $rdstudts=st_active($id);
+    $rdstudts = st_active($id);
 
     $echo .= '
-           <tr class="'.$rdstudts.'">
+           <tr class="' . $rdstudts . '">
            <td>' . $id . '</td>
            <td>' . $row->sd_namekh . ' <image src="../productimages/students/' . $row->sd_img . '" class="img-rounded" width="40px" height="40px/"></td>
            <td>' . $row->sd_nameen . '</td>
