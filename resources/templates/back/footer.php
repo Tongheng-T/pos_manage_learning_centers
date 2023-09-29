@@ -53,7 +53,7 @@
 <!-- SweetAlert2 -->
 <script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
 
-
+<script src="../plugins/chart.js/Chart.min.js"></script>
 
 
 

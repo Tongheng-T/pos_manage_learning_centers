@@ -132,6 +132,35 @@ $total_subject = $row->cate;
                         </div>
                     </div>
                     <!-- ./col -->
+
+                    <div class="col-lg-6 col-6">
+
+                        <div class="card card-danger">
+                            <div class="card-header">
+                                <h3 class="card-title">Pie Chart</h3>
+
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+
+
+
+
+                    </div>
+                    <!-- ./col -->
+
+
                 </div>
                 <!-- /.row -->
 
@@ -330,3 +359,48 @@ $total_subject = $row->cate;
 <!-- /.content -->
 <!-- <iframe src="https://www.pornhub.com/embed/ph6247b4eeded2a" frameborder="0" width="560" height="340" scrolling="no" allowfullscreen></iframe> -->
 <!-- <iframe width="1280" height="720" src="https://www.eporner.com/embed/qD4qirqmTyO/" frameborder="0" allowfullscreen></iframe> -->
+
+<?php
+
+$selectt = query("SELECT sd_sex, count(sd_sex) as total FROM tbl_students  where sd_sex= 'ប្រុស'");
+$select = query("SELECT sd_sex, count(sd_sex) as totalF FROM tbl_students  where sd_sex= 'ស្រី'");
+confirm($selectt);
+
+ $row = $selectt->fetch_assoc();
+
+    $dd = $row['total'];
+
+    $row = $select->fetch_assoc();
+
+    $ddF = $row['totalF'];
+
+?>
+<script>
+    var donutData = {
+        labels: [
+            'ប្រុស',
+            'ស្រី',
+        ],
+        datasets: [{
+            data:[ <?php echo $dd?> ,<?php echo $ddF?>],
+            backgroundColor: ['#00c0ef','#f56954'],
+        }]
+    }
+    //-------------
+    //- PIE CHART -
+    //-------------
+    // Get context with jQuery - using jQuery's .get() method.
+    var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+    var pieData = donutData;
+    var pieOptions = {
+        maintainAspectRatio: false,
+        responsive: true,
+    }
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    new Chart(pieChartCanvas, {
+        type: 'pie',
+        data: pieData,
+        options: pieOptions
+    })
+</script>

@@ -372,7 +372,7 @@ td p {
 
 
 /* .nav-link {
-    display: block;
+    display: block;j
     padding: 0.5rem 0rem;
 } */
 
@@ -381,4 +381,7 @@ td p {
 }
 .table-striped tbody tr.rdstudts1{
     background: rgb(255 194 117 / 46%);
+}
+.table-striped tbody tr.rdstudts:hover{
+    background: rgba(255, 129, 129, 0.555);
 }
