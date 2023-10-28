@@ -81,7 +81,7 @@ if (isset($_POST['id'])) {
 function show_datepay($id, $new)
 {
     $datedbe = '';
-    $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%' ");
+    $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%'  order by sdpay_id DESC");
     while ($row = fetch_array($query_pay)) {
         $money =  $row['money'];
         $dbe_date = $row['date'];
@@ -179,7 +179,7 @@ function show_datepay($id, $new)
                 </div>
 
 
-                <div class="col-md-4" style="border-left: 1px solid rgb(221 41 41 / 49%)">
+                <div class="col-md-4" style="border-left: 1px solid rgb(221 41 41 / 49%);height: 378px;overflow: auto;">
 
                     <div class="form-group">
                         <label>ថ្ងៃខែឆ្នាំបើក</label>

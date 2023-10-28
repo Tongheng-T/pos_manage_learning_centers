@@ -377,11 +377,15 @@ td p {
 } */
 
 .table-striped tbody tr.rdstudts{
-    background: rgb(255 129 129);
+    /* background: rgb(255 129 129); */
+    /* font-weight: 500; */
+    text-decoration: line-through;
+    color: #697582;
 }
 .table-striped tbody tr.rdstudts1{
     background: rgb(255 194 117 / 46%);
 }
-.table-striped tbody tr.rdstudts:hover{
+/* .table-striped tbody tr.rdstudts:hover{
     background: rgba(255, 129, 129, 0.555);
-}
+} */
+

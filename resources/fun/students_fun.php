@@ -23,7 +23,10 @@ function tudentslist()
   while ($row = $select->fetch_object()) {
     $id = $row->sd_id;
     $rdstudts = st_active($id);
+    $sd_studytime = $row->sd_studytime;
 
+
+    $date_of_enrollment = $row->sd_date_of_enrollment;
     $echo .= '
            <tr class="' . $rdstudts . '">
            <td>' . $id . '</td>
@@ -45,8 +48,69 @@ function tudentslist()
     } else {
       $echo .= '<td><span class="badge badgeth badge-primary">' . $row->sd_studytime . '</span></td>';
     }
+
+
+
+    $query_cddate = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id ");
+
+    if (mysqli_num_rows($query_cddate) > 0) {
+      $query_date = query("SELECT date,MAX(date) as max_date FROM tbl_employee_students WHERE sd_id = $id  ");
+      $roww = $query_date->fetch_assoc();
+      $count_datee = $roww['max_date'];
+    } else {
+      $count_datee = $date_of_enrollment;
+    }
+
+
+    $date = date('Y-m-d');
+    $result = explode('-', $date);
+    $month = $result[1];
+    $year = $result[0];
+    $salary = show_price($row->sd_subject_id, $id);
+
+    if ($sd_studytime == 'years') {
+      $new = $year;
+    } else {
+      $new = $year . '-' . $month;
+    }
+    $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%' ");
+    if (mysqli_num_rows($query_pay) > 0) {
+
+      $total = 0;
+      $money = 0;
+      while ($rowe = fetch_array($query_pay)) {
+        $dbe_date = $rowe['date'];
+        $money +=  $rowe['money'];
+        $total = $salary - $money;
+      }
+
+      if ($total == 0) {
+        $text = date('d-m-Y', strtotime($date_of_enrollment));
+      } else {
+        $text = '<span class="badge badgeth badge-danger">នៅខ្វះ </span>';
+      }
+    } else {
+      $total = $salary;
+
+      date('d-m-Y', strtotime($count_datee));
+      $datetime1 = new DateTime($count_datee);
+      $datetime2 = new DateTime($date);
+      $interval = $datetime1->diff($datetime2);
+      $textt =   $interval->format('%a');
+
+      if ($textt == 30) {
+
+        $text = '<span class="badge badgeth badge-info">ដល់ថ្ងៃបង់</span>';
+      } else {
+        $text = '<span class="badge badgeth badge-warning">ដល់ថ្ងៃ'.$textt.'</span>';
+      }
+    }
+
+
+
+
     $echo .= '
-           <td>' . date('d-m-Y', strtotime($row->sd_date_of_enrollment)) . '</td>	
+           <td>' . $text . '</td>	
   
            
            <td>
@@ -475,7 +539,7 @@ function students_Payroll()
             title: "Money Feild is Empty"
             });
            </script>');
-      redirect('itemt?teacher_list');
+      redirect('itemt?tudentslist');
     } else {
 
       $query = query("INSERT INTO tbl_employee_students(sd_id,money,date,numdate,id_branch) VALUES('{$sd_id}','{$money}','{$datedb}','{$numdate}','{$id_branch}')");
