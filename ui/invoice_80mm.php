@@ -79,10 +79,10 @@ $rowd = $tbl_setting->fetch_object();
         </div>
 
         <p class="centered">
-            <br>Address:<?php echo  $rowd->receipt_Address ?>
+            <br>Address: <?php echo  $rowd->receipt_Address ?>
             <br>Email Address: <?php echo  $rowd->receipt_Email ?>
             <!-- <br>fackbook: សហគមន៍កសិកម្មតំបែររុងរឿង -->
-            <br>Phone Number: <?php echo  $rowd->receipt_Phone ?>
+            <br>Phone: <?php echo  $rowd->receipt_Phone ?>
             <br>
         </p>
         <hr>

@@ -31,6 +31,12 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
   $sd_namekh = $row->sd_namekh;
   $sd_img = $row->sd_img;
 
+
+  $tbl_setting = query("SELECT * from tbl_setting");
+  confirm($tbl_setting);
+  $rowd = $tbl_setting->fetch_object();
+
+
   function show_customer_name()
   {
     $id = $_GET['id'];
@@ -50,9 +56,9 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
       <div class="top_ba">
         <div class="top_nisome">
-          <div class="img"><img src="../dist/img/c.png" alt=""></div>
-          <h3 class="hsdkh">វិទ្យាល័យហ៊ុនសែនតំបែរ</h3>
-          <h3 class="hsden">Hun Sen Dambae High School</h3>
+          <div class="img"><img src="../productimages/logo/<?php echo  $rowd->logo ?>" alt=""></div>
+          <h3 class="hsdkh"><?php echo $rowd->name_receipt ?></h3>
+          <h3 class="hsden"><?php echo $rowd->name_receipt_en ?></h3>
         </div>
       </div>
 
@@ -70,8 +76,8 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
 
     <div id="receipt-footer">
-      <h2 class="footercad">អាសយដ្ឋានៈ ភូមិថ្នល់ ឃុំតំបែរ ស្រុកតំបែរ ខេត្តត្បូងឃ្មុំ <br>
-      ទូរស័ព្ទៈ ០៧១ ៨៩ ៨៩ ៧២៦ /០៧១ ៨៩ ៨៩ ៧២៦
+      <h2 class="footercad">អាសយដ្ឋានៈ <?php echo $rowd->receipt_Address ?> <br>
+      ទូរស័ព្ទៈ <?php echo $rowd->receipt_Phone ?>
       </h2>
     </div>
 

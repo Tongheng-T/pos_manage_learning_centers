@@ -649,6 +649,10 @@ function edit_setting()
                     <input type="text" class="form-control" placeholder="Enter Name" name="txtname" value="' . $row->name_receipt . '" required>
                 </div>
                 <div class="form-group">
+                <label for="exampleInputEmail1">name_receipt_English</label>
+                <input type="text" class="form-control" placeholder="Enter Name" name="txtname_en" value="' . $row->name_receipt_en . '" required>
+            </div>
+                <div class="form-group">
                     <label for="exampleInputEmail1">receipt_Address</label>
                     <input type="text" class="form-control" placeholder="Enter Address" name="txtAddress" value="' . $row->receipt_Address     . '" required>
                 </div>
@@ -694,6 +698,7 @@ function edit_setting()
         $useremail = $_POST['txtemail'];
         $txtPhone = $_POST['txtPhone'];
         $txtNotice = $_POST['txtNotice'];
+        $txtname_en = $_POST['txtname_en'];
 
         $id = $_POST['btnupdate'];
         $user_photo = $_FILES['file']['name'];
@@ -714,7 +719,7 @@ function edit_setting()
         }
 
 
-        $insert = query("UPDATE tbl_setting set logo='$image' , receipt_Address	='$txtAddress', receipt_Email='$useremail', receipt_Phone='$txtPhone', Importan_Notice='$txtNotice' , name_receipt='$username' where setting_id='$id'");
+        $insert = query("UPDATE tbl_setting set logo='$image' , receipt_Address	='$txtAddress', receipt_Email='$useremail', receipt_Phone='$txtPhone', Importan_Notice='$txtNotice' , name_receipt='$username', name_receipt_en='$txtname_en' where setting_id='$id'");
         confirm($insert);
         if ($insert) {
 
