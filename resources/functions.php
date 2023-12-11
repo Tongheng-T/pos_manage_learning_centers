@@ -576,8 +576,6 @@ function edit_registration()
         </form>
 
     </div>';
-
-       
     }
     echo $show;
 }
@@ -621,6 +619,130 @@ function convert_date($date)
     $month = convert_month_kh($dates[1]);
     return "$month";
 }
+
+
+
+
+
+function edit_setting()
+{
+    if (isset($_POST['btnedit'])) {
+
+        $select = query("SELECT * from tbl_setting where setting_id =" . $_POST['btnedit']);
+        confirm($select);
+
+        $show =  "";
+
+        if ($select) {
+            $row = $select->fetch_object();
+
+            $show .= ' <div class="col-md-12">
+               <form action="" method="post" enctype="multipart/form-data">
+              <div class="form-group">
+                <label>រូបថត Logo</label>
+                <input type="file" class="input-group" name="file" onchange="displayImage(this)" id="profilImg">
+                <img  src="../productimages/logo/' . $row->logo . ' " onclick="triggerClick()" id="profiledisplay">
+               </div>
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">name_receipt</label>
+                    <input type="text" class="form-control" placeholder="Enter Name" name="txtname" value="' . $row->name_receipt . '" required>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">receipt_Address</label>
+                    <input type="text" class="form-control" placeholder="Enter Address" name="txtAddress" value="' . $row->receipt_Address     . '" required>
+                </div>
+                <div class="form-group">
+                 <label for="exampleInputEmail1">receipt_Email</label>
+                 <input type="email" class="form-control" placeholder="Enter email" name="txtemail" value="' . $row->receipt_Email     . '" required>
+               </div>
+
+               <div class="form-group">
+               <label for="exampleInputEmail1">receipt_Phone</label>
+               <input type="text" class="form-control" placeholder="Enter Phone" name="txtPhone" value="' . $row->receipt_Phone     . '" required>
+             </div>
+
+             <div class="form-group">
+             <label for="exampleInputEmail1">Importan_Notice</label>
+             <input type="text" class="form-control" placeholder="Enter Notice" name="txtNotice" value="' . $row->Importan_Notice     . '" required>
+           </div>
+ ';
+
+
+
+            $show .= '
+                </select>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-info" value="' . $row->setting_id . '" name="btnupdate">Update</button>
+                </div>
+            </form>
+
+         </div>';
+        }
+        echo $show;
+    }
+
+
+
+
+
+    if (isset($_POST['btnupdate'])) {
+
+        $username = $_POST['txtname'];
+        $txtAddress = $_POST['txtAddress'];
+        $useremail = $_POST['txtemail'];
+        $txtPhone = $_POST['txtPhone'];
+        $txtNotice = $_POST['txtNotice'];
+
+        $id = $_POST['btnupdate'];
+        $user_photo = $_FILES['file']['name'];
+        $image_temp_location = $_FILES['file']['tmp_name'];
+
+        $select_img = query("SELECT logo from tbl_setting where setting_id = $id");
+        confirm($select_img);
+        $row = $select_img->fetch_assoc();
+
+
+        if (!empty($user_photo)) {
+            move_uploaded_file($image_temp_location, "../productimages/logo/" . $user_photo);
+            $dbimage = $row['logo'];
+            $image = $user_photo;
+            unlink("../productimages/logo/$dbimage");
+        } else {
+            $image = $row['logo'];
+        }
+
+
+        $insert = query("UPDATE tbl_setting set logo='$image' , receipt_Address	='$txtAddress', receipt_Email='$useremail', receipt_Phone='$txtPhone', Importan_Notice='$txtNotice' , name_receipt='$username' where setting_id='$id'");
+        confirm($insert);
+        if ($insert) {
+
+            set_message(' <script>
+                      Swal.fire({
+                      icon: "success",
+                      title: "UPDATE successfully the user into the database"
+                      });
+                     </script>');
+            redirect('itemt?setting');
+        } else {
+            set_message(' <script>
+                      Swal.fire({
+                      icon: "error",
+                      title: "Error inserting the user into the database"
+                      });
+                     </script>');
+            redirect('itemt?setting');
+        }
+    }
+}
+
+
+
+
+
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////

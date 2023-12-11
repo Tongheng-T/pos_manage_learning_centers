@@ -100,7 +100,7 @@ function show_datepay($id, $new)
 
 <div class="card card-warning ">
 
-    <form action="" method="post" enctype="multipart/form-data">
+    <form action="" method="POST" enctype="multipart/form-data">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
@@ -182,7 +182,7 @@ function show_datepay($id, $new)
                 <div class="col-md-4" style="border-left: 1px solid rgb(221 41 41 / 49%);height: 378px;overflow: auto;">
 
                     <div class="form-group">
-                        <label>ថ្ងៃខែឆ្នាំបើក</label>
+                        <label>ថ្ងៃខែឆ្នាំបង់</label>
                         <div class="input-group date" id="date_2" data-target-input="nearest">
                             <input type="text" class="form-control date_2" data-target="#date_2" id="datee" name="txtdatesalary" value="<?php echo date('d-m-Y', strtotime($_SESSION['dated'])); ?>">
                             <div class="input-group-append" data-target="#date_2" data-toggle="datetimepicker">
@@ -212,10 +212,14 @@ function show_datepay($id, $new)
         <div class="card-footer">
             <div class="text-center">
                 <button type="submit" class="btn btn-danger id" name="submit" value="<?php echo $id; ?>">Save</button>
+                </form>
+                <form action="" method="GET" enctype="multipart/form-data">
+                <a href="invoice_80mm.php?id=<?php echo $id; ?>" class="btn btn-success " target="_blank" role="button"><span class="fa fa-print"></span> Print</a>
+                </form>
             </div>
         </div>
 
-    </form>
+    
 
 </div>
 

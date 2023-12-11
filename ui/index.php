@@ -72,6 +72,11 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
         include(TEMPLATE_BACK . "/students_pay.php");
     }
 
+    if (isset($_GET['setting'])) {
+
+        include(TEMPLATE_BACK . "/setting.php");
+    }
+
 
 
     if (isset($_GET['driverlist'])) {

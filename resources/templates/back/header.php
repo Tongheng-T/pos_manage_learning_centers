@@ -149,8 +149,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <img src="../productimages/user/<?php img_user(); ?>" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                    <p class="text-white" style="margin-bottom: unset;">WELCOME- <?php name_user(); ?></p>
-                        <a href="#"><i class="fa fa-circle text-success"></i> <?php show_online();?></a>
+                        <p class="text-white" style="margin-bottom: unset;">WELCOME- <?php name_user(); ?></p>
+                        <a href="#"><i class="fa fa-circle text-success"></i> <?php show_online(); ?></a>
                     </div>
                 </div>
 
@@ -275,7 +275,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <a href="itemt?chang_branch" class="nav-link <?php actr("chang_branch"); ?>">
                                 <i class="nav-icon fas fa-cogs"></i>
                                 <p>
-                                    សាខា <?php name_branch()?>
+                                    សាខា <?php name_branch() ?>
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="itemt?setting" class="nav-link <?php actr("setting"); ?>">
+                                <i class="nav-icon fas fa-cog"></i>
+                                <p>
+                                    Setting
                                 </p>
                             </a>
                         </li>
