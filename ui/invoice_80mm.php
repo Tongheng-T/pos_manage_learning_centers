@@ -75,7 +75,7 @@ $rowd = $tbl_setting->fetch_object();
     <div class="ticket">
         <div class="logo">
             <img src="../productimages/logo/<?php echo  $rowd->logo ?>" alt="Logo" class="img-fluid">
-            <h5 class="h5"><?php echo  $rowd->name_receipt ?></h5>
+            <h5 class="h5" style="font-size: <?php echo  $rowd->font_RECEIPT ?>"><?php echo  $rowd->name_receipt ?></h5>
         </div>
 
         <p class="centered">
