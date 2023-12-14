@@ -623,6 +623,20 @@ function convert_date($date)
 
 
 
+function convert_number_kh($day)
+{
+    $kh_day = ["០", "១", "២", "៣", "៤", "៥", "៦", "៧", "៨", "៩"];
+    for ($i = 0; $i <= 9; $i++) {
+        $day = str_replace($i,$kh_day[$i],$day);
+    }
+    return $day;
+}
+
+
+
+
+
+
 
 function edit_setting()
 {

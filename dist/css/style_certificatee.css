@@ -1,0 +1,434 @@
+@font-face {
+  font-family: "tong";
+  src: url(../../fone/KhmerOSbattambang.ttf)format("truetype");
+}
+
+@font-face {
+  font-family: "Tacteing";
+  src: url(../../fone/Tacteing.TTF)format("truetype");
+}
+
+
+@font-face {
+  font-family: "KhmerOSMoulLight";
+  src: url(../../fone/KhmerOSmuollight.ttf)format("truetype");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  /* font-size: 13px; */
+  font-family: 'tong';
+  color: #0070c0;
+}
+
+
+.top-width {
+  background-color: rgb(7 43 143);
+  width: 100%;
+  float: left;
+  overflow: hidden;
+
+}
+
+.top-logo {
+  width: 1200px;
+  margin: auto;
+  overflow: hidden;
+  padding: 20px;
+}
+
+.logo {
+  padding-right: 10px;
+  float: left;
+}
+
+.logo img {
+  height: 100px;
+}
+
+.top-ads {
+  float: left;
+
+}
+
+.top-ads h3 {
+  margin-top: 36px;
+  font-family: Khmer OS Moul Light;
+  color: aliceblue;
+
+}
+
+/* ++++++++++++++++++++++++++++++++ */
+.padding {
+  display: flex;
+  width: 100%;
+  padding: 20px;
+}
+
+
+/* ==============================footer===================================== */
+footer {
+  overflow: hidden;
+
+}
+
+/* ====================================== */
+
+.top-form {
+  /* background-image: url(../../productimages/certificate/1.jpg); */
+  width: 100%;
+  /* height: 906px; */
+  border-radius: 5px;
+  border: 1px solid wheat;
+  position: relative;
+  background: white;
+  /* padding: 10px; */
+
+}
+
+.top-form img {
+  width: 100%;
+  position: relative;
+}
+
+.containerr {
+  width: 1280px;
+  margin: auto;
+}
+
+/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+.name_khmer {
+  position: absolute;
+  bottom: 597px;
+  left: 156px;
+  font-size: 19px;
+  font-family: KhmerOSMoulLight;
+  display: flex;
+
+}
+
+.khmer {
+  font-family: KhmerOSMoulLight;
+}
+
+.name_english {
+  position: absolute;
+  bottom: 581px;
+  left: 150px;
+  font-size: 13px;
+  font-family: Times New Roman;
+  display: flex;
+
+}
+
+.gender {
+  position: absolute;
+  bottom: 562px;
+  left: 268px;
+  font-size: 19px;
+  display: flex;
+  font-family: Tacteing;
+}
+
+.Status {
+  position: absolute;
+  bottom: 556px;
+  left: 478px;
+  font-size: 24px;
+  color: #ffc000;
+  display: flex;
+  font-family: KhmerOSMoulLight;
+}
+
+.ID_number {
+  position: absolute;
+  bottom: 534px;
+  left: 490px;
+  font-size: 20px;
+  color: #ffc000;
+  display: flex;
+  font-family: Times New Roman;
+}
+
+.location {
+  position: absolute;
+  bottom: 468px;
+    left: 428px;
+  font-size: 19px;
+  display: flex;
+  font-family: Khmer OS Battambang;
+}
+
+/* លេខ */
+.number {
+  position: absolute;
+  bottom: 428px;
+    left: 518px;
+  font-size: 19px;
+  display: flex;
+  font-family: Khmer OS Battambang;
+}
+.name_MoulLight{
+  font-family: KhmerOSMoulLight;
+}
+.titil_left {
+  position: absolute;
+  bottom: 393px;
+    left: 429px;
+  font-size: 19px;
+  display: flex;
+  font-family: Khmer OS Battambang;
+}
+.traimg{
+  position: absolute;
+    bottom: 140px;
+    left: 771px;
+    text-align: center;
+    width: 149px;
+    display: flex;
+}
+.signature{
+  position: absolute;
+  bottom: 152px;
+  left: 832px;
+  text-align: center;
+  width: 149px;
+  display: flex;
+}
+.name_dir{
+  position: absolute;
+  bottom: 140px;
+    left: 897px;
+  text-align: center;
+  width: 149px;
+  display: flex;
+  font-size: 19px;
+  font-family: KhmerOSMoulLight;
+}
+.date {
+  position: absolute;
+  bottom: 325px;
+    left: 191px;
+    text-align: center;
+    width: 889px;
+  font-size: 19px;
+  display: flex;
+  font-family: Khmer OS Battambang;
+}
+
+.date_k {
+  position: absolute;
+  bottom: 220px;
+    left: 841px;
+  text-align: center;
+  font-size: 19px;
+  display: flex;
+  font-family: KhmerOSMoulLight;
+}
+
+.imgg {
+  position: absolute;
+  bottom: 54px;
+  left: 567px;
+  display: flex;
+  font-family: Khmer OS Battambang;
+}
+
+.imgg img {
+  width: 150px;
+  border: 1px solid rgb(101, 95, 107);
+}
+
+.top-namelogo {
+  position: absolute;
+  bottom: 636px;
+  left: 246px;
+
+  display: flex;
+}
+
+.top-namelogo img {
+  height: 100px;
+  width: 100px;
+}
+
+/* =================ស្ដាំ================== */
+
+.top-titil {
+  position: absolute;
+  bottom: 704px;
+  left: 856px;
+  font-size: 22px;
+  display: flex;
+  font-family: KhmerOSMoulLight;
+}
+
+.titil_right {
+  position: absolute;
+  bottom: 680px;
+  left: 871px;
+  font-size: 18px;
+  display: flex;
+  font-family: Times New Roman;
+}
+
+.Generation {
+  position: absolute;
+  bottom: 639px;
+  left: 830px;
+  font-size: 22px;
+  display: flex;
+  font-family: KhmerOSMoulLight;
+}
+
+.Start_date {
+  position: absolute;
+  bottom: 622px;
+  left: 870px;
+  font-size: 18px;
+  display: flex;
+  font-family: Times New Roman;
+}
+
+.finish_date {
+  position: absolute;
+  bottom: 606px;
+  left: 955px;
+  font-size: 19px;
+  display: flex;
+  font-family: Tacteing;
+}
+
+.at {
+  position: absolute;
+  bottom: 366px;
+  left: 778px;
+  font-size: 19px;
+  display: flex;
+  font-family: Khmer OS Battambang;
+}
+
+._date {
+  position: absolute;
+  bottom: 363px;
+  left: 793px;
+  font-size: 19px;
+  display: flex;
+  font-family: Khmer OS Battambang;
+}
+
+._date_k {
+  position: absolute;
+  bottom: 250px;
+    left: 645px;
+    width: 500px;
+    text-align: center;
+  font-size: 19px;
+  display: flex;
+  font-family: Khmer OS Battambang;
+}
+
+/* ++++++++++++++++++++++++++++++ */
+
+
+.date p,
+.date_k p,
+.Generation p,
+._date p,
+._date_k p {
+  font-weight: 100;
+}
+
+.Generation h4 {
+  color: rgb(28, 155, 155);
+  font-family: Khmer OS Muol Light;
+  ;
+}
+
+/* ===================form search============= */
+
+.search {
+  display: flex;
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 0 0 50px;
+
+}
+
+form .search .form_row {
+  width: calc(60% - 15px);
+  margin-bottom: 15px;
+  padding: 10px;
+
+}
+
+.search .form_row .col {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+  font-family: Khmer OS Battambang;
+}
+
+.search .form_row input {
+  height: 40px;
+  width: 100%;
+  font-family: Khmer OS Battambang;
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding-left: 15px;
+  font-size: 16px;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+}
+
+.search .form_row input:focus {
+  border-color: #4e4bf6;
+}
+
+/* ======== */
+form .button {
+  height: 45px;
+  justify-content: center;
+  margin: auto;
+  display: flex;
+}
+
+form .button input {
+  height: 100%;
+  width: 24%;
+  color: #fff;
+  outline: none;
+  font-size: 15px;
+  border: none;
+  font-family: Khmer OS Battambang;
+  font-weight: 500;
+  border-radius: 5px;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, #71b7e6, #1350f8);
+}
+
+form .button input:hover {
+  background: linear-gradient(-135deg, #71b7e6, #1350f8);
+}
+
+/* ===========================- */
+.logoo img {
+  height: 100px;
+  padding-left: 20px;
+}
+
+.mha {
+  color: #fff;
+  font-family: Khmer OS Muol Light;
+  margin: 33px 0 0 633px;
+
+}
+
+.logoo {
+  float: left;
+}

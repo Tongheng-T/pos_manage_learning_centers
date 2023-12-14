@@ -1,0 +1,18 @@
+#buttons {
+    display: none;
+}
+.top-form {
+    border:none;
+
+}  
+
+@media print {
+    @page {
+        size: A4 landscape;
+        margin: 1px;
+        /* auto is the initial value */
+    }
+
+}
+
+

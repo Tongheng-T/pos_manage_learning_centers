@@ -1,7 +1,7 @@
-<?php require_once ("../resources/config.php"); ?>
+<?php require_once("../resources/config.php"); ?>
 <?php check_login();
 if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
-    header("Location: ../");
+  header("Location: ../");
 }
 ?>
 <!DOCTYPE html>
@@ -65,9 +65,9 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
       <div class="name">
         <h2 class="students">សិស្ស</h2>
         <h2 class="Stud">ID HSD 00<?php echo $id ?></h2>
-        <h2 class="st_name_img"><img src="../productimages/students/<?php echo $sd_img?>" alt=""></h2>
+        <h2 class="st_name_img"><img src="../productimages/students/<?php echo $sd_img ?>" alt=""></h2>
 
-        <h2 class="st_name"><?php echo $sd_namekh?></h2>
+        <h2 class="st_name"><?php echo $sd_namekh ?></h2>
         <h2 class="qr"><img src="<?php qr(); ?>" alt=""></h2>
 
 
@@ -75,11 +75,11 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
 
 
-    <div id="receipt-footer">
-      <h2 class="footercad">អាសយដ្ឋានៈ <?php echo $rowd->receipt_Address ?> <br>
-      ទូរស័ព្ទៈ <?php echo $rowd->receipt_Phone ?>
-      </h2>
-    </div>
+      <div id="receipt-footer">
+        <h2 class="footercad">អាសយដ្ឋានៈ <?php echo $rowd->receipt_Address ?> <br>
+          ទូរស័ព្ទៈ <?php echo $rowd->receipt_Phone ?>
+        </h2>
+      </div>
 
     </div>
 
@@ -95,12 +95,12 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
   <script src="dom-to-image.js"></script>
 
   <script>
-    var ti=document.getElementsByClassName("dowjpg")[0];
-    var ddd=document.getElementById("dw_bt");
+    var ti = document.getElementsByClassName("dowjpg")[0];
+    var ddd = document.getElementById("dw_bt");
 
-    ddd.addEventListener("click",()=>{
-      domtoimage.toJpeg(ti).then((data)=>{
-        var link =document.createElement("a");
+    ddd.addEventListener("click", () => {
+      domtoimage.toJpeg(ti).then((data) => {
+        var link = document.createElement("a");
         link.download = "<?php show_customer_name() ?>.jpg";
         link.href = data;
         link.click();

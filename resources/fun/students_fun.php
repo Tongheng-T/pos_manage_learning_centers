@@ -118,6 +118,7 @@ function tudentslist()
            
            <div class="btn-group">
            <a href="students_id.php?id=' . $row->sd_id . '" class="btn btn-primary btn-xs" role="button"><span class="fa fa-id-card" style="color:#ffffff" data-toggle="tooltip" title="ID students"></span></a>
+           <a href="students_certificate.php?id=' . $row->sd_id . '" class="btn btn-primary btn-xs" role="button"><span class="fa fa-id-card" style="color:#ffffff" data-toggle="tooltip" title="Certificate"></span></a>
            
            <button id=' . $row->sd_id . ' class="btn btn-info btn-xs payroll" data-toggle="modal" data-target="#exampleModalpay"><span class="fas fa-money-bill-alt" style="color:#ffffff" data-toggle="tooltip" title="បង់ប្រាក់"></span></button>
            
