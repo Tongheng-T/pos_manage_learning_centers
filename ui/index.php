@@ -15,7 +15,22 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
     header("Location: ../");
 }
 ?>
+<!-- <style>
+    .content-wrapper::before{
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url(../productimages/logo/22.png);
+        background-size: cover;
+        background-repeat:no-repeat ;
+        opacity: 0.2;
+        
 
+    }
+</style> -->
 
 <div class="content-wrapper">
 

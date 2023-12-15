@@ -627,12 +627,10 @@ function convert_number_kh($day)
 {
     $kh_day = ["០", "១", "២", "៣", "៤", "៥", "៦", "៧", "៨", "៩"];
     for ($i = 0; $i <= 9; $i++) {
-        $day = str_replace($i,$kh_day[$i],$day);
+        $day = str_replace($i, $kh_day[$i], $day);
     }
     return $day;
 }
-
-
 
 
 
@@ -745,7 +743,7 @@ function edit_setting()
             set_message(' <script>
                       Swal.fire({
                       icon: "success",
-                      title: "UPDATE successfully the user into the database"
+                      title: "UPDATE successfully the Setting into the database"
                       });
                      </script>');
             redirect('itemt?setting');
@@ -753,7 +751,7 @@ function edit_setting()
             set_message(' <script>
                       Swal.fire({
                       icon: "error",
-                      title: "Error inserting the user into the database"
+                      title: "Error inserting the Setting into the database"
                       });
                      </script>');
             redirect('itemt?setting');
@@ -763,7 +761,179 @@ function edit_setting()
 
 
 
+function edit_setting_certificate()
+{
+    if (isset($_POST['btnedit_certificate'])) {
 
+        $select = query("SELECT * from tbl_setting where setting_id =" . $_POST['btnedit_certificate']);
+        confirm($select);
+
+        $show =  "";
+
+        if ($select) {
+            $row = $select->fetch_object();
+
+            $show .= '
+            
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4">
+
+                    <div class="form-group">
+                        <label>រូបថត ត្រា (.png)</label>
+                        <input type="file" class="input-group" name="traimg" onchange="displayImage(this)" id="profilImg">
+                        <img src="../productimages/logo/' . $row->traimg . ' " onclick="triggerClick()" id="profiledisplay">
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>រូបថត ហត្ថលេខា (.png)</label>
+                        <input type="file" class="input-group" name="signature" onchange="displayImage2(this)" id="profilImg2">
+                        <img src="../productimages/logo/' . $row->signature . ' " onclick="triggerClick2()" id="profiledisplay2">
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>រូបថត ស៊ុម</label>
+                        <input type="file" class="input-group" name="form_image" onchange="displayImage3(this)" id="profilImg3">
+                        <img src="../productimages/certificate/' . $row->form_image . ' " onclick="triggerClick3()" id="profiledisplay3">
+                    </div>
+               
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">ឈ្មោះមជ្ឈមណ្ឌលសិក្សា(សូមបញ្ជាក់ថា ៖សិស្សឈ្មោះ៖...)</label>
+                        <input type="text" class="form-control" name="Technology_Top" value="' . $row->Technology_Top . '" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">សេចក្តីបញ្ជាក់បញ្ចប់ការសិក្សា</label>
+                        <input type="text" class="form-control" name="Technology_txt" value="' . $row->Technology_txt . '" required>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-6">
+
+          <div class="form-group">
+           <label for="exampleInputEmail1">សេចក្តីបញ្ជាក់បញ្ចប់ការសិក្សា(ត)</label>
+           <input type="text" class="form-control"  name="Technology_Study" value="' . $row->Technology_Study     . '" required>
+          </div>
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">ថ្ងៃខែចេញវិញ្ញាប័ណ្ណ(ខ្មែរ​)</label>
+                <textarea class="form-control" placeholder="Enter Date" name="Date_of_certificate" >' . $row->Date_of_certificate     . '</textarea>
+            </div>
+
+            
+            <div class="form-group">
+                <label for="exampleInputEmail1">ឈ្មោះនាយក</label>
+                <input type="text" class="form-control" placeholder="Enter Notice" name="director" value="' . $row->director     . '" required>
+            </div>
+
+
+
+            <div class="card-footer">
+                <button type="submit" class="btn btn-success" value="' . $row->setting_id . '" name="btnupdate_certificate">Update</button>
+            </div>
+        </div>
+
+      
+';
+        }
+        echo $show;
+    }
+
+
+
+
+
+    if (isset($_POST['btnupdate_certificate'])) {
+
+        $Technology_Top = $_POST['Technology_Top'];
+        $Technology_txt = $_POST['Technology_txt'];
+        $Technology_Study = $_POST['Technology_Study'];
+        $Date_of_certificate = $_POST['Date_of_certificate'];
+        $director = $_POST['director'];
+
+
+        $id = $_POST['btnupdate_certificate'];
+        $traimg = $_FILES['traimg']['name'];
+        $traimg_temp_location = $_FILES['traimg']['tmp_name'];
+
+
+        $signature = $_FILES['signature']['name'];
+        $signature_temp_location = $_FILES['signature']['tmp_name'];
+
+        $form_image = $_FILES['form_image']['name'];
+        $form_image_temp_location = $_FILES['form_image']['tmp_name'];
+
+        $select_img = query("SELECT * from tbl_setting where setting_id = $id");
+        confirm($select_img);
+        $row = $select_img->fetch_assoc();
+
+
+        if (!empty($traimg)) {
+            move_uploaded_file($traimg_temp_location, "../productimages/logo/" . $traimg);
+            $dbimage = $row['traimg'];
+            $image_traimg = $traimg;
+            unlink("../productimages/logo/$dbimage");
+        } else {
+            $image_traimg = $row['traimg'];
+        }
+
+        if (!empty($signature)) {
+            move_uploaded_file($signature_temp_location, "../productimages/logo/" . $signature);
+            $dbimage = $row['signature'];
+            $image_signature = $signature;
+            unlink("../productimages/logo/$dbimage");
+        } else {
+            $image_signature = $row['signature'];
+        }
+        if (!empty($form_image)) {
+            move_uploaded_file($form_image_temp_location, "../productimages/certificate/" . $form_image);
+            $dbimage = $row['form_image'];
+            $image_form_image = $form_image;
+            unlink("../productimages/certificate/$dbimage");
+        } else {
+            $image_form_image = $row['form_image'];
+        }
+
+
+
+
+
+
+
+
+
+        $insert = query("UPDATE tbl_setting set director='$director' , signature ='$image_signature', traimg='$image_traimg', Date_of_certificate='$Date_of_certificate', Technology_Study='$Technology_Study' , Technology_txt='$Technology_txt', Technology_Top='$Technology_Top', form_image='$image_form_image' where setting_id='$id'");
+        confirm($insert);
+        if ($insert) {
+
+            set_message(' <script>
+                      Swal.fire({
+                      icon: "success",
+                      title: "UPDATE successfully the Certificate into the database"
+                      });
+                     </script>');
+            redirect('itemt?setting');
+        } else {
+            set_message(' <script>
+                      Swal.fire({
+                      icon: "error",
+                      title: "Error inserting the Certificate into the database"
+                      });
+                     </script>');
+            redirect('itemt?setting');
+        }
+    }
+}
 
 
 

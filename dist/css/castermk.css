@@ -116,6 +116,51 @@
     cursor: pointer;
 }
 
+/* 2 */
+#profiledisplay2,
+#profiledisplay_edit2 {
+    display: block;
+    justify-content: center;
+    border-radius: 5px;
+    max-width: 100px;
+    height: 86px;
+    margin: 10px;
+    border: 1px solid rgb(158, 151, 151);
+}
+
+#profilImg2,
+#profilImg_edit2 {
+    display: none;
+}
+
+#profiledisplay2:hover,
+#profiledisplay_edit2:hover {
+    cursor: pointer;
+}
+
+/* 3 */
+#profiledisplay3,
+#profiledisplay_edit3 {
+    display: block;
+    justify-content: center;
+    border-radius: 5px;
+    max-width: 100px;
+    height: 86px;
+    margin: 10px;
+    border: 1px solid rgb(158, 151, 151);
+}
+
+#profilImg3,
+#profilImg_edit3 {
+    display: none;
+}
+
+#profiledisplay3:hover,
+#profiledisplay_edit3:hover {
+    cursor: pointer;
+}
+/*  */
+
 .btn-xs {
     font-size: 1rem;
 }

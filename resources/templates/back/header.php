@@ -28,7 +28,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="../dist/css/castermkk.css">
+    <link rel="stylesheet" href="../dist/css/castermk.css">
     <link rel="stylesheet" href="../dist/css/stylek.css">
     <!-- DataTables -->
     <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
@@ -47,7 +47,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- jautocalcg -->
     <script src="../dist/js/jquery.js"></script>
     <script src="../dist/js/jautocalcg.min.js"></script>
-    <script src="../dist/js/scripts.js"></script>
+    <script src="../dist/js/scriptss.js"></script>
 
     <!-- daterange picker -->
     <link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
@@ -302,3 +302,5 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- /.sidebar -->
         </aside>
         <!-- Content Wrapper. Contains page content -->
+
+        

@@ -196,7 +196,7 @@ footer {
   width: 149px;
   display: flex;
 }
-.name_dir{
+.director{
   position: absolute;
   bottom: 140px;
     left: 897px;
@@ -318,7 +318,7 @@ footer {
   font-family: Khmer OS Battambang;
 }
 
-._date_k {
+.date_of_certificate {
   position: absolute;
   bottom: 250px;
     left: 645px;
@@ -332,13 +332,7 @@ footer {
 /* ++++++++++++++++++++++++++++++ */
 
 
-.date p,
-.date_k p,
-.Generation p,
-._date p,
-._date_k p {
-  font-weight: 100;
-}
+
 
 .Generation h4 {
   color: rgb(28, 155, 155);
