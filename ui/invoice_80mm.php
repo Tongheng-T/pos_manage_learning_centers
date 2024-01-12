@@ -117,7 +117,7 @@ $rowd = $tbl_setting->fetch_object();
                   <td>' . $item->sd_namekh . '</td>
                   <td>' . $item->sd_sex . '</td>
                   <td>' . show_subject($item->sd_subject_id) . '</td>
-                  <td>' . $salary . ' <b style="font-size: 16px;">&#x17DB </b></td>
+                  <td>' . $salary . ' <b>$ </b></td>
                  </tr>
                     
                   ';

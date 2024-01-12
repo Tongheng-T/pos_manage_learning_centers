@@ -143,6 +143,7 @@ function insert_update_delete()
         $txtprice_year = $_POST['txtprice_year'];
         $carprice_month = $_POST['txtcarprice_month'];
         $carprice_year = $_POST['txtcarprice_year'];
+        $id_branch = $_SESSION['id_branch'];
 
         if (empty($category)) {
             set_message(' <script>
@@ -154,7 +155,7 @@ function insert_update_delete()
             redirect('itemt?subject');
         } else {
 
-            $insert = query("INSERT into tbl_subject (sj_name,sj_price,sj_price_year,car_price_year,car_price_month) values('{$category}','{$price}','{$txtprice_year}','{$carprice_year}','{$carprice_month}')");
+            $insert = query("INSERT into tbl_subject (sj_name,sj_price,sj_price_year,car_price_year,car_price_month,id_branch) values('{$category}','{$price}','{$txtprice_year}','{$carprice_year}','{$carprice_month}','{$id_branch}')");
             confirm($insert);
             if ($insert) {
                 set_message(' <script>
@@ -974,7 +975,7 @@ function show_online()
     confirm($select);
 
     while ($row = $select->fetch_assoc()) {
- 
+
         $date = date($row['last_login']);
         $timeago = timeago($date);
         $status = $timeago;
@@ -986,5 +987,4 @@ function show_online()
         }
         echo $status;
     }
-    
 }
