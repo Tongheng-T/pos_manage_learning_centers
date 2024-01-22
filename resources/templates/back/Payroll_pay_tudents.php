@@ -19,6 +19,7 @@ $year = $result[0];
 
 if (isset($_POST['id'])) {
     $id = $_POST['id'];
+    $debt_tit = '';
     $query = query("SELECT * FROM tbl_students WHERE sd_id = $id");
     confirm($query);
 
@@ -32,22 +33,24 @@ if (isset($_POST['id'])) {
         $phone = $row['sd_phone'];
         $subject_id = $row['sd_subject_id'];
         $sd_studytime = $row['sd_studytime'];
+        $debt = $row['debt'];
 
-        $salary = show_price($row['sd_subject_id'], $id);
-
+        // $salary = show_price($row['sd_subject_id'], $id,$row['sd_time_id']);
+        $salary =  $row['txtprice'];
 
         $img = $row['sd_img'];
         $date_of_enrollment = $row['sd_date_of_enrollment'];
         $date_of = date('d-m-Y', strtotime($date_of_enrollment));
     }
 
-    if($sd_studytime=='years'){
+    if ($sd_studytime == 'years') {
         $new = $year;
-    }else{
+    } else {
         $new = $year . '-' . $month;
     }
     $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%' ");
     if (mysqli_num_rows($query_pay) > 0) {
+
 
         $total = 0;
         $money = 0;
@@ -56,14 +59,24 @@ if (isset($_POST['id'])) {
             $money +=  $row['money'];
             $total = $salary - $money;
         }
+        $insert = query(" UPDATE tbl_students set debt='$total' WHERE sd_id = $id");
 
-        if ($total == 0) {
+        if ($total <= 0) {
             $text = 'បានបង់រួច';
+            $total = 0;
+
         } else {
             $text = 'ធ្លប់បង់ចំនួន: ' . $money;
         }
     } else {
-        $total = $salary;
+        if ($debt > 0) {
+            $debtt = $debt;
+            $debt_tit = 'ខ្វះខែមុន'. $debt;
+        }else{
+        
+            $debtt = 0;
+        }
+        $total = $salary +$debtt;
         $text = '';
     }
 
@@ -194,6 +207,7 @@ function show_datepay($id, $new)
                     <div class="form-group">
                         <label>ប្រាក់ត្រូវបង់: <?php echo $text; ?> </label>
                         <input type="text" class="form-control" placeholder="បញ្ចូល ប្រាក់ខែ" name="txt_salary" id="txt_salary" value="<?php echo $total; ?>" autocomplete="off">
+                        <label><?php echo $debt_tit; ?></label>
                     </div>
 
                     <buttone type="text" class="btn btn-danger sd ">ស្វែងរក​</buttone>
@@ -212,14 +226,14 @@ function show_datepay($id, $new)
         <div class="card-footer">
             <div class="text-center">
                 <button type="submit" class="btn btn-danger id" name="submit" value="<?php echo $id; ?>">Save</button>
-                </form>
-                <form action="" method="GET" enctype="multipart/form-data">
-                <a href="invoice_80mm.php?id=<?php echo $id; ?>" class="btn btn-success " target="_blank" role="button"><span class="fa fa-print"></span> Print</a>
-                </form>
-            </div>
-        </div>
+    </form>
+    <form action="" method="GET" enctype="multipart/form-data">
+        <a href="invoice_80mm.php?id=<?php echo $id; ?>" class="btn btn-success " target="_blank" role="button"><span class="fa fa-print"></span> Print</a>
+    </form>
+</div>
+</div>
 
-    
+
 
 </div>
 

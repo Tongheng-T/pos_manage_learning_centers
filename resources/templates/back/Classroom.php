@@ -56,7 +56,7 @@ insert_update_delete_Classroom();
                             <table id="table_category" class="table table-striped table-hover ">
                                 <thead>
                                     <tr>
-                                        <td>#</td>
+                                        <td>ID</td>
                                         <td>Category</td>
                                         <td>Edit</td>
                                         <td>Delete</td>

@@ -25,6 +25,7 @@ if (isset($_GET['id'])) {
     $date_of_enrollment = $row['sd_date_of_enrollment'];
     $date_of            = date('d-m-Y', strtotime($date_of_enrollment));
     $studyclose          = $row['studyclose'];
+    $txtprice          = $row['txtprice'];
   }
 }
 
@@ -82,14 +83,15 @@ if (isset($_GET['id'])) {
 
                 <option value="month" <?php echo ($studytime == 'month') ? 'selected' : '' ?>>ខែ</option>
                 <option value="years" <?php echo ($studytime == 'years') ? 'selected' : '' ?>>ឆ្នាំ</option>
+                <option value="session" <?php echo ($studytime == 'session') ? 'selected' : '' ?>>វគ្គ</option>
 
               </select>
             </div>
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="txtprice">
           <label>តម្លៃសិក្សារ</label>
-          <input type="text" class="form-control" placeholder="តម្លៃសិក្សារ" name="txtprice" id="txtprice" readonly>
+          <input type="text" class="form-control" placeholder="តម្លៃសិក្សារ" name="txtprice" id="txtprice" value="<?php echo $txtprice; ?>">
         </div>
 
         <div class="form-group">
@@ -116,7 +118,7 @@ if (isset($_GET['id'])) {
         </div>
         <div class="form-group">
           <label>ម៉ោងសិក្សារ</label>
-          <select style="height: 46px;" class="form-control select2" data-dropdown-css-class="select2-purple" data-minimum-results-for-search="Infinity" name="txttim" required>
+          <select style="height: 46px;" class="form-control select2 select2s time" data-dropdown-css-class="select2-purple" data-minimum-results-for-search="Infinity" name="txttim" required>
 
             <?php
             $select = query("SELECT * from tbl_studytime");
@@ -159,9 +161,9 @@ if (isset($_GET['id'])) {
         <div class="form-group">
           <label>អំពីសិស្ស</label>
           <select class="form-control select2" data-dropdown-css-class="select2-purple" data-minimum-results-for-search="Infinity" name="studyclose" required>
-          <option value="រៀនចប់" <?php echo ($studyclose == 'រៀនចប់') ? 'selected' : '' ?>>រៀនចប់</option>
-          <option value="ឈប់រៀន" <?php echo ($studyclose == 'ឈប់រៀន') ? 'selected' : '' ?>>ឈប់រៀន</option>
-          <option value="នៅរៀន" <?php echo ($studyclose == 'នៅរៀន') ? 'selected' : '' ?>>នៅរៀន</option>
+            <option value="រៀនចប់" <?php echo ($studyclose == 'រៀនចប់') ? 'selected' : '' ?>>រៀនចប់</option>
+            <option value="ឈប់រៀន" <?php echo ($studyclose == 'ឈប់រៀន') ? 'selected' : '' ?>>ឈប់រៀន</option>
+            <option value="នៅរៀន" <?php echo ($studyclose == 'នៅរៀន') ? 'selected' : '' ?>>នៅរៀន</option>
 
           </select>
         </div>
@@ -220,16 +222,17 @@ if (isset($_GET['id'])) {
         <div class="form-group">
           <label>រថយន្ត</label>
           <select class="form-control select2 car select2s" data-minimum-results-for-search="Infinity" name="txtcar" required>
-            <option value="" disabled selected>ជ្រើសរើសរថយន្ត/មធ្យោបាយធ្វើដំណើរ</option>
+            <option value="0" disabled selected>ជ្រើសរើសរថយន្ត/មធ្យោបាយធ្វើដំណើរ</option>
+            <option value="0">Select</option>
 
             <?php
-            $select = query("SELECT * from tbl_car_driver");
+            $select = query("SELECT * from tbl_car_price");
             confirm($select);
 
             while ($row = $select->fetch_assoc()) {
               extract($row);
             ?>
-              <option value="<?php echo $row['car_id'] ?>" <?php if ($row['car_id'] == $car_idd) { ?> selected="selected" <?php } ?>><?php echo $row['car_license_plate']; ?></option>
+              <option value="<?php echo $row['price'] ?>" <?php if ($row['price'] == $car_idd) { ?> selected="selected" <?php } ?>><?php echo $row['tit_price'] . $row['price']; ?></option>
 
             <?php
 
@@ -264,40 +267,21 @@ if (isset($_GET['id'])) {
       var productid = $(".subject").val();
       var year = $(".year").val();
       var car = $(".car").val();
+      var sdi_id = $(".time").val();
+
 
       $.ajax({
-        url: "../resources/templates/back/getsubject.php",
+        url: "../resources/templates/back/getsubject_time.php",
         method: "get",
-        dataType: "json",
         data: {
           id: productid,
-          study: year,
-          car: car
+          sdi_id: sdi_id,
+          year: year,
+          car: car,
         },
         success: function(data) {
 
-          // alert(data["sj_price"])
-          if (year == "years") {
-            var price = data["sj_price_year"];
-            if (car == 1) {
-              var carr = data["car_price_year"];
-            } else {
-              var carr = 0;
-            }
-
-          } else {
-            var price = data["sj_price"];
-            if (car == 1) {
-              var carr = data["car_price_month"];
-            } else {
-              var carr = 0;
-            }
-          }
-
-          // $("#txtbarcode_id").val("");
-          var show_price = document.getElementById('txtprice');
-          show_price.value = price - carr;
-
+          $("#txtprice").html(data);
         }
       });
     })
@@ -305,45 +289,39 @@ if (isset($_GET['id'])) {
 
 
 
-  var productid = $(".subject").val();
-  var year = $(".year").val();
-  var car = $(".car").val();
+  // var productid = $(".subject").val();
+  // var year = $(".year").val();
+  // var car = $(".car").val();
 
-  $.ajax({
-    url: "../resources/templates/back/getsubject.php",
-    method: "get",
-    dataType: "json",
-    data: {
-      id: productid,
-      study: year,
-      car: car
-    },
-    success: function(data) {
+  // $.ajax({
+  //   url: "../resources/templates/back/getsubject.php",
+  //   method: "get",
+  //   dataType: "json",
+  //   data: {
+  //     id: productid,
+  //     study: year,
+  //     car: car
+  //   },
+  //   success: function(data) {
 
-      // alert(data["sj_price"])
-      if (year == "years") {
-        var price = data["sj_price_year"];
-        if (car == 1) {
-          var carr = data["car_price_year"];
-        } else {
-          var carr = 0;
-        }
+  //     // alert(data["sj_price"])
+  //     if (year == "years") {
+  //       var price = data["sj_price_year"] + car;
 
-      } else {
-        var price = data["sj_price"];
-        if (car == 1) {
-          var carr = data["car_price_month"];
-        } else {
-          var carr = 0;
-        }
-      }
+  //     } else if (year == "session") {
+  //       var price = data["price_session"] + car;
 
-      // $("#txtbarcode_id").val("");
-      var show_price = document.getElementById('txtprice');
-      show_price.value = price - carr;
+  //     } else {
+  //       var price = data["sj_price"] + car;
 
-    }
-  });
+  //     }
+
+  //     // $("#txtbarcode_id").val("");
+  //     var show_price = document.getElementById('txtprice');
+  //     show_price.value = price ;
+
+  //   }
+  // });
 </script>
 
 <script>

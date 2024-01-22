@@ -48,6 +48,9 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
     echo  $sd_namekh . ' _ ' . $sd_db;
   }
 
+  $tbl_setting = query("SELECT * from tbl_setting_id");
+  confirm($tbl_setting);
+  $rowdd = $tbl_setting->fetch_object();
   ?>
 
   <div id="wrapper">
@@ -57,13 +60,13 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
       <div class="top_ba">
         <div class="top_nisome">
           <div class="img"><img src="../productimages/logo/<?php echo  $rowd->logo ?>" alt=""></div>
-          <h3 class="hsdkh"><?php echo $rowd->name_receipt ?></h3>
-          <h3 class="hsden"><?php echo $rowd->name_receipt_en ?></h3>
+          <h3 class="hsdkh" style="font-size: <?php echo  $rowdd->fone_id_kh ?>px"><?php echo $rowd->name_receipt ?></h3>
+          <h3 class="hsden" style="font-size: <?php echo  $rowdd->fone_id_en ?>px"><?php echo $rowd->name_receipt_en ?></h3>
         </div>
       </div>
 
       <div class="name">
-        <h2 class="students">សិស្ស</h2>
+        <h2 class="students" style="font-size: <?php echo  $rowdd->students ?>px">សិស្ស</h2>
         <h2 class="Stud">ID HSD 00<?php echo $id ?></h2>
         <h2 class="st_name_img"><img src="../productimages/students/<?php echo $sd_img ?>" alt=""></h2>
 

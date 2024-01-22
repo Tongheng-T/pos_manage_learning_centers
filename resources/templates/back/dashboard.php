@@ -11,7 +11,7 @@ confirm($selectt);
 $total_tudents = 0;
 while ($row = $selectt->fetch_object()) {
 
-    $total_tudents += show_price($row->sd_subject_id, $row->sd_id);
+    $total_tudents +=$row->txtprice;
 }
 
 

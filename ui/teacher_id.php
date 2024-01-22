@@ -1,7 +1,7 @@
-<?php require_once ("../resources/config.php"); ?>
+<?php require_once("../resources/config.php"); ?>
 <?php check_login();
 if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
-    header("Location: ../");
+  header("Location: ../");
 }
 ?>
 <!DOCTYPE html>
@@ -33,6 +33,10 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
   $sd_namekh = $row->tc_namekh;
   $sd_img = $row->tc_img;
 
+  $tbl_setting = query("SELECT * from tbl_setting");
+  confirm($tbl_setting);
+  $rowd = $tbl_setting->fetch_object();
+
   function show_customer_name()
   {
     $id = $_GET['id'];
@@ -44,6 +48,9 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
     echo  $tc_namekh . ' _ ' . $tc_db;
   }
 
+  $tbl_setting = query("SELECT * from tbl_setting_id");
+  confirm($tbl_setting);
+  $rowdd = $tbl_setting->fetch_object();
   ?>
 
   <div id="wrapper">
@@ -52,18 +59,18 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
       <div class="top_ba">
         <div class="top_nisome">
-          <div class="img"><img src="../dist/img/c.png" alt=""></div>
-          <h3 class="hsdkh">វិទ្យាល័យហ៊ុនសែនតំបែរ</h3>
-          <h3 class="hsden">Hun Sen Dambae High School</h3>
+          <div class="img"><img src="../productimages/logo/<?php echo  $rowd->logo ?>" alt=""></div>
+          <h3 class="hsdkh" style="font-size: <?php echo  $rowdd->fone_id_kh ?>px"><?php echo $rowd->name_receipt ?></h3>
+          <h3 class="hsden" style="font-size: <?php echo  $rowdd->fone_id_en ?>px"><?php echo $rowd->name_receipt_en ?></h3>
         </div>
       </div>
 
       <div class="name">
-        <h2 class="students">គ្រូ</h2>
+        <h2 class="students" style="font-size: <?php echo  $rowdd->students ?>px">គ្រូ</h2>
         <h2 class="Stud">ID HSD TC 00<?php echo $id ?></h2>
-        <h2 class="st_name_img"><img src="../productimages/teacher/<?php echo $sd_img?>" alt=""></h2>
+        <h2 class="st_name_img"><img src="../productimages/teacher/<?php echo $sd_img ?>" alt=""></h2>
 
-        <h2 class="st_name"><?php echo $sd_namekh?></h2>
+        <h2 class="st_name"><?php echo $sd_namekh ?></h2>
         <h2 class="qr"><img src="<?php qr_teacher_id(); ?>" alt=""></h2>
 
 
@@ -71,16 +78,16 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
 
 
-    <div id="receipt-footer">
-      <h2 class="footercad">អាសយដ្ឋានៈ ភូមិថ្នល់ ឃុំតំបែរ ស្រុកតំបែរ ខេត្តត្បូងឃ្មុំ <br>
-      ទូរស័ព្ទៈ ០៧១ ៨៩ ៨៩ ៧២៦ /០៧១ ៨៩ ៨៩ ៧២៦
-      </h2>
-    </div>
+      <div id="receipt-footer">
+        <h2 class="footercad">អាសយដ្ឋានៈ <?php echo $rowd->receipt_Address ?> <br>
+          ទូរស័ព្ទៈ <?php echo $rowd->receipt_Phone ?>
+        </h2>
+      </div>
 
     </div>
 
     <div id="buttons">
-      <a href="itemt?tudentslist">
+      <a href="itemt?teacher_list">
         <button class="btn btn-back">
           Back to Cashier
         </button>
@@ -91,12 +98,12 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
   <script src="dom-to-image.js"></script>
 
   <script>
-    var ti=document.getElementsByClassName("dowjpg")[0];
-    var ddd=document.getElementById("dw_bt");
+    var ti = document.getElementsByClassName("dowjpg")[0];
+    var ddd = document.getElementById("dw_bt");
 
-    ddd.addEventListener("click",()=>{
-      domtoimage.toJpeg(ti).then((data)=>{
-        var link =document.createElement("a");
+    ddd.addEventListener("click", () => {
+      domtoimage.toJpeg(ti).then((data) => {
+        var link = document.createElement("a");
         link.download = "<?php show_customer_name() ?>.jpg";
         link.href = data;
         link.click();

@@ -29,6 +29,7 @@ display_message();
             <table class="table table-striped table-hover " id="">
               <thead class="bg_color">
                 <tr>
+                  <th>N0</th>
                   <th>id</th>
                   <th>ឈ្មោះខ្មែរ</th>
                   <th>ឈ្មោះឡាតាំង</th>

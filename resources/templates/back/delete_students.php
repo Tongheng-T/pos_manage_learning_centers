@@ -8,6 +8,7 @@ if (isset($_GET['id'])) {
     $row = $select_img->fetch_assoc();
 
     $query = query("DELETE FROM tbl_students WHERE sd_id = " . escape_string($_GET['id']) . "");
+    $queryy = query("DELETE FROM tbl_employee_students WHERE sd_id = " . escape_string($_GET['id']) . "");
     confirm($query);
 
     $db_image = $row['sd_img'];

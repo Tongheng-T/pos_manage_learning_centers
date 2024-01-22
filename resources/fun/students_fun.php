@@ -17,11 +17,12 @@ function st_active($id)
 function tudentslist()
 {
   $id_branch = branch_id();
-  $select = query("SELECT * from tbl_students where id_branch= $id_branch order by sd_id DESC");
+  $select = query("SELECT * from tbl_students where id_branch= $id_branch ");
   confirm($select);
   $echo = "";
   while ($row = $select->fetch_object()) {
     $id = $row->sd_id;
+    $salary = $row->txtprice;
     $rdstudts = st_active($id);
     $sd_studytime = $row->sd_studytime;
 
@@ -62,11 +63,11 @@ function tudentslist()
     }
 
 
-    $date = date('Y-m-d');
+    $date = date('d-m-Y');
     $result = explode('-', $date);
     $month = $result[1];
-    $year = $result[0];
-    $salary = show_price($row->sd_subject_id, $id);
+    $year = $result[2];
+    // $salary = show_price($row->sd_subject_id, $id,$row->sd_time_id);
 
     if ($sd_studytime == 'years') {
       $new = $year;
@@ -101,8 +102,11 @@ function tudentslist()
       if ($textt == 30) {
 
         $text = '<span class="badge badgeth badge-info">ដល់ថ្ងៃបង់</span>';
-      } else {
-        $text = '<span class="badge badgeth badge-warning">ដល់ថ្ងៃ'.$textt.'</span>';
+      }elseif($textt == 0 ){
+        $text = '<span class="badge badgeth badge-warning">មិនទាន់បង់</span>';
+      }
+       else {
+        $text = '<span class="badge badgeth badge-warning">ចំនួនថ្ងៃ' . $textt . '</span>';
       }
     }
 
@@ -118,7 +122,7 @@ function tudentslist()
            
            <div class="btn-group">
            <a href="students_id.php?id=' . $row->sd_id . '" class="btn btn-primary btn-xs" role="button"><span class="fa fa-id-card" style="color:#ffffff" data-toggle="tooltip" title="ID students"></span></a>
-           <a href="students_certificate.php?id=' . $row->sd_id . '" class="btn btn-primary btn-xs" role="button"><span class="fa fa-id-card" style="color:#ffffff" data-toggle="tooltip" title="Certificate"></span></a>
+           <a href="students_certificate.php?id=' . $row->sd_id . '" class="btn btn-secondary btn-xs" role="button" target="_blank"><span class="fa fa-certificate" style="color:#ffffff" data-toggle="tooltip" title="Certificate"></span></a>
            
            <button id=' . $row->sd_id . ' class="btn btn-info btn-xs payroll" data-toggle="modal" data-target="#exampleModalpay"><span class="fas fa-money-bill-alt" style="color:#ffffff" data-toggle="tooltip" title="បង់ប្រាក់"></span></button>
            
@@ -149,7 +153,7 @@ function show_delete($invoice_id)
         ';
   }
 }
-function show_price($sj_id, $sd_id)
+function show_price($sj_id, $sd_id, $sdi_id)
 {
 
   $select = query("SELECT * from tbl_subject where sj_id = $sj_id");
@@ -160,19 +164,32 @@ function show_price($sj_id, $sd_id)
   confirm($students);
   $sdRow = $students->fetch_assoc();
 
+  $selectr = query("SELECT * from tbl_studytime where sdi_id=$sdi_id");
+  confirm($selectr);
+  $row = $selectr->fetch_assoc();
+
+  $time = $row['qty'];
 
   if ($sdRow['sd_studytime'] == "years") {
-    $price = $sjRow->sj_price_year;
+    $price = $sjRow->sj_price_year * $time;
 
-    if ($sdRow['sd_car_id'] == 1) {
+    if ($sdRow['sd_car_id'] > 1) {
       $carr = $sjRow->car_price_year;
     } else {
       $carr = 0;
     }
     return $price - $carr;
+  } elseif ($sdRow['sd_studytime'] == "session") {
+    $price = $sjRow->price_session * $time;
+
+    if ($sdRow['sd_car_id'] > 1) {
+      $carr = $sjRow->car_price_year;
+    } else {
+      $carr = 0;
+    }
   } else {
-    $price = $sjRow->sj_price;
-    if ($sdRow['sd_car_id'] == 1) {
+    $price = $sjRow->sj_price * $time;
+    if ($sdRow['sd_car_id'] > 1) {
       $carr = $sjRow->car_price_month;
     } else {
       $carr = 0;
@@ -210,7 +227,7 @@ function viewstudents()
   <li class="list-group-item"><b>ថ្នាក់រៀន</b> <span class="badge label badge-dark float-right">' . show_classroom($row->sd_class_id) . '</span></li>
   <li class="list-group-item"><b>រៀនគិតជា</b> <span class="badge label badge-dark float-right">' . $row->sd_studytime . '</span></li>
 
-  <li class="list-group-item"><b>តម្លៃសិក្សារ</b> <span class="badge label badge-dark float-right">' . show_price($row->sd_subject_id, $row->sd_id) . '</span></li>
+  <li class="list-group-item"><b>តម្លៃសិក្សារ</b> <span class="badge label badge-dark float-right">' . show_price($row->sd_subject_id, $row->sd_id,$row->sd_time_id) . '</span></li>
   <li class="list-group-item"><b>ថ្ងៃខែចូលរៀន</b> <span class="badge label badge-success float-right">' . date('d-m-Y', strtotime($row->sd_date_of_enrollment)) . '</span></li>
 </ul>
 </div>
@@ -239,19 +256,20 @@ function addstudents()
 {
   if (isset($_POST['btnsave'])) {
 
-    $txtnamekh       = $_POST['txtnamekh'];
-    $txtdb       = $_POST['txtdb'];
-    $date_db = date('Y-m-d', strtotime($txtdb));
-    $txtsubject      = $_POST['txtsubject'];
-    $txtteacher   = $_POST['txtteacher'];
-    $txtnameen         = $_POST['txtnameen'];
-    $txtphone = $_POST['txtphone'];
-    $txttim     = $_POST['txttim'];
-    $txtcar     = $_POST['txtcar'];
-    $sex     = $_POST['sex'];
-    $txtclass     = $_POST['txtclass'];
-    $txtstudytime     = $_POST['txtstudytime'];
+    $txtnamekh                  = $_POST['txtnamekh'];
+    $txtdb                      = $_POST['txtdb'];
+    $date_db                    = date('Y-m-d', strtotime($txtdb));
+    $txtsubject                 = $_POST['txtsubject'];
+    $txtteacher                 = $_POST['txtteacher'];
+    $txtnameen                  = $_POST['txtnameen'];
+    $txtphone                   = $_POST['txtphone'];
+    $txttim                     = $_POST['txttim'];
+    $txtcar                     = $_POST['txtcar'];
+    $sex                        = $_POST['sex'];
+    $txtclass                   = $_POST['txtclass'];
+    $txtstudytime               = $_POST['txtstudytime'];
     $txt_date_of_enrollment     = $_POST['txtdate_of_enrollment'];
+    $txtprice                   = $_POST['txtprice'];
 
     $dateof_employment = date('Y-m-d', strtotime($txt_date_of_enrollment));
     $id_branch = branch_id();
@@ -279,11 +297,14 @@ function addstudents()
 
             $productimage = $f_newfile;
 
-            $insert = query("INSERT into tbl_students ( sd_namekh,sd_nameen,sd_sex,sd_db,sd_phone,sd_subject_id,sd_time_id,sd_teacher_id,sd_car_id,sd_img,sd_class_id,sd_studytime,sd_date_of_enrollment,id_branch) 
-                        values('{$txtnamekh}','{$txtnameen}','{$sex}','{$date_db}','{$txtphone}','{$txtsubject}','{$txttim}','{$txtteacher}','{$txtcar}','{$productimage}','{$txtclass}','{$txtstudytime}','{$dateof_employment}','{$id_branch}')");
+            $insert = query("INSERT into tbl_students ( sd_namekh,sd_nameen,sd_sex,sd_db,sd_phone,sd_subject_id,sd_time_id,sd_teacher_id,sd_car_id,sd_img,sd_class_id,sd_studytime,sd_date_of_enrollment,id_branch,txtprice) 
+                        values('{$txtnamekh}','{$txtnameen}','{$sex}','{$date_db}','{$txtphone}','{$txtsubject}','{$txttim}','{$txtteacher}','{$txtcar}','{$productimage}','{$txtclass}','{$txtstudytime}','{$dateof_employment}','{$id_branch}','{$txtprice}')");
             confirm($insert);
             $pid = last_id(); // which was the 5
 
+            // $query = query("INSERT INTO tbl_employee_students(sd_id,money,date,id_branch) VALUES('{$pid}','{$txtprice}','{$dateof_employment}','{$id_branch}')");
+            // confirm($query);
+            // $sdpay_id = last_id();
             date_default_timezone_set("Asia/Bangkok");
             $newbarcode = $pid . date('his');
 
@@ -291,13 +312,14 @@ function addstudents()
 
             if ($insert) {
 
-              set_message(' <script>
-                            Swal.fire({
-                              icon: "success",
-                              title: "Students Inserted Successfully"
-                            });
-                          </script>');
-              redirect('itemt?tudentslist');
+                set_message(' <script>
+                Swal.fire({
+                  icon: "success",
+                  title: "Students Inserted Successfully"
+                });
+              </script>');
+                redirect('itemt?tudentslist');
+              
             } else {
               set_message(' <script>
                             Swal.fire({
@@ -322,24 +344,27 @@ function addstudents()
     } else {
       $productimage = 'display.jpg';
 
-      $insert = query("INSERT into tbl_students ( sd_namekh,sd_nameen,sd_sex,sd_db,sd_phone,sd_subject_id,sd_time_id,sd_teacher_id,sd_car_id,sd_img,sd_class_id,sd_studytime,sd_date_of_enrollment,id_branch) 
-                        values('{$txtnamekh}','{$txtnameen}','{$sex}','{$date_db}','{$txtphone}','{$txtsubject}','{$txttim}','{$txtteacher}','{$txtcar}','{$productimage}','{$txtclass}','{$txtstudytime}','{$dateof_employment}','{$id_branch}')");
+      $insert = query("INSERT into tbl_students ( sd_namekh,sd_nameen,sd_sex,sd_db,sd_phone,sd_subject_id,sd_time_id,sd_teacher_id,sd_car_id,sd_img,sd_class_id,sd_studytime,sd_date_of_enrollment,id_branch,txtprice) 
+                        values('{$txtnamekh}','{$txtnameen}','{$sex}','{$date_db}','{$txtphone}','{$txtsubject}','{$txttim}','{$txtteacher}','{$txtcar}','{$productimage}','{$txtclass}','{$txtstudytime}','{$dateof_employment}','{$id_branch}','{$txtprice}')");
       confirm($insert);
       $pid = last_id(); // which was the 5
-
+      // $query = query("INSERT INTO tbl_employee_students(sd_id,money,date,id_branch) VALUES('{$pid}','{$txtprice}','{$dateof_employment}','{$id_branch}')");
+      // confirm($query);
+      // $sdpay_id = last_id();
       date_default_timezone_set("Asia/Bangkok");
       $newbarcode = $pid . date('his');
 
       // $update = query("UPDATE tbl_product SET barcode='$newbarcode' where pid='" . $pid . "'");
 
       if ($insert) {
-
-        set_message(' <script>
-                            Swal.fire({
-                              icon: "success",
-                              title: "Students Inserted Successfully"
-                            });
-                          </script>');
+   
+          set_message(' <script>
+          Swal.fire({
+            icon: "success",
+            title: "Students Inserted Successfully"
+          });
+        </script>');
+        
         redirect('itemt?tudentslist');
       } else {
         set_message(' <script>
@@ -380,6 +405,7 @@ function update_tudents()
     $txt_date_of_enrollment     = $_POST['txtdate_of_enrollment'];
     $txt_date_of_enrollment     = $_POST['txtdate_of_enrollment'];
     $studyclose                 = $_POST['studyclose'];
+    $txtprice                   = $_POST['txtprice'];
     $dateof_employment = date('Y-m-d', strtotime($txt_date_of_enrollment));
     $id  = $_POST['btnupdate'];
 
@@ -435,7 +461,8 @@ function update_tudents()
             $query .= "sd_class_id             = '{$txtclass}'          , ";
             $query .= "sd_studytime            = '{$txtstudytime}'      , ";
             $query .= "sd_date_of_enrollment   = '{$dateof_employment}' , ";
-            $query .= "studyclose              = '{$studyclose}'          ";
+            $query .= "studyclose              = '{$studyclose}'        , ";
+            $query .= "txtprice                = '{$txtprice}'            ";
             $query .= "WHERE sd_id=" . $id;
 
             $send_update_query = query($query);
@@ -486,7 +513,8 @@ function update_tudents()
       $query .= "sd_class_id             = '{$txtclass}'          , ";
       $query .= "sd_studytime            = '{$txtstudytime}'      , ";
       $query .= "sd_date_of_enrollment   = '{$dateof_employment}' , ";
-      $query .= "studyclose              = '{$studyclose}'          ";
+      $query .= "studyclose              = '{$studyclose}'        , ";
+      $query .= "txtprice                = '{$txtprice}'            ";
       $query .= "WHERE sd_id=" . $id;
 
       $send_update_query = query($query);
@@ -575,7 +603,7 @@ function show_studyname($sd_id)
 function students_pay()
 {
   $id_branch = branch_id();
-  $select = query("SELECT * from tbl_employee_students where id_branch= $id_branch");
+  $select = query("SELECT * from tbl_employee_students where id_branch= $id_branch order by sd_id DESC");
   confirm($select);
   $no = 1;
   $total = 0;
@@ -585,12 +613,13 @@ function students_pay()
     $money = $row->money;
     $total += $row->money;
 
-    $scaleL_query = query("SELECT * FROM tbl_students WHERE sd_id = '{$row->sd_id}'");
+    $scaleL_query = query("SELECT * FROM tbl_students WHERE sd_id = '{$row->sd_id}' order by sd_id DESC");
     confirm($scaleL_query);
     while ($scale_row = fetch_array($scaleL_query)) {
       $img = $scale_row['sd_img'];
       $nameen = $scale_row['sd_nameen'];
       $db = $scale_row['sd_db'];
+      $time = $scale_row['sd_time_id'];
       $sd_subject_id = $scale_row['sd_subject_id'];
       $sex = $scale_row['sd_sex'];
       $scale_sdid = $scale_row['sd_id'];
@@ -598,12 +627,13 @@ function students_pay()
     $echo .= '
            <tr>
            <td>' . $no . '</td>
+           <td>' . $scale_sdid . '</td>
            <td>' . show_studyname($row->sd_id) . ' <image src="../productimages/students/' . $img . '" class="img-rounded" width="40px" height="40px/"></td>
            <td>' . $nameen . '</td>
            <td>' . $sex . '</td>
            <td>' . date('d-m-Y', strtotime($db)) . '</td>
            <td>' . show_subject($sd_subject_id) . '</td>
-           <td>' . show_price($sd_subject_id, $scale_sdid) . '</td>
+           <td>' . show_price($sd_subject_id, $scale_sdid,$time ). '</td>
            <td>' . $money . '</td>
            <td><span class="badge badgeth badge-primary">' . date('d-m-Y', strtotime($row->date)) . '</span></td>
 

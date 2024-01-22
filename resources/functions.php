@@ -160,7 +160,6 @@ function name_branch()
         confirm($query);
         $row = $query->fetch_assoc();
         $id_branch = $row['id_branch'];
-        $_SESSION['id_branch'] = $id_branch;
     }
     $query =  query("SELECT * FROM tbl_branch WHERE id =  $id_branch ");
     confirm($query);

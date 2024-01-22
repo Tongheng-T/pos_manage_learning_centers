@@ -41,14 +41,15 @@ require_once("../../config.php");
               <select class="form-control select2 year select2s" data-dropdown-css-class="select2" data-minimum-results-for-search="Infinity" name="txtstudytime" required>
                 <option value="month">ខែ</option>
                 <option value="years">ឆ្នាំ</option>
+                <option value="session">វគ្គ</option>
 
               </select>
             </div>
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="txtprice">
           <label>តម្លៃសិក្សារ</label>
-          <input type="text" class="form-control" placeholder="តម្លៃសិក្សារ" name="txtprice" id="txtprice" readonly>
+          <input type="text" class="form-control" placeholder="តម្លៃសិក្សារ" name="txtprice" id="txtprice">
         </div>
 
         <div class="form-group">
@@ -75,7 +76,7 @@ require_once("../../config.php");
         </div>
         <div class="form-group">
           <label>ម៉ោងសិក្សារ</label>
-          <select style="height: 46px;" class="form-control select2" data-dropdown-css-class="select2-purple" data-minimum-results-for-search="Infinity" name="txttim" required>
+          <select style="height: 46px;" class="form-control select2 select2s time" data-dropdown-css-class="select2-purple" data-minimum-results-for-search="Infinity" name="txttim" required>
             <option value="" disabled selected>ជ្រើសរើសម៉ោង</option>
             <?php echo fill_studytime(); ?>
           </select>
@@ -157,40 +158,21 @@ require_once("../../config.php");
       var productid = $(".subject").val();
       var year = $(".year").val();
       var car = $(".car").val();
+      var sdi_id = $(".time").val();
+
 
       $.ajax({
-        url: "../resources/templates/back/getsubject.php",
+        url: "../resources/templates/back/getsubject_time.php",
         method: "get",
-        dataType: "json",
         data: {
           id: productid,
-          study: year,
-          car: car
+          sdi_id: sdi_id,
+          year: year,
+          car: car,
         },
         success: function(data) {
 
-          // alert(data["sj_price"])
-          if (year == "years") {
-            var price = data["sj_price_year"];
-            if (car == 1) {
-              var carr = data["car_price_year"];
-            } else {
-              var carr = 0;
-            }
-
-          } else {
-            var price = data["sj_price"];
-            if (car == 1) {
-              var carr = data["car_price_month"];
-            } else {
-              var carr = 0;
-            }
-          }
-
-          // $("#txtbarcode_id").val("");
-          var show_price = document.getElementById('txtprice');
-          show_price.value = price - carr;
-
+          $("#txtprice").html(data);
         }
       });
     })

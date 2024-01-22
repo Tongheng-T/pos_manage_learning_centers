@@ -46,7 +46,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="../plugins/toastr/toastr.min.js"></script>
     <!-- jautocalcg -->
     <script src="../dist/js/jquery.js"></script>
-    <script src="../dist/js/jautocalcg.min.js"></script>
+    <script src="../dist/js/jautocalc.min.js"></script>
     <script src="../dist/js/scriptss.js"></script>
 
     <!-- daterange picker -->
@@ -230,6 +230,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <a href="itemt?studytime" class="nav-link <?php actr("studytime"); ?>">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>ម៉ោងសិក្សារ</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="itemt?car_price" class="nav-link <?php actr("car_price"); ?>">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>តម្លៃឡាន</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">

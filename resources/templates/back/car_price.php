@@ -8,7 +8,7 @@ if ($_SESSION['useremail'] == ""  or $_SESSION['role'] == "User") {
 
 
 display_message();
-insert_update_delete();
+insert_update_delete_car_price();
 
 
 ?>
@@ -19,7 +19,7 @@ insert_update_delete();
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">មុខវិជ្ជា</h1>
+                <h1 class="m-0">ម៉ោងសិក្សារ</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -38,7 +38,7 @@ insert_update_delete();
 
         <div class="card card-warning card-outline">
             <div class="card-header">
-                <h5 class="m-0">មុខវិជ្ជា Form</h5>
+                <h5 class="m-0">ម៉ោងសិក្សារ Form</h5>
             </div>
 
 
@@ -49,27 +49,23 @@ insert_update_delete();
                     <div class="row">
 
 
-                        <?php edit_category(); ?>
+                        <?php edit_car_price(); ?>
 
                         <div class="col-md-8">
 
-                            <table id="table_categoryy" class="table table-striped table-hover ">
+                            <table id="table_category" class="table table-striped table-hover ">
                                 <thead>
                                     <tr>
                                         <td>#</td>
-                                        <td>មុខវិជ្ជា</td>
-                                        <td>តម្លៃសិក្សារ/ខែ</td>
-                                        <td>តម្លៃសិក្សារ/ឆ្នាំ</td>
-                                        <td>តម្លៃសិក្សារ/វគ្គ</td>
-                                        <td>តម្លៃឡាន/ខែ</td>
-                                        <td>តម្លៃឡាន/ឆ្នាំ</td>
+                                        <td>ចំនួន</td>
+                                        <td>តម្លៃ</td>
                                         <td>Edit</td>
                                         <td>Delete</td>
                                     </tr>
                                 </thead>
                                 <tbody>
 
-                                    <?php query_category(); ?>
+                                    <?php query_car_price(); ?>
 
                                 </tbody>
 
@@ -98,22 +94,3 @@ insert_update_delete();
 <!-- /.content -->
 
 
-
-<!-- <script>
-    $('.btn-delete').on('click', function(e) {
-        e.preventDefault();
-        const href = $(this).attr('href')
-        Swal.fire({
-            title: "លុបឈ្មោះគ្រូ!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.location.href = href;
-            }
-        })
-    })
-</script> -->

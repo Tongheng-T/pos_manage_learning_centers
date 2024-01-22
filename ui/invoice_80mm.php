@@ -75,7 +75,7 @@ $rowd = $tbl_setting->fetch_object();
     <div class="ticket">
         <div class="logo">
             <img src="../productimages/logo/<?php echo  $rowd->logo ?>" alt="Logo" class="img-fluid">
-            <h5 class="h5" style="font-size: <?php echo  $rowd->font_RECEIPT ?>"><?php echo  $rowd->name_receipt ?></h5>
+            <h5 class="h5" style="font-size: <?php echo  $rowd->font_RECEIPT ?>px"><?php echo  $rowd->name_receipt ?></h5>
         </div>
 
         <p class="centered">
@@ -109,7 +109,7 @@ $rowd = $tbl_setting->fetch_object();
                 confirm($select);
                 while ($item = $select->fetch_object()) {
 
-                    $salary = show_price($item->sd_subject_id, $id);
+                    $salary = show_price($item->sd_subject_id, $id,$item->sd_time_id);
                     $sd_studytime = $item->sd_studytime;
 
                     echo '
@@ -117,7 +117,7 @@ $rowd = $tbl_setting->fetch_object();
                   <td>' . $item->sd_namekh . '</td>
                   <td>' . $item->sd_sex . '</td>
                   <td>' . show_subject($item->sd_subject_id) . '</td>
-                  <td>' . $salary . ' <b>$ </b></td>
+                  <td>' . $salary . ' <b>៛</b></td>
                  </tr>
                     
                   ';
