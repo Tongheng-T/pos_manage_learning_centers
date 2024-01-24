@@ -109,7 +109,7 @@ $rowd = $tbl_setting->fetch_object();
                 confirm($select);
                 while ($item = $select->fetch_object()) {
 
-                    $salary = $item->txtprice;
+                    $salary = $item->txtprice; 
                     $sd_studytime = $item->sd_studytime;
 
                     echo '
