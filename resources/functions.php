@@ -670,7 +670,7 @@ function edit_setting()
                 </div>
                 <div class="form-group">
                  <label for="exampleInputEmail1">receipt_Email</label>
-                 <input type="email" class="form-control" placeholder="Enter email" name="txtemail" value="' . $row->receipt_Email     . '" required>
+                 <input type="email" class="form-control" placeholder="Enter email" name="txtemail" value="' . $row->receipt_Email     . '" >
                </div>
 
                <div class="form-group">
