@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="../dist/css/print80mmm.css">
+    <link rel="stylesheet" href="../dist/css/print80mm.css">
 
     <title>RECEIPT : <?php show_customer_name(); ?></title>
 </head>
@@ -73,6 +73,8 @@ $rowd = $tbl_setting->fetch_object();
 
 <body>
     <div class="ticket">
+        <div class="back"> <img src="../productimages/logo/<?php echo  $rowd->logo ?>" alt=""></div>
+
         <div class="logo">
             <img src="../productimages/logo/<?php echo  $rowd->logo ?>" alt="Logo" class="img-fluid">
             <h5 class="h5" style="font-size: <?php echo  $rowd->font_RECEIPT ?>px"><?php echo  $rowd->name_receipt ?></h5>
@@ -88,12 +90,16 @@ $rowd = $tbl_setting->fetch_object();
         <hr>
         <h3 class="RECEIPT">RECEIPT</h3>
         </p>
-        <p class="h_p">INVOICE N0:
+        <p class="h_p">INVOICE N0:</p>
         <p class="top_p"><?php echo $sdpay_id ?></p>
-        </p>
-        <p class="h_p">Date:
-        <p class="top_p"><?php echo date('d-m-Y', strtotime($date)) ?></p>
-        </p>
+
+        <p class="h_p">Date:</p>
+        <p class="top_l"><?php echo date('d-m-Y', strtotime($date)) ?></p>
+
+
+        <div class="h_l">ថ្ងៃបង់ប្រាក់ម្តងទៀត:
+            <p class="top_l"><?php echo  date('d-m-Y', strtotime('+1 month', strtotime($date))); ?></p>
+        </div>
         <table class="table">
             <thead>
                 <tr>
@@ -109,7 +115,7 @@ $rowd = $tbl_setting->fetch_object();
                 confirm($select);
                 while ($item = $select->fetch_object()) {
 
-                    $salary = $item->txtprice; 
+                    $salary = $item->txtprice;
                     $sd_studytime = $item->sd_studytime;
 
                     echo '
@@ -119,6 +125,16 @@ $rowd = $tbl_setting->fetch_object();
                   <td>' . show_subject($item->sd_subject_id) . '</td>
                   <td>' . $salary . ' <b>៛</b></td>
                  </tr>
+                 <tr>
+                 <td></td>
+                 <td colspan="2">ប្រាក់បានបង់</td>
+                 <td>' . $money . ' <b>៛</b></td>
+                </tr>
+                <tr>
+                <td></td>
+                <td colspan="2">ប្រាក់ជំពាក់</td>
+                <td>' . $salary - $money . ' <b>៛</b></td>
+               </tr>
                     
                   ';
                 }
@@ -131,14 +147,15 @@ $rowd = $tbl_setting->fetch_object();
                 <tr>
                     <td></td>
                     <th colspan="2">Learn as <?php echo $sd_studytime ?></th>
-            
+
                 </tr>
-                
+
             </tbody>
         </table>
 
         <b>Importan Notice:</b> <br>
         <p><?php echo  $rowd->Importan_Notice ?> </p>
+        <p><b>Receiver... លោកគ្រូ <?php echo $rowd->director ?></b></p>
     </div>
 
     <script>

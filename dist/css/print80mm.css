@@ -63,11 +63,24 @@ table tr {
 .ticket {
     width: 85mm;
     max-width: 85mm;
-    display: block;
-    background: var(--white);
+    /* display: block; */
+   
     margin: 0 auto;
+    
     position: relative;
     padding-top: 11px;
+}
+.back img{
+    width: 93%;
+}
+.ticket .back{
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    height: 100vh;
+    opacity: 16%;
 }
 
 .logo img {
@@ -82,11 +95,19 @@ table tr {
     font-size: 22px;
     font-weight: normal;
 }
-
+.top_l{
+    display: inline-block;
+}
 .h_p {
     float: left;
     margin-left: 6px;
     margin-right: 8px;
+}
+.h_l {
+    float: right;
+    /* margin-left: 30px; */
+    margin-right: 12px;
+
 }
 
 
