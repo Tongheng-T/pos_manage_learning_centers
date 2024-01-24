@@ -154,7 +154,7 @@ $rowd = $tbl_setting->fetch_object();
         </table>
 
         <b>Importan Notice:</b> <br>
-        <p><?php echo  $rowd->Importan_Notice ?> </p>
+        <p class="notice"><?php echo  $rowd->Importan_Notice ?> </p>
         <p><b>Receiver... លោកគ្រូ <?php echo $rowd->director ?></b></p>
     </div>
 

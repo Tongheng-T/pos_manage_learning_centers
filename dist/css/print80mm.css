@@ -109,7 +109,10 @@ table tr {
     margin-right: 12px;
 
 }
-
+.notice{
+    font-size: 11px !important;
+    font-weight: bold;
+}
 
 /* .logo {
     text-align: center;
