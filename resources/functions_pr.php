@@ -143,8 +143,7 @@ function insert_update_delete()
         $category = $_POST['txtcategory'];
         $price = $_POST['txtprice'];
         $txtprice_year = $_POST['txtprice_year'];
-        $carprice_month = $_POST['txtcarprice_month'];
-        $carprice_year = $_POST['txtcarprice_year'];
+        $txtprice_month = $_POST['txtprice_month'];
         $txtprice_session = $_POST['txtprice_session'];
         $id_branch = branch_id();
 
@@ -158,7 +157,7 @@ function insert_update_delete()
             redirect('itemt?subject');
         } else {
 
-            $insert = query("INSERT into tbl_subject (sj_name,sj_price,sj_price_year,price_session,car_price_year,car_price_month,id_branch) values('{$category}','{$price}','{$txtprice_year}','{$txtprice_session}','{$carprice_year}','{$carprice_month}','{$id_branch}')");
+            $insert = query("INSERT into tbl_subject (sj_name,sj_price,sj_price_six,sj_price_year,price_session,id_branch) values('{$category}','{$price}','{$txtprice_month}','{$txtprice_year}','{$txtprice_session}','{$id_branch}')");
             confirm($insert);
             if ($insert) {
                 set_message(' <script>
@@ -186,10 +185,9 @@ function insert_update_delete()
 
         $category = $_POST['txtcategory'];
         $price = $_POST['txtprice'];
+        $txtprice_month = $_POST['txtprice_month'];
         $txtprice_year = $_POST['txtprice_year'];
         $id = $_POST['txtcatid'];
-        $carprice_month = $_POST['txtcarprice_month'];
-        $carprice_year = $_POST['txtcarprice_year'];
         $txtprice_session = $_POST['txtprice_session'];
 
         if (empty($category)) {
@@ -202,7 +200,7 @@ function insert_update_delete()
             redirect('itemt?subject');
         } else {
 
-            $update = query("UPDATE tbl_subject set sj_name='$category', sj_price='$price',sj_price_year='$txtprice_year',price_session='$txtprice_session',car_price_year='$carprice_year',car_price_month='$carprice_month' where sj_id=" . $id);
+            $update = query("UPDATE tbl_subject set sj_name='$category', sj_price='$price', sj_price_six='$txtprice_month',sj_price_year='$txtprice_year',price_session='$txtprice_session' where sj_id=" . $id);
             confirm($update);
 
             if ($update) {
@@ -265,14 +263,18 @@ function edit_category()
             echo '<div class="col-md-4">
 
                 <div class="form-group">
-               <label for="exampleInputEmail1">Category</label>
+               <label for="exampleInputEmail1">មុខវិជ្ជា</label>
                <input type="hidden" class="form-control" placeholder="Enter Category"  value="' . $row->sj_id . '" name="txtcatid" >
                <input type="text" class="form-control" placeholder="Enter Category"  value="' . $row->sj_name . '" name="txtcategory" >
                </div>
 
                <div class="form-group">
-               <label for="exampleInputEmail1">Price</label>
+               <label for="exampleInputEmail1">តម្លៃ/១ខែ</label>
                <input type="text" class="form-control" placeholder="Enter Category"  value="' . $row->sj_price . '" name="txtprice" >
+               </div>
+               <div class="form-group">
+               <label for="exampleInputEmail1">តម្លៃ/៦ខែ</label>
+               <input type="text" class="form-control" placeholder="Enter Price" value="' . $row->sj_price_six . '" name="txtprice_month" >
                </div>
                <div class="form-group">
                <label for="exampleInputEmail1">តម្លៃ/១ឆ្នាំ</label>
@@ -284,16 +286,7 @@ function edit_category()
                <input type="text" class="form-control" placeholder="Enter Price" value="' . $row->price_session . '" name="txtprice_session" >
                </div>
 
-               <div class="form-group">
-               <label for="exampleInputEmail1">តម្លៃឡាន/ខែ</label>
-               <input type="text" class="form-control" placeholder="Enter Price" value="' . $row->car_price_month . '" name="txtcarprice_month" >
-               </div>
 
-
-               <div class="form-group">
-               <label for="exampleInputEmail1">តម្លៃឡាន/ឆ្នាំ</label>
-               <input type="text" class="form-control" placeholder="Enter Price" value="' . $row->car_price_year . '" name="txtcarprice_year" >
-               </div>
 
                <div class="card-footer">
                <button type="submit" class="btn btn-info" name="btnupdate">Update</button>
@@ -313,6 +306,10 @@ function edit_category()
          <input type="text" class="form-control" placeholder="Enter Price" name="txtprice" >
          </div>
          <div class="form-group">
+         <label for="exampleInputEmail1">តម្លៃ/៦ខែ</label>
+         <input type="text" class="form-control" placeholder="Enter Price" name="txtprice_month" >
+         </div>
+         <div class="form-group">
          <label for="exampleInputEmail1">តម្លៃ/១ឆ្នាំ</label>
          <input type="text" class="form-control" placeholder="Enter Price" name="txtprice_year" >
          </div>
@@ -322,17 +319,7 @@ function edit_category()
          <input type="text" class="form-control" placeholder="Enter Price" name="txtprice_session" >
          </div>
          
-         <div class="form-group">
-         <label for="exampleInputEmail1">តម្លៃឡាន/ខែ</label>
-         <input type="text" class="form-control" placeholder="Enter Price"  name="txtcarprice_month" >
-         </div>
-
-
-         <div class="form-group">
-         <label for="exampleInputEmail1">តម្លៃឡាន/ឆ្នាំ</label>
-         <input type="text" class="form-control" placeholder="Enter Price"  name="txtcarprice_year" >
-         </div>
-
+    
          <div class="card-footer">
          <button type="submit" class="btn btn-warning" name="btnsave">Save</button>
          </div>
@@ -354,10 +341,9 @@ function query_category()
         <td>' . $row->sj_id . '</td>
         <td>' . $row->sj_name . '</td>
         <td>' . $row->sj_price . '</td>
+        <td>' . $row->sj_price_six . '</td>
         <td>' . $row->sj_price_year . '</td>
         <td>' . $row->price_session . '</td>
-        <td>' . $row->car_price_month . '</td>
-        <td>' . $row->car_price_year . '</td>
         <td>
         <button type="submit" class="btn btn-primary" value="' . $row->sj_id . '" name="btnedit">Edit</button>
         </td>

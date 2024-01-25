@@ -642,6 +642,10 @@ function edit_setting()
 
         $select = query("SELECT * from tbl_setting where setting_id =" . $_POST['btnedit']);
         confirm($select);
+        $select_id = query("SELECT * from tbl_setting_id where id =" . $_POST['btnedit']);
+        confirm($select_id);
+        $roww = $select_id->fetch_object();
+
 
         $show =  "";
 
@@ -683,8 +687,20 @@ function edit_setting()
              <input type="text" class="form-control" placeholder="Enter Notice" name="txtNotice" value="' . $row->Importan_Notice     . '" required>
            </div>
            <div class="form-group">
-           <label for="exampleInputEmail1">font_RECEIPT</label>
+           <label for="exampleInputEmail1">font-size RECEIPT</label>
            <input type="text" class="form-control" placeholder="Enter Notice" name="font_RECEIPT" value="' . $row->font_RECEIPT     . '" required>
+         </div>
+         <div class="form-group">
+         <label for="exampleInputEmail1">font-size students_id khmer</label>
+         <input type="text" class="form-control" placeholder="Enter Notice" name="fone_id_kh" value="' . $roww->fone_id_kh     . '" required>
+        </div>
+        <div class="form-group">
+           <label for="exampleInputEmail1">font-size students_id english</label>
+           <input type="text" class="form-control" placeholder="Enter Notice" name="fone_id_en" value="' . $roww->fone_id_en     . '" required>
+         </div>
+          <div class="form-group">
+           <label for="exampleInputEmail1">font-size សិស្ស</label>
+           <input type="text" class="form-control" placeholder="Enter Notice" name="students" value="' . $roww->students     . '" required>
          </div>
  ';
 
@@ -716,6 +732,9 @@ function edit_setting()
         $txtNotice = $_POST['txtNotice'];
         $txtname_en = $_POST['txtname_en'];
         $font_RECEIPT = $_POST['font_RECEIPT'];
+        $fone_id_kh = $_POST['fone_id_kh'];
+        $fone_id_en = $_POST['fone_id_en'];
+        $students = $_POST['students'];
 
         $id = $_POST['btnupdate'];
         $user_photo = $_FILES['file']['name'];
@@ -738,6 +757,8 @@ function edit_setting()
 
         $insert = query("UPDATE tbl_setting set logo='$image' , receipt_Address	='$txtAddress', receipt_Email='$useremail', receipt_Phone='$txtPhone', Importan_Notice='$txtNotice' , name_receipt='$username', name_receipt_en='$txtname_en', font_RECEIPT='$font_RECEIPT' where setting_id='$id'");
         confirm($insert);
+        $insert_id = query("UPDATE tbl_setting_id set fone_id_kh='$fone_id_kh' , fone_id_en ='$fone_id_en', students='$students' where id='$id'");
+        confirm($insert_id);
         if ($insert) {
 
             set_message(' <script>

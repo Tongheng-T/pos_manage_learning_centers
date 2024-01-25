@@ -12,7 +12,7 @@
   <link rel="icon" href="ui/logo/48.ico" sizes="48x48">
   <link rel="icon" href="ui/logo/96.ico" sizes="96x96">
   <link rel="icon" href="ui/logo/256.ico" sizes="144x144">
-  <link type="text/css" rel="stylesheet" href="dist/css/receipti.css" media="all">
+  <link type="text/css" rel="stylesheet" href="dist/css/receiptii.css" media="all">
   <link type="text/css" rel="stylesheet" href="dist/css/no-printi.css" media="print">
   <link rel="stylesheet" media="print" href="dist/css/receipti.css" />
 </head>
