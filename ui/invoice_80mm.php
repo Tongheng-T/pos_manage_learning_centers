@@ -38,7 +38,14 @@ while ($row = $select->fetch_object()) {
     $date = $row->date;
     $sdpay_id = $row->sdpay_id;
 
-    $money = $row->money;
+    $datee = date('d-m-Y', strtotime($date));;
+    $result = explode('-', $datee);
+    $month = $result[1];
+    $year = $result[2];
+    $new = $year . '-' . $month;
+    $query_pay = query("SELECT sum(money) AS moneyy  FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%' ");
+    $roww = $query_pay->fetch_object();
+    $money = $roww->moneyy;
 }
 
 
