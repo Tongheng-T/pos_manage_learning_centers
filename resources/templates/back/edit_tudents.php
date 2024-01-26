@@ -26,6 +26,7 @@ if (isset($_GET['id'])) {
     $date_of            = date('d-m-Y', strtotime($date_of_enrollment));
     $studyclose          = $row['studyclose'];
     $txtprice          = $row['txtprice'];
+    $txtaddress          = $row['sd_address'];
   }
 }
 
@@ -115,6 +116,10 @@ if (isset($_GET['id'])) {
         <div class="form-group">
           <label>លេខទូរសព្ទ</label>
           <input type="text" class="form-control" placeholder="Enter Barcode" name="txtphone" value="<?php echo $phone; ?>" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label>អាសយដ្ឋាន</label>
+          <input type="text" class="form-control" placeholder="បញ្ចូល អាសយដ្ឋាន" name="txtaddress" value="<?php echo $txtaddress; ?>" required>
         </div>
         <div class="form-group">
           <label>ម៉ោងសិក្សារ</label>

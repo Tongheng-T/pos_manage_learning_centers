@@ -75,6 +75,10 @@ require_once("../../config.php");
           <input type="text" class="form-control" placeholder="បញ្ចូល លេខទូរសព្ទ" name="txtphone" autocomplete="off">
         </div>
         <div class="form-group">
+          <label>អាសយដ្ឋាន</label>
+          <input type="text" class="form-control" placeholder="បញ្ចូល អាសយដ្ឋាន" name="txtaddress" required>
+        </div>
+        <div class="form-group">
           <label>ម៉ោងសិក្សារ</label>
           <select style="height: 46px;" class="form-control select2 select2s time" data-dropdown-css-class="select2-purple" data-minimum-results-for-search="Infinity" name="txttim" required>
             <option value="" disabled selected>ជ្រើសរើសម៉ោង</option>

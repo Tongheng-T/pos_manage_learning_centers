@@ -116,6 +116,7 @@ $rowd = $tbl_setting->fetch_object();
                 while ($item = $select->fetch_object()) {
 
                     $salary = $item->txtprice;
+                    $price_car = $item->sd_car_id;
                     $sd_studytime = $item->sd_studytime;
 
                     echo '
@@ -123,8 +124,18 @@ $rowd = $tbl_setting->fetch_object();
                   <td>' . $item->sd_namekh . '</td>
                   <td>' . $item->sd_sex . '</td>
                   <td>' . show_subject($item->sd_subject_id) . '</td>
-                  <td>' . $salary . ' <b>៛</b></td>
+                  <td>' . $salary - $price_car . ' <b>៛</b></td>
                  </tr>
+                 <tr>
+                 <td></td>
+                 <td colspan="2">តម្លៃឡាន</td>
+                 <td>' . $price_car . ' <b>៛</b></td>
+                </tr>
+                <tr>
+                <td></td>
+                <th colspan="2">សរុប</td>
+                <th>' . $salary . ' <b>៛</b></th>
+               </th>
                  <tr>
                  <td></td>
                  <td colspan="2">ប្រាក់បានបង់</td>
@@ -152,10 +163,17 @@ $rowd = $tbl_setting->fetch_object();
 
             </tbody>
         </table>
-
+        <style>
+            .signature img {
+                width: 100px;
+                margin-left: 100px;
+                margin-top: -34px;
+            }
+        </style>
         <b>Importan Notice:</b> <br>
         <p class="notice"><?php echo  $rowd->Importan_Notice ?> </p>
         <p><b>Receiver... លោកគ្រូ <?php echo $rowd->director ?></b></p>
+        <div class="signature"><img src="../productimages/logo/<?php echo $rowd->signature ?>"></div>
     </div>
 
     <script>

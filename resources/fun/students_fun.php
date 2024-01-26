@@ -99,15 +99,26 @@ function tudentslist()
       $interval = $datetime1->diff($datetime2);
       $textt =   $interval->format('%a');
 
-      if ($textt == 30) {
+      $new_mont = date('d-m-Y', strtotime('+1 month', strtotime($count_datee)));
+      date('d-m-Y', strtotime($count_datee));
+      $datetime3 = new DateTime($new_mont);
+      $datetime4 = new DateTime($date);
+      $intervall = $datetime3->diff($datetime4);
+      $texttt =   $intervall->format('%a');
+
+      if ($new_mont == $date) {
 
         $text = '<span class="badge badgeth badge-info">ដល់ថ្ងៃបង់</span>';
       }elseif($textt == 0 ){
         $text = '<span class="badge badgeth badge-warning">មិនទាន់បង់</span>';
       }
-       else {
-        $text = '<span class="badge badgeth badge-warning">ចំនួនថ្ងៃ' . $textt . '</span>';
+      if($datetime3 < $datetime4){
+        $text = '<span class="badge badgeth badge-warning">លើស' . $texttt . 'ថ្ងៃ</span>';
+        
+      }else {
+        $text = '<span class="badge badgeth badge-warning">មិនទាន់បង់' . $textt . 'ថ្ងៃ</span>';
       }
+      
     }
 
 
@@ -270,6 +281,7 @@ function addstudents()
     $txtstudytime               = $_POST['txtstudytime'];
     $txt_date_of_enrollment     = $_POST['txtdate_of_enrollment'];
     $txtprice                   = $_POST['txtprice'];
+    $txtaddress                   = $_POST['txtaddress'];
 
     $dateof_employment = date('Y-m-d', strtotime($txt_date_of_enrollment));
     $id_branch = branch_id();
@@ -297,8 +309,8 @@ function addstudents()
 
             $productimage = $f_newfile;
 
-            $insert = query("INSERT into tbl_students ( sd_namekh,sd_nameen,sd_sex,sd_db,sd_phone,sd_subject_id,sd_time_id,sd_teacher_id,sd_car_id,sd_img,sd_class_id,sd_studytime,sd_date_of_enrollment,id_branch,txtprice) 
-                        values('{$txtnamekh}','{$txtnameen}','{$sex}','{$date_db}','{$txtphone}','{$txtsubject}','{$txttim}','{$txtteacher}','{$txtcar}','{$productimage}','{$txtclass}','{$txtstudytime}','{$dateof_employment}','{$id_branch}','{$txtprice}')");
+            $insert = query("INSERT into tbl_students ( sd_namekh,sd_nameen,sd_sex,sd_db,sd_phone,sd_address,sd_subject_id,sd_time_id,sd_teacher_id,sd_car_id,sd_img,sd_class_id,sd_studytime,sd_date_of_enrollment,id_branch,txtprice) 
+                        values('{$txtnamekh}','{$txtnameen}','{$sex}','{$date_db}','{$txtphone}','{$txtaddress}','{$txtsubject}','{$txttim}','{$txtteacher}','{$txtcar}','{$productimage}','{$txtclass}','{$txtstudytime}','{$dateof_employment}','{$id_branch}','{$txtprice}')");
             confirm($insert);
             $pid = last_id(); // which was the 5
 
@@ -344,8 +356,8 @@ function addstudents()
     } else {
       $productimage = 'display.jpg';
 
-      $insert = query("INSERT into tbl_students ( sd_namekh,sd_nameen,sd_sex,sd_db,sd_phone,sd_subject_id,sd_time_id,sd_teacher_id,sd_car_id,sd_img,sd_class_id,sd_studytime,sd_date_of_enrollment,id_branch,txtprice) 
-                        values('{$txtnamekh}','{$txtnameen}','{$sex}','{$date_db}','{$txtphone}','{$txtsubject}','{$txttim}','{$txtteacher}','{$txtcar}','{$productimage}','{$txtclass}','{$txtstudytime}','{$dateof_employment}','{$id_branch}','{$txtprice}')");
+      $insert = query("INSERT into tbl_students ( sd_namekh,sd_nameen,sd_sex,sd_db,sd_phone,sd_address,sd_subject_id,sd_time_id,sd_teacher_id,sd_car_id,sd_img,sd_class_id,sd_studytime,sd_date_of_enrollment,id_branch,txtprice) 
+                        values('{$txtnamekh}','{$txtnameen}','{$sex}','{$date_db}','{$txtphone}','{$txtaddress}','{$txtsubject}','{$txttim}','{$txtteacher}','{$txtcar}','{$productimage}','{$txtclass}','{$txtstudytime}','{$dateof_employment}','{$id_branch}','{$txtprice}')");
       confirm($insert);
       $pid = last_id(); // which was the 5
       // $query = query("INSERT INTO tbl_employee_students(sd_id,money,date,id_branch) VALUES('{$pid}','{$txtprice}','{$dateof_employment}','{$id_branch}')");
@@ -406,6 +418,7 @@ function update_tudents()
     $txt_date_of_enrollment     = $_POST['txtdate_of_enrollment'];
     $studyclose                 = $_POST['studyclose'];
     $txtprice                   = $_POST['txtprice'];
+    $txtaddress                 = $_POST['txtaddress'];
     $dateof_employment = date('Y-m-d', strtotime($txt_date_of_enrollment));
     $id  = $_POST['btnupdate'];
 
@@ -453,6 +466,7 @@ function update_tudents()
             $query .= "sd_sex                  = '{$sex}'               , ";
             $query .= "sd_db                   = '{$date_db}'           , ";
             $query .= "sd_phone                = '{$txtphone}'          , ";
+            $query .= "sd_address              = '{$txtaddress}'        , ";
             $query .= "sd_subject_id           = '{$txtsubject}'        , ";
             $query .= "sd_time_id              = '{$txttim}'            , ";
             $query .= "sd_teacher_id           = '{$txtteacher}'        , ";
@@ -506,6 +520,7 @@ function update_tudents()
       $query .= "sd_sex                  = '{$sex}'               , ";
       $query .= "sd_db                   = '{$date_db}'           , ";
       $query .= "sd_phone                = '{$txtphone}'          , ";
+      $query .= "sd_address              = '{$txtaddress}'        , ";
       $query .= "sd_subject_id           = '{$txtsubject}'        , ";
       $query .= "sd_time_id              = '{$txttim}'            , ";
       $query .= "sd_teacher_id           = '{$txtteacher}'        , ";

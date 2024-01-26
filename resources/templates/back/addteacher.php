@@ -61,6 +61,10 @@ require_once("../../config.php");
                         <input type="text" class="form-control" placeholder="បញ្ចូល លេខទូរសព្ទ" name="txtphone" required>
                     </div>
                     <div class="form-group">
+                        <label>អាសយដ្ឋាន</label>
+                        <input type="text" class="form-control" placeholder="បញ្ចូល អាសយដ្ឋាន" name="txtaddress" required>
+                    </div>
+                    <div class="form-group">
                         <label>ប្រាក់ខែ</label>
                         <input type="text" class="form-control" placeholder="បញ្ចូល ប្រាក់ខែ" name="txt_salary" required>
                     </div>
