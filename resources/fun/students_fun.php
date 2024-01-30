@@ -74,8 +74,8 @@ function tudentslist()
     // } else {
     //   $new = $year . '-' . $month;
     // }
-
-    $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id  ");
+    $new = $year . '-' . $month;
+    $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%' ");
 
 
     if (mysqli_num_rows($query_pay) == 0) {
@@ -117,13 +117,19 @@ function tudentslist()
       $textt =   $interval->format('%a');
 
       $new_mont = date('d-m-Y', strtotime('+1 month', strtotime($count_datee)));
+    //   if ($sd_studytime == "month") {
+    //     $new_mont = date('d-m-Y', strtotime($count_datee));
+    // }else{
+    //   $new_mont = date('d-m-Y', strtotime('+1 month', strtotime($count_datee)));
+    // }
+
       date('d-m-Y', strtotime($new_mont));
-      $datetime3 = new DateTime($count_datee);
+      $datetime3 = new DateTime($new_mont);
       $datetime4 = new DateTime($date);
       $intervall = $datetime3->diff($datetime4);
       $texttt =   $intervall->format('%a');
 
-      if ($new_mont == $date) {
+      if ($datetime3 == $date) {
 
         $text = '<span class="badge badgeth badge-info">ដល់ថ្ងៃបង់</span>';
       } elseif ($textt == 0) {

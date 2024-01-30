@@ -44,33 +44,39 @@ if (isset($_POST['id'])) {
         $date_of = date('d-m-Y', strtotime($date_of_enrollment));
     }
 
-    
+
     $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id ");
 
 
     if (mysqli_num_rows($query_pay) == 0) {
         $total_order = $date = date('m-d');
-    }else {
+    } else {
         $roww = $query_pay->fetch_array();
-        $total_order = $roww['date_new'];
+        $total_order = $roww['date'];
+        $newdate = $roww['date_new'];
     }
     // if ($sd_studytime == 'years') {
     //     $new = $year . '-' . $month;
     //     $new_mont = date('Y-m-d', strtotime('+12 month', strtotime($total_order)));
     // } else {
-        $new = $year . '-' . $month;
-       
+    $new = $year . '-' . $month;
+
     // }
     $result = explode('-', $total_order);
     $monthh = $result[1];
     $yearr = $result[0];
     $total_orderfc = $yearr . '-' . $monthh;
-    $new_mont= '';
+    $new_mont = '';
     $rr = time();
 
     // $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%' OR date_new like '{$new}%'");
     if ($total_orderfc >= $new) {
-        $new_mont = 'ថ្ងៃបង់ម្ដងទៀត ' .date('d-m-Y', strtotime($total_order));
+        
+        if ($sd_studytime == 'month') {
+            $new_mont = 'ថ្ងៃបង់ម្ដងទៀត ' . date('d-m-Y', strtotime($newdate));
+        }else{
+            $new_mont = 'ថ្ងៃបង់ម្ដងទៀត ' . date('d-m-Y', strtotime($newdate));
+        }
 
         $total = 0;
         $money = 0;
@@ -113,12 +119,12 @@ if (isset($_POST['id'])) {
 function show_datepay($id, $new)
 {
     $datedbe = '';
-    $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date_new like '{$new}%'  order by sdpay_id DESC");
+    $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%'  order by sdpay_id DESC");
     while ($row = fetch_array($query_pay)) {
         $money =  $row['money'];
         $dbe_date = $row['date'];
         $numdate = $row['numdate'];
-        echo $datedbe = '<h6>ថ្ងៃ: ' . date('d-m-Y', strtotime($dbe_date)) . ' ចំនួន ៛' . $money . ' : ' . $numdate . 'ថ្ងៃ </h6>';
+        echo $datedbe .= '<h6>ថ្ងៃ: ' . date('d-m-Y', strtotime($dbe_date)) . ' ចំនួន ៛' . $money . ' : ' . $numdate . 'ថ្ងៃ </h6>';
     }
 }
 
@@ -227,7 +233,7 @@ function show_datepay($id, $new)
                     <div class="form-group">
                         <label>ប្រាក់ត្រូវបង់: <?php echo $text; ?> </label>
                         <input type="text" class="form-control" placeholder="បញ្ចូល ប្រាក់ខែ" name="txt_salary" id="txt_salary" value="<?php echo $total; ?>" autocomplete="off">
-                        <!-- <label><?php echo $debt_tit .$total_orderfc .$new; ?></label> -->
+                        <label><?php echo $debt_tit . $total_orderfc . $new; ?></label>
                         <label><?php echo  $new_mont; ?></label>
                     </div>
 
