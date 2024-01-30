@@ -125,6 +125,7 @@ $rowd = $tbl_setting->fetch_object();
                     $salary = $item->txtprice;
                     $price_car = $item->sd_car_id;
                     $sd_studytime = $item->sd_studytime;
+                    $sd_time_id = show_studytime($item->sd_time_id);
 
                     echo '
                   <tr>
@@ -163,8 +164,8 @@ $rowd = $tbl_setting->fetch_object();
 
 
                 <tr>
-                    <td></td>
-                    <th colspan="2">Learn as <?php echo $sd_studytime ?></th>
+                    
+                    <th colspan="3">ម៉ោងសិក្សារ <?php echo $sd_time_id ?></th>
 
                 </tr>
 

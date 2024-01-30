@@ -37,7 +37,11 @@ if ($year == "years") {
 } elseif ($year == "session") {
     $price = $roww['price_session'] * $time;
     $carr = $car;
-} else {
+} elseif ($year == "6month") {
+    $price = $roww['sj_price_six'] * $time;
+    $carr = $car;
+} 
+else {
     $price = $roww['sj_price']  * $time;
     $carr = $car;
 }

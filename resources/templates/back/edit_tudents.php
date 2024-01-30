@@ -82,9 +82,10 @@ if (isset($_GET['id'])) {
               <label>រៀនជា: ខែ/ឆ្នាំ</label>
               <select class="form-control select2 year select2s" data-dropdown-css-class="select2" data-minimum-results-for-search="Infinity" name="txtstudytime" required>
 
-                <option value="month" <?php echo ($studytime == 'month') ? 'selected' : '' ?>>ខែ</option>
-                <option value="years" <?php echo ($studytime == 'years') ? 'selected' : '' ?>>ឆ្នាំ</option>
-                <option value="session" <?php echo ($studytime == 'session') ? 'selected' : '' ?>>វគ្គ</option>
+                <option value="month" <?php echo ($studytime == 'month') ? 'selected' : '' ?>>១ខែ</option>
+                <option value="6month" <?php echo ($studytime == '6month') ? 'selected' : '' ?>>៦ខែ</option>
+                <option value="years" <?php echo ($studytime == 'years') ? 'selected' : '' ?>>១ឆ្នាំ</option>
+                <option value="session" <?php echo ($studytime == 'session') ? 'selected' : '' ?>>១វគ្គ</option>
 
               </select>
             </div>

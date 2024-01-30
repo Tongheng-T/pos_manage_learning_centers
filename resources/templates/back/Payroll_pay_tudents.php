@@ -17,6 +17,7 @@ $year = $result[0];
 
 
 
+
 if (isset($_POST['id'])) {
     $id = $_POST['id'];
     $debt_tit = '';
@@ -43,14 +44,33 @@ if (isset($_POST['id'])) {
         $date_of = date('d-m-Y', strtotime($date_of_enrollment));
     }
 
-    if ($sd_studytime == 'years') {
-        $new = $year;
-    } else {
-        $new = $year . '-' . $month;
-    }
-    $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%' ");
-    if (mysqli_num_rows($query_pay) > 0) {
+    
+    $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id ");
 
+
+    if (mysqli_num_rows($query_pay) == 0) {
+        $total_order = $date = date('m-d');
+    }else {
+        $roww = $query_pay->fetch_array();
+        $total_order = $roww['date_new'];
+    }
+    // if ($sd_studytime == 'years') {
+    //     $new = $year . '-' . $month;
+    //     $new_mont = date('Y-m-d', strtotime('+12 month', strtotime($total_order)));
+    // } else {
+        $new = $year . '-' . $month;
+       
+    // }
+    $result = explode('-', $total_order);
+    $monthh = $result[1];
+    $yearr = $result[0];
+    $total_orderfc = $yearr . '-' . $monthh;
+    $new_mont= '';
+    $rr = time();
+
+    // $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%' OR date_new like '{$new}%'");
+    if ($total_orderfc >= $new) {
+        $new_mont = 'ថ្ងៃបង់ម្ដងទៀត ' .date('d-m-Y', strtotime($total_order));
 
         $total = 0;
         $money = 0;
@@ -64,19 +84,18 @@ if (isset($_POST['id'])) {
         if ($total <= 0) {
             $text = 'បានបង់រួច';
             $total = 0;
-
         } else {
             $text = 'ធ្លប់បង់ចំនួន: ' . $money;
         }
     } else {
         if ($debt > 0) {
             $debtt = $debt;
-            $debt_tit = 'ខ្វះខែមុន'. $debt;
-        }else{
-        
+            $debt_tit = 'ខ្វះខែមុន' . $debt;
+        } else {
+
             $debtt = 0;
         }
-        $total = $salary +$debtt;
+        $total = $salary + $debtt;
         $text = '';
     }
 
@@ -94,12 +113,12 @@ if (isset($_POST['id'])) {
 function show_datepay($id, $new)
 {
     $datedbe = '';
-    $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%'  order by sdpay_id DESC");
+    $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date_new like '{$new}%'  order by sdpay_id DESC");
     while ($row = fetch_array($query_pay)) {
         $money =  $row['money'];
         $dbe_date = $row['date'];
         $numdate = $row['numdate'];
-        echo $datedbe = '<h6>ថ្ងៃ: ' . date('d-m-Y', strtotime($dbe_date)) . ' ចំនួន $' . $money . ' : ' . $numdate . 'ថ្ងៃ </h6>';
+        echo $datedbe = '<h6>ថ្ងៃ: ' . date('d-m-Y', strtotime($dbe_date)) . ' ចំនួន ៛' . $money . ' : ' . $numdate . 'ថ្ងៃ </h6>';
     }
 }
 
@@ -168,7 +187,7 @@ function show_datepay($id, $new)
                     </div>
                     <div class="form-group">
                         <label>រៀនជា: ខែ/ឆ្នាំ</label>
-                        <input type="text" class="form-control" placeholder="បញ្ចូល លេខទូរសព្ទ" name="txtphone" required value="<?php echo $sd_studytime; ?>" readonly>
+                        <input type="text" class="form-control" placeholder="បញ្ចូល លេខទូរសព្ទ" name="txtstudytime" required value="<?php echo $sd_studytime; ?>" readonly>
                     </div>
                     <div class="form-group">
                         <label>តម្លៃសិក្សារ</label>
@@ -178,6 +197,7 @@ function show_datepay($id, $new)
 
                     <div class="form-group">
                         <label>ចំនួនថ្ងៃ</label><br>
+
                         <?php echo date('d-m-Y', strtotime($count_datee)) . ' ដល់ ' . date('d-m-Y', strtotime($datenow)); ?>
                         <br>
                         <?php
@@ -207,7 +227,8 @@ function show_datepay($id, $new)
                     <div class="form-group">
                         <label>ប្រាក់ត្រូវបង់: <?php echo $text; ?> </label>
                         <input type="text" class="form-control" placeholder="បញ្ចូល ប្រាក់ខែ" name="txt_salary" id="txt_salary" value="<?php echo $total; ?>" autocomplete="off">
-                        <label><?php echo $debt_tit; ?></label>
+                        <label><?php echo $debt_tit .$total_orderfc .$new; ?></label>
+                        <label><?php echo  $new_mont; ?></label>
                     </div>
 
                     <buttone type="text" class="btn btn-danger sd ">ស្វែងរក​</buttone>

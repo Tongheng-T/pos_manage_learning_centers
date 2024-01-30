@@ -39,9 +39,10 @@ require_once("../../config.php");
             <div class="form-group">
               <label>ខែ/ឆ្នាំ</label>
               <select class="form-control select2 year select2s" data-dropdown-css-class="select2" data-minimum-results-for-search="Infinity" name="txtstudytime" required>
-                <option value="month">ខែ</option>
-                <option value="years">ឆ្នាំ</option>
-                <option value="session">វគ្គ</option>
+                <option value="month">១ខែ</option>
+                <option value="6month">៦ខែ</option>
+                <option value="years">១ឆ្នាំ</option>
+                <option value="session">១វគ្គ</option>
 
               </select>
             </div>

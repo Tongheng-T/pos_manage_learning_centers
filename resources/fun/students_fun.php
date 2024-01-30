@@ -69,13 +69,30 @@ function tudentslist()
     $year = $result[2];
     // $salary = show_price($row->sd_subject_id, $id,$row->sd_time_id);
 
-    if ($sd_studytime == 'years') {
-      $new = $year;
+    // if ($sd_studytime == 'years') {
+    //   $new = $year;
+    // } else {
+    //   $new = $year . '-' . $month;
+    // }
+
+    $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id  ");
+
+
+    if (mysqli_num_rows($query_pay) == 0) {
+      $total_order = $date = date('m-d');
     } else {
-      $new = $year . '-' . $month;
+      $roww = $query_pay->fetch_array();
+      $total_order = $roww['date_new'];
     }
-    $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%' ");
-    if (mysqli_num_rows($query_pay) > 0) {
+    $new = $year . '-' . $month;
+       
+    $result = explode('-', $total_order);
+    $monthh = $result[1];
+    $yearr = $result[0];
+    $total_orderfc = $yearr . '-' . $monthh;
+    $new_mont= '';
+
+    if ($total_orderfc >= $new) {
 
       $total = 0;
       $money = 0;
@@ -92,7 +109,7 @@ function tudentslist()
       }
     } else {
       $total = $salary;
-
+      $date = date('d-m-Y');
       date('d-m-Y', strtotime($count_datee));
       $datetime1 = new DateTime($count_datee);
       $datetime2 = new DateTime($date);
@@ -100,8 +117,8 @@ function tudentslist()
       $textt =   $interval->format('%a');
 
       $new_mont = date('d-m-Y', strtotime('+1 month', strtotime($count_datee)));
-      date('d-m-Y', strtotime($count_datee));
-      $datetime3 = new DateTime($new_mont);
+      date('d-m-Y', strtotime($new_mont));
+      $datetime3 = new DateTime($count_datee);
       $datetime4 = new DateTime($date);
       $intervall = $datetime3->diff($datetime4);
       $texttt =   $intervall->format('%a');
@@ -109,16 +126,14 @@ function tudentslist()
       if ($new_mont == $date) {
 
         $text = '<span class="badge badgeth badge-info">ដល់ថ្ងៃបង់</span>';
-      }elseif($textt == 0 ){
+      } elseif ($textt == 0) {
         $text = '<span class="badge badgeth badge-warning">មិនទាន់បង់</span>';
       }
-      if($datetime3 < $datetime4){
+      if ($datetime3 < $datetime4) {
         $text = '<span class="badge badgeth badge-warning">លើស' . $texttt . 'ថ្ងៃ</span>';
-        
-      }else {
+      } else {
         $text = '<span class="badge badgeth badge-warning">មិនទាន់បង់' . $textt . 'ថ្ងៃ</span>';
       }
-      
     }
 
 
@@ -238,7 +253,7 @@ function viewstudents()
   <li class="list-group-item"><b>ថ្នាក់រៀន</b> <span class="badge label badge-dark float-right">' . show_classroom($row->sd_class_id) . '</span></li>
   <li class="list-group-item"><b>រៀនគិតជា</b> <span class="badge label badge-dark float-right">' . $row->sd_studytime . '</span></li>
 
-  <li class="list-group-item"><b>តម្លៃសិក្សារ</b> <span class="badge label badge-dark float-right">' . show_price($row->sd_subject_id, $row->sd_id,$row->sd_time_id) . '</span></li>
+  <li class="list-group-item"><b>តម្លៃសិក្សារ</b> <span class="badge label badge-dark float-right">' . show_price($row->sd_subject_id, $row->sd_id, $row->sd_time_id) . '</span></li>
   <li class="list-group-item"><b>ថ្ងៃខែចូលរៀន</b> <span class="badge label badge-success float-right">' . date('d-m-Y', strtotime($row->sd_date_of_enrollment)) . '</span></li>
 </ul>
 </div>
@@ -324,14 +339,13 @@ function addstudents()
 
             if ($insert) {
 
-                set_message(' <script>
+              set_message(' <script>
                 Swal.fire({
                   icon: "success",
                   title: "Students Inserted Successfully"
                 });
               </script>');
-                redirect('itemt?tudentslist');
-              
+              redirect('itemt?tudentslist');
             } else {
               set_message(' <script>
                             Swal.fire({
@@ -369,14 +383,14 @@ function addstudents()
       // $update = query("UPDATE tbl_product SET barcode='$newbarcode' where pid='" . $pid . "'");
 
       if ($insert) {
-   
-          set_message(' <script>
+
+        set_message(' <script>
           Swal.fire({
             icon: "success",
             title: "Students Inserted Successfully"
           });
         </script>');
-        
+
         redirect('itemt?tudentslist');
       } else {
         set_message(' <script>
@@ -567,6 +581,7 @@ function students_Payroll()
 
     $money = $_POST['txt_salary'];
     $date = $_POST['txtdatesalary'];
+    $txtstudytime = $_POST['txtstudytime'];
     $datedb = date('Y-m-d', strtotime($date));
     $name = $_POST['txtnamekh'];
     $result = explode('-', $datedb);
@@ -574,6 +589,16 @@ function students_Payroll()
     $month = $result[1];
     $year = $result[0];
     $new = $year . '-' . $month;
+
+    if ($txtstudytime == '6month') {
+      $new_mont = date('Y-m-d', strtotime('+5 month', strtotime($datedb)));
+    } elseif ($txtstudytime == 'years') {
+      $new_mont = date('Y-m-d', strtotime('+11 month', strtotime($datedb)));
+    } elseif ($txtstudytime == 'session') {
+      $new_mont = date('Y-m-d', strtotime('+2 month', strtotime($datedb)));
+    } else {
+      $new_mont = date('Y-m-d', strtotime('+1 month', strtotime($datedb)));
+    }
 
 
     if ($money == 0) {
@@ -586,7 +611,7 @@ function students_Payroll()
       redirect('itemt?tudentslist');
     } else {
 
-      $query = query("INSERT INTO tbl_employee_students(sd_id,money,date,numdate,id_branch) VALUES('{$sd_id}','{$money}','{$datedb}','{$numdate}','{$id_branch}')");
+      $query = query("INSERT INTO tbl_employee_students(sd_id,money,date,date_new,numdate,id_branch) VALUES('{$sd_id}','{$money}','{$datedb}','{$new_mont}','{$numdate}','{$id_branch}')");
       $last_id = last_id();
       confirm($query);
 
@@ -648,7 +673,7 @@ function students_pay()
            <td>' . $sex . '</td>
            <td>' . date('d-m-Y', strtotime($db)) . '</td>
            <td>' . show_subject($sd_subject_id) . '</td>
-           <td>' . show_price($sd_subject_id, $scale_sdid,$time ). '</td>
+           <td>' . show_price($sd_subject_id, $scale_sdid, $time) . '</td>
            <td>' . $money . '</td>
            <td><span class="badge badgeth badge-primary">' . date('d-m-Y', strtotime($row->date)) . '</span></td>
 
