@@ -227,7 +227,7 @@ function show_datepay($id, $new)
                     <div class="form-group">
                         <label>ប្រាក់ត្រូវបង់: <?php echo $text; ?> </label>
                         <input type="text" class="form-control" placeholder="បញ្ចូល ប្រាក់ខែ" name="txt_salary" id="txt_salary" value="<?php echo $total; ?>" autocomplete="off">
-                        <label><?php echo $debt_tit .$total_orderfc .$new; ?></label>
+                        <!-- <label><?php echo $debt_tit .$total_orderfc .$new; ?></label> -->
                         <label><?php echo  $new_mont; ?></label>
                     </div>
 
