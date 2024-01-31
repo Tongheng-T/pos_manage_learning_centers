@@ -39,12 +39,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="../plugins/sweetalert2/sweetalert2.min.css">
     <!-- Toastr -->
     <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
-
+    
     <!-- SweetAlert2 -->
     <script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
     <script src="../plugins/toastr/toastr.min.js"></script>
     <!-- jautocalcg -->
+
     <script src="../dist/js/jquery.js"></script>
     <script src="../dist/js/jautocalc.min.js"></script>
     <script src="../dist/js/scriptss.js"></script>

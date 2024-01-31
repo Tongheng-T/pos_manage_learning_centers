@@ -69,30 +69,36 @@ function tudentslist()
     $year = $result[2];
     // $salary = show_price($row->sd_subject_id, $id,$row->sd_time_id);
 
-    // if ($sd_studytime == 'years') {
-    //   $new = $year;
-    // } else {
-    //   $new = $year . '-' . $month;
-    // }
-    $new = $year . '-' . $month;
-    $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%' ");
+    if ($sd_studytime == 'years') {
+      $new = $year;
+      $selectt = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id");
+      if (mysqli_num_rows($selectt) > 0) {
 
-
-    if (mysqli_num_rows($query_pay) == 0) {
-      $total_order = $date = date('m-d');
-    } else {
-      $roww = $query_pay->fetch_array();
-      $total_order = $roww['date_new'];
+        while ($rowe = fetch_array($selectt)) {
+          $dbe_date = $rowe['date'];
+          $text = '<span class="badge badgeth badge-success">' . date('d-m-Y', strtotime($dbe_date)) . '</span>';
+        }
+      }else{
+      $text = '<span class="badge badgeth badge-warning">' . date('d-m-Y', strtotime($date_of_enrollment)) . '</span>';
     }
-    $new = $year . '-' . $month;
-       
-    $result = explode('-', $total_order);
-    $monthh = $result[1];
-    $yearr = $result[0];
-    $total_orderfc = $yearr . '-' . $monthh;
-    $new_mont= '';
+    } elseif($sd_studytime == '6month') {
+      $selectt = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id");
+      if (mysqli_num_rows($selectt) > 0) {
 
-    if ($total_orderfc >= $new) {
+        while ($rowe = fetch_array($selectt)) {
+          $dbe_date = $rowe['date'];
+          $text = '<span class="badge badgeth badge-success">' . date('d-m-Y', strtotime($dbe_date)) . '</span>';
+        }
+      }else{
+      $text = '<span class="badge badgeth badge-warning">' . date('d-m-Y', strtotime($date_of_enrollment)) . '</span>';
+    }
+    }
+    else {
+      $new = $year . '-' . $month;
+   
+    $selectt = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id");
+    $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%' ");
+    if (mysqli_num_rows($query_pay) > 0) {
 
       $total = 0;
       $money = 0;
@@ -101,48 +107,20 @@ function tudentslist()
         $money +=  $rowe['money'];
         $total = $salary - $money;
       }
+      $text = date('d-m-Y', strtotime($dbe_date));
+    } elseif(mysqli_num_rows($selectt) > 0){
 
-      if ($total == 0) {
-        $text = date('d-m-Y', strtotime($date_of_enrollment));
-      } else {
-        $text = '<span class="badge badgeth badge-danger">នៅខ្វះ </span>';
-      }
-    } else {
       $total = $salary;
-      $date = date('d-m-Y');
-      date('d-m-Y', strtotime($count_datee));
-      $datetime1 = new DateTime($count_datee);
-      $datetime2 = new DateTime($date);
-      $interval = $datetime1->diff($datetime2);
-      $textt =   $interval->format('%a');
+     
+      $roww = $selectt->fetch_object();
 
-      $new_mont = date('d-m-Y', strtotime('+1 month', strtotime($count_datee)));
-    //   if ($sd_studytime == "month") {
-    //     $new_mont = date('d-m-Y', strtotime($count_datee));
-    // }else{
-    //   $new_mont = date('d-m-Y', strtotime('+1 month', strtotime($count_datee)));
-    // }
-
-      date('d-m-Y', strtotime($new_mont));
-      $datetime3 = new DateTime($new_mont);
-      $datetime4 = new DateTime($date);
-      $intervall = $datetime3->diff($datetime4);
-      $texttt =   $intervall->format('%a');
-
-      if ($datetime3 == $date) {
-
-        $text = '<span class="badge badgeth badge-info">ដល់ថ្ងៃបង់</span>';
-      } elseif ($textt == 0) {
-        $text = '<span class="badge badgeth badge-warning">មិនទាន់បង់</span>';
-      }
-      if ($datetime3 < $datetime4) {
-        $text = '<span class="badge badgeth badge-warning">លើស' . $texttt . 'ថ្ងៃ</span>';
-      } else {
-        $text = '<span class="badge badgeth badge-warning">មិនទាន់បង់' . $textt . 'ថ្ងៃ</span>';
-      }
+      $darex = $roww->date;
+      $text = '<span class="badge badgeth badge-danger">' . date('d-m-Y', strtotime($darex)) . '</span>';
+    }else{
+      $text = '<span class="badge badgeth badge-warning">' . date('d-m-Y', strtotime($date_of_enrollment)) . '</span>';
     }
 
-
+  }
 
 
     $echo .= '
@@ -584,8 +562,9 @@ function students_Payroll()
     $id_branch = branch_id();
     $sd_id = $_POST['submit'];
     $numdate = $_POST['txt_numdate'];
+    $txt_jompeak = $_POST['txt_jompeak'];
 
-    $money = $_POST['txt_salary'];
+    $money = $_POST['txt_salaryy'];
     $date = $_POST['txtdatesalary'];
     $txtstudytime = $_POST['txtstudytime'];
     $datedb = date('Y-m-d', strtotime($date));
@@ -597,9 +576,9 @@ function students_Payroll()
     $new = $year . '-' . $month;
 
     if ($txtstudytime == '6month') {
-      $new_mont = date('Y-m-d', strtotime('+5 month', strtotime($datedb)));
+      $new_mont = date('Y-m-d', strtotime('+6 month', strtotime($datedb)));
     } elseif ($txtstudytime == 'years') {
-      $new_mont = date('Y-m-d', strtotime('+11 month', strtotime($datedb)));
+      $new_mont = date('Y-m-d', strtotime('+12 month', strtotime($datedb)));
     } elseif ($txtstudytime == 'session') {
       $new_mont = date('Y-m-d', strtotime('+2 month', strtotime($datedb)));
     } else {
@@ -620,6 +599,7 @@ function students_Payroll()
       $query = query("INSERT INTO tbl_employee_students(sd_id,money,date,date_new,numdate,id_branch) VALUES('{$sd_id}','{$money}','{$datedb}','{$new_mont}','{$numdate}','{$id_branch}')");
       $last_id = last_id();
       confirm($query);
+      $insert = query(" UPDATE tbl_students set debt='$txt_jompeak' WHERE sd_id = $sd_id");
 
       set_message(' <script>
         Swal.fire({
