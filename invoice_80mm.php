@@ -38,7 +38,14 @@ while ($row = $select->fetch_object()) {
     $date = $row->date;
     $sdpay_id = $row->sdpay_id;
 
-    $money = $row->money;
+    $datee = date('d-m-Y', strtotime($date));;
+    $result = explode('-', $datee);
+    $month = $result[1];
+    $year = $result[2];
+    $new = $year . '-' . $month;
+    $query_pay = query("SELECT sum(money) AS moneyy  FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%' ");
+    $roww = $query_pay->fetch_object();
+    $money = $roww->moneyy;
 }
 
 
@@ -82,7 +89,7 @@ $rowd = $tbl_setting->fetch_object();
 
         <p class="centered">
             <br>Address: <?php echo  $rowd->receipt_Address ?>
-            <br>Email Address: <?php echo  $rowd->receipt_Email ?>
+            <!-- <br>Email Address: <?php echo  $rowd->receipt_Email ?> -->
             <!-- <br>fackbook: សហគមន៍កសិកម្មតំបែររុងរឿង -->
             <br>Phone: <?php echo  $rowd->receipt_Phone ?>
             <br>
@@ -116,15 +123,27 @@ $rowd = $tbl_setting->fetch_object();
                 while ($item = $select->fetch_object()) {
 
                     $salary = $item->txtprice;
+                    $price_car = $item->sd_car_id;
                     $sd_studytime = $item->sd_studytime;
+                    $sd_time_id = show_studytime($item->sd_time_id);
 
                     echo '
                   <tr>
                   <td>' . $item->sd_namekh . '</td>
                   <td>' . $item->sd_sex . '</td>
                   <td>' . show_subject($item->sd_subject_id) . '</td>
-                  <td>' . $salary . ' <b>៛</b></td>
+                  <td>' . $salary - $price_car . ' <b>៛</b></td>
                  </tr>
+                 <tr>
+                 <td></td>
+                 <td colspan="2">តម្លៃឡាន</td>
+                 <td>' . $price_car . ' <b>៛</b></td>
+                </tr>
+                <tr>
+                <td></td>
+                <th colspan="2">សរុប</td>
+                <th>' . $salary . ' <b>៛</b></th>
+               </th>
                  <tr>
                  <td></td>
                  <td colspan="2">ប្រាក់បានបង់</td>
@@ -145,17 +164,24 @@ $rowd = $tbl_setting->fetch_object();
 
 
                 <tr>
-                    <td></td>
-                    <th colspan="2">Learn as <?php echo $sd_studytime ?></th>
+                    
+                    <th colspan="3">ម៉ោងសិក្សារ <?php echo $sd_time_id ?></th>
 
                 </tr>
 
             </tbody>
         </table>
-
+        <style>
+            .signature img {
+                width: 100px;
+                margin-left: 100px;
+                margin-top: -34px;
+            }
+        </style>
         <b>Importan Notice:</b> <br>
         <p class="notice"><?php echo  $rowd->Importan_Notice ?> </p>
         <p><b>Receiver... លោកគ្រូ <?php echo $rowd->director ?></b></p>
+        <div class="signature"><img src="../productimages/logo/<?php echo $rowd->signature ?>"></div>
     </div>
 
     <script>

@@ -89,7 +89,7 @@ $rowd = $tbl_setting->fetch_object();
 
         <p class="centered">
             <br>Address: <?php echo  $rowd->receipt_Address ?>
-            <br>Email Address: <?php echo  $rowd->receipt_Email ?>
+            <!-- <br>Email Address: <?php echo  $rowd->receipt_Email ?> -->
             <!-- <br>fackbook: សហគមន៍កសិកម្មតំបែររុងរឿង -->
             <br>Phone: <?php echo  $rowd->receipt_Phone ?>
             <br>

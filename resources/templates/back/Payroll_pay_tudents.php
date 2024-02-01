@@ -123,7 +123,7 @@ function show_datepay($id, $new)
         $money =  $row['money'];
         $dbe_date = $row['date'];
         $numdate = $row['numdate'];
-        echo $datedbe = '<h6>ថ្ងៃ: ' . date('d-m-Y', strtotime($dbe_date)) . ' ចំនួន ៛' . $money . ' : ' . $numdate . 'ថ្ងៃ </h6>';
+        echo $datedbe = '<h6>ថ្ងៃ: ' . date('d-m-Y', strtotime($dbe_date)) . ' ចំនួន ' . number_format($money) . '៛ : ' . $numdate . 'ថ្ងៃ </h6>';
     }
     
 }

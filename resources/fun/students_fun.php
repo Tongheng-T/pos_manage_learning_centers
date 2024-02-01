@@ -682,7 +682,7 @@ function students_pay()
   <tr> 
   <td colspan="6"></td>
   <td>សរុប</td>
-  <td><span class="badge badgeth badge-danger">' . $total . ' $</span></td>
+  <td><span class="badge badgeth badge-danger">' .number_format($total). ' ៛</span></td>
   
   </tr>
 
