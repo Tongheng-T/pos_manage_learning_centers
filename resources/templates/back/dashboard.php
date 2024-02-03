@@ -92,7 +92,7 @@ $total_subject = $row->cate;
                         <!-- small box -->
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3><?php echo number_format($grand_total, 2); ?></h3>
+                                <h3><?php echo number_format($grand_total); ?></h3>
 
                                 <p>សរុប តម្លៃសិក្សារ(៛)</p>
                             </div>
