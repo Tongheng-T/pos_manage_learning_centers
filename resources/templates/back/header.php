@@ -39,7 +39,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="../plugins/sweetalert2/sweetalert2.min.css">
     <!-- Toastr -->
     <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
-    
+
     <!-- SweetAlert2 -->
     <script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
@@ -269,6 +269,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
 
 
+                        <!--  -->
+
+
+                        <li class="nav-item">
+                            <a href="itemt?" class="nav-link <?php actr("tablereport");
+                                                                actr("reportbycategory"); ?>">
+                                <i class="nav-icon fas fa-chart-pie"></i>
+                                <p>
+                                    Report
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="itemt?tablereport" class="nav-link <?php actr("tablereport"); ?>">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Table Report</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="itemt?reportbycategory" class="nav-link <?php actr("reportbycategory"); ?>">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Table Report Category</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!--  -->
+
+
 
                         <li class="nav-item">
                             <a href="itemt?registration" class="nav-link <?php actr("registration"); ?>">
@@ -309,5 +340,3 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- /.sidebar -->
         </aside>
         <!-- Content Wrapper. Contains page content -->
-
-        

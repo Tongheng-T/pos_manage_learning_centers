@@ -1091,7 +1091,29 @@ function branch()
     echo $moviss;
 }
 
+function show_id_sd($sd_teacher_id)
+{
+    $query = query("SELECT * FROM tbl_students where sd_teacher_id=$sd_teacher_id");
+    confirm($query);
+    $moviss = '';
+    while ($row = fetch_array($query)) {
+       
+        $sd_id = $row['sd_id'];
 
+   
+    }
+    return $sd_id;
+    
+}
+
+function show_name_category($catid)
+{
+    $tblcategory = query("SELECT * from tbl_teacher where tc_id = '$catid'");
+    $row = $tblcategory->fetch_object();
+    echo '
+    <option value="' . $row->tc_id . '">' . $row->tc_namekh . '</option>
+';
+}
 function branch_id()
 {
     if (isset($_SESSION['userid'])) {
@@ -1112,6 +1134,7 @@ function show_branch_name($id)
 
     return  $id_branch;
 }
+
 
 function showtime_x($sdi_id){
     $select = query("SELECT * from tbl_studytime where sdi_id=$sdi_id");
@@ -1177,5 +1200,27 @@ function show_online()
             $class = "text-success";
         }
         echo $status;
+    }
+}
+
+function show_categoryname($pid)
+{
+    $tbl_product = query("SELECT * from tbl_teacher where tc_id ='$pid'");
+    $row = $tbl_product->fetch_object();
+    return $row->tc_nameen;
+}
+
+function date_rank()
+{
+
+
+    if (isset($_POST['btnrank'])) {
+        $date = $_POST['date'];
+        $monthly = date('m', strtotime($date));
+        echo convert_month_kh($monthly);
+    } else {
+        $date = $_SESSION['date'];
+        $monthly = date('m', strtotime($date));
+        echo convert_month_kh($monthly);
     }
 }

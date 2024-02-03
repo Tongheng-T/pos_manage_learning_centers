@@ -141,6 +141,29 @@
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="../plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <script>
+
+$('#print-btn').click(function() {
+    var nw = window.open("print_category", "_blank", "height=500,width=800")
+    setTimeout(function() {
+      nw.print()
+      setTimeout(function() {
+        nw.close()
+      }, 500)
+    }, 1000)
+  })
+  $('#print-btnre_repot').click(function() {
+    var nw = window.open("print_tablereport", "_blank", "height=500,width=800")
+    setTimeout(function() {
+      nw.print()
+      setTimeout(function() {
+        nw.close()
+      }, 500)
+    }, 1000)
+  })
+
+
+
+
   //Date picker
   $('#date_1').datetimepicker({
     format: 'DD-MM-YYYY'
@@ -152,6 +175,12 @@
     format: 'DD-MM-YYYY'
   });
 
+  $('#date_22').datetimepicker({
+    format: 'YYYY-MM-DD'
+  });
+  $('#date_11').datetimepicker({
+    format: 'YYYY-MM-DD'
+  });
 </script>
 
 <script>

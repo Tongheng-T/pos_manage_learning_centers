@@ -562,6 +562,7 @@ function students_Payroll()
     $id_branch = branch_id();
     $sd_id = $_POST['submit'];
     $numdate = $_POST['txt_numdate'];
+    $sd_teacher_id = $_POST['sd_teacher_id'];
     $txt_jompeak = $_POST['txt_jompeak'];
 
     $money = $_POST['txt_salaryy'];
@@ -596,7 +597,7 @@ function students_Payroll()
       redirect('itemt?tudentslist');
     } else {
 
-      $query = query("INSERT INTO tbl_employee_students(sd_id,money,date,date_new,numdate,id_branch) VALUES('{$sd_id}','{$money}','{$datedb}','{$new_mont}','{$numdate}','{$id_branch}')");
+      $query = query("INSERT INTO tbl_employee_students(sd_id,tc_id,money,date,date_new,numdate,id_branch) VALUES('{$sd_id}','{$sd_teacher_id}','{$money}','{$datedb}','{$new_mont}','{$numdate}','{$id_branch}')");
       $last_id = last_id();
       confirm($query);
       $insert = query(" UPDATE tbl_students set debt='$txt_jompeak' WHERE sd_id = $sd_id");

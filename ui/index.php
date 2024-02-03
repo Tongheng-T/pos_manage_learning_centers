@@ -98,6 +98,17 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
 
 
+    if (isset($_GET['reportbycategory'])) {
+
+        include(TEMPLATE_BACK . "/reportbycategory.php");
+    }
+    if (isset($_GET['tablereport'])) {
+
+        include(TEMPLATE_BACK . "/tablereport.php");
+    }
+
+
+
     if (isset($_GET['driverlist'])) {
 
         include(TEMPLATE_BACK . "/driver_list.php");

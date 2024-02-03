@@ -35,6 +35,7 @@ if (isset($_POST['id'])) {
         $datedb = date('d-m-Y', strtotime($db));
         $phone = $row['sd_phone'];
         $subject_id = $row['sd_subject_id'];
+        $sd_teacher_id = $row['sd_teacher_id'];
         $sd_studytime = $row['sd_studytime'];
         $debt = $row['debt'];
 
@@ -199,6 +200,7 @@ function show_datepay($id, $new)
                         <label>តម្លៃសិក្សារ</label>
                         <input type="text" class="form-control txt_salary" placeholder="បញ្ចូល ប្រាក់ខែ" name="txt_salary" value="<?php echo $salary; ?>" readonly>
                         <input type="hidden" class="form-control txt_salaryr" placeholder="បញ្ចូល ប្រាក់ខែ" name="txt_salaryr" value="<?php echo $ggg; ?>">
+                        <input type="hidden" class="form-control sd_teacher_id" placeholder="បញ្ចូល ប្រាក់ខែ" name="sd_teacher_id" value="<?php echo $sd_teacher_id; ?>">
                     </div>
 
 
