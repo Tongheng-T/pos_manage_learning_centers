@@ -261,7 +261,7 @@ function show_datepay($id, $new)
 
         <div class="card-footer">
             <div class="text-center">
-                <button type="submit" class="btn btn-danger id" name="submit" value="<?php echo $id; ?>">Save</button>
+                <button type="submit" class="btn btn-danger id" name="submit" value="<?php echo $id; ?>">បង់ប្រាក់</button>
     </form>
     <form action="" method="GET" enctype="multipart/form-data">
         <a href="invoice_80mm.php?id=<?php echo $id; ?>" class="btn btn-success " target="_blank" role="button"><span class="fa fa-print"></span> Print</a>
