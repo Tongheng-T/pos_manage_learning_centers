@@ -6,12 +6,12 @@ if ($_SESSION['useremail'] == ""  or $_SESSION['role'] == "User") {
     header('location:../');
 }
 $id_branch = branch_id();
-$selectt = query("SELECT * from tbl_students where id_branch= $id_branch");
+$selectt = query("SELECT * from tbl_employee_students where id_branch= $id_branch");
 confirm($selectt);
 $total_tudents = 0;
 while ($row = $selectt->fetch_object()) {
 
-    $total_tudents +=$row->txtprice;
+    $total_tudents +=$row->money;
 }
 
 
@@ -94,7 +94,7 @@ $total_subject = $row->cate;
                             <div class="inner">
                                 <h3><?php echo number_format($grand_total, 2); ?></h3>
 
-                                <p>សរុប តម្លៃសិក្សារ($)</p>
+                                <p>សរុប តម្លៃសិក្សារ(៛)</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-stats-bars"></i>
