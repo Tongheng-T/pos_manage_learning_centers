@@ -15,6 +15,10 @@
     font-family: "tong";
     src: url(../../fone/KhmerOSbattambang.ttf)format("truetype");
 }
+@font-face {
+    font-family: "KhAut";
+    src: url(../../fone/KhmerOSmuollight-KhAuto.ttf)format("truetype");
+}
 
 @font-face {
     font-family: "KhmerOSMoulLight";
@@ -24,67 +28,87 @@
 * {
     margin: 0;
     padding: 0;
-    font-size: 13px;
+    font-size: 15px;
     font-family: 'tong';
 }
 
-td,
-th,
-tr,
-table {
-    border: 1px solid black;
-    border-collapse: collapse;
+.blul {
+    color: #002060;
+}
+.bluln {
+    color: #0074d7;
+}
+.yellow {
+    color: #FFC000;
 }
 
-table tr {
-    display: table-row;
-    vertical-align: inherit;
-    border-color: inherit;
+.nameew {
+    float: right;
 }
 
-.table {
-    width: 98%;
-    margin: 2px;
+.tim {
+    font-family: 'KhmerOSMoulLight';
+    font-size: 21px;
     text-align: center;
-    align-content: center;
+    font-weight: 500;
 }
 
-.centered {
-    text-align: center;
-    margin-top: -35px;
+.molight h1 {
+    font-family: 'KhmerOSMoulLight';
+    font-weight: 500;
+    color: #FF0000;
 }
 
-.RECEIPT {
-    margin-top: 3px;
-    text-align: center;
-    font-weight: bold;
+.molight {
+    font-family: 'KhAut';
+}
+
+.signature img {
+    width: 100px;
+    margin-left: 51px;
+    margin-top: -26px;
+}
+
+.nameerr {
+    margin-top: -44px;
+    font-weight: 300;
 }
 
 .ticket {
-    width: 85mm;
-    max-width: 85mm;
+    width: 210mm;
+    /* max-width: 148mm; */
     /* display: block; */
-   
+
     margin: 0 auto;
-    
+
     position: relative;
     padding-top: 11px;
 }
-.back img{
-    width: 93%;
-}
-.ticket .back{
-    
+
+.back img {
+    width: 392px;
     display: flex;
     justify-content: center;
-    align-items: center;
     position: absolute;
-    height: 640px;
     opacity: 16%;
 }
 
+.back {
+    width: 210mm;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    position: absolute;
+    margin-top: 31px;
+    align-items: flex-end;
+}
+
+.logo {
+    text-align: center;
+}
+
 .logo img {
-    height: 76px;
+    height: 114px;
 }
 
 .h5 {
@@ -95,21 +119,13 @@ table tr {
     font-size: 22px;
     font-weight: normal;
 }
-.top_l{
+
+.top_l {
     display: inline-block;
 }
-.h_p {
-    float: left;
-    margin-left: 6px;
-    margin-right: 8px;
-}
-.h_l {
-    float: right;
-    /* margin-left: 30px; */
-    margin-right: 12px;
 
-}
-.notice{
+
+.notice {
     font-size: 11px !important;
     font-weight: bold;
 }
@@ -120,8 +136,8 @@ table tr {
 
 @media print {
     @page {
-        size: 90mm 200mm;
-        margin: -30px;
+        size: 210mm 148mm;
+        margin-top: 5px;
         /* auto is the initial value */
     }
 }

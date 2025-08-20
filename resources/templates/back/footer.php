@@ -141,8 +141,7 @@
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="../plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <script>
-
-$('#print-btn').click(function() {
+  $('#print-btn').click(function() {
     var nw = window.open("print_category", "_blank", "height=500,width=800")
     setTimeout(function() {
       nw.print()
@@ -224,6 +223,49 @@ $('#print-btn').click(function() {
   $('.select2bs4').select2({
     theme: 'bootstrap4'
   })
+
+
+
+
+  $(".search").keyup(function() {
+
+    var search = $(this).val();
+    var perPage = $('.search').val();
+
+    $.ajax({
+      url: '../resources/templates/back/studen_search.php',
+      method: 'get',
+      data: {
+        search: search
+
+      },
+      success: function(data) {
+
+        $('#content_show').html(data);
+        $('#content_show').append(data.htmlresponse);
+      }
+    })
+  })
+
+  $('.perpage').change('click', function() {
+
+    var perPage = $(this).val();
+    $("#search").val('');
+
+    $.ajax({
+      url: '../resources/templates/back/studen_search.php',
+      method: 'get',
+      data: {
+        perPage: perPage
+
+      },
+      success: function(data) {
+        $('#content_show').html(data);
+        $('#content_show').append(data.htmlresponse);
+
+      }
+    });
+  });
 </script>
 
 </body>

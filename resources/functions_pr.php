@@ -142,8 +142,6 @@ function insert_update_delete()
 
         $category = $_POST['txtcategory'];
         $price = $_POST['txtprice'];
-        $txtprice_year = $_POST['txtprice_year'];
-        $txtprice_month = $_POST['txtprice_month'];
         $txtprice_session = $_POST['txtprice_session'];
         $id_branch = branch_id();
 
@@ -157,7 +155,7 @@ function insert_update_delete()
             redirect('itemt?subject');
         } else {
 
-            $insert = query("INSERT into tbl_subject (sj_name,sj_price,sj_price_six,sj_price_year,price_session,id_branch) values('{$category}','{$price}','{$txtprice_month}','{$txtprice_year}','{$txtprice_session}','{$id_branch}')");
+            $insert = query("INSERT into tbl_subject (sj_name,sj_price,price_session,id_branch) values('{$category}','{$price}','{$txtprice_session}','{$id_branch}')");
             confirm($insert);
             if ($insert) {
                 set_message(' <script>
@@ -185,8 +183,7 @@ function insert_update_delete()
 
         $category = $_POST['txtcategory'];
         $price = $_POST['txtprice'];
-        $txtprice_month = $_POST['txtprice_month'];
-        $txtprice_year = $_POST['txtprice_year'];
+       
         $id = $_POST['txtcatid'];
         $txtprice_session = $_POST['txtprice_session'];
 
@@ -200,7 +197,7 @@ function insert_update_delete()
             redirect('itemt?subject');
         } else {
 
-            $update = query("UPDATE tbl_subject set sj_name='$category', sj_price='$price', sj_price_six='$txtprice_month',sj_price_year='$txtprice_year',price_session='$txtprice_session' where sj_id=" . $id);
+            $update = query("UPDATE tbl_subject set sj_name='$category', sj_price='$price',price_session='$txtprice_session' where sj_id=" . $id);
             confirm($update);
 
             if ($update) {
@@ -272,14 +269,8 @@ function edit_category()
                <label for="exampleInputEmail1">តម្លៃ/១ខែ</label>
                <input type="text" class="form-control" placeholder="Enter Category"  value="' . $row->sj_price . '" name="txtprice" >
                </div>
-               <div class="form-group">
-               <label for="exampleInputEmail1">តម្លៃ/៦ខែ</label>
-               <input type="text" class="form-control" placeholder="Enter Price" value="' . $row->sj_price_six . '" name="txtprice_month" >
-               </div>
-               <div class="form-group">
-               <label for="exampleInputEmail1">តម្លៃ/១ឆ្នាំ</label>
-               <input type="text" class="form-control" placeholder="Enter Price" value="' . $row->sj_price_year . '" name="txtprice_year" >
-               </div>
+
+               
 
                <div class="form-group">
                <label for="exampleInputEmail1">តម្លៃ/១វគ្គ</label>
@@ -305,14 +296,6 @@ function edit_category()
          <label for="exampleInputEmail1">តម្លៃ/១ខែ</label>
          <input type="text" class="form-control" placeholder="Enter Price" name="txtprice" >
          </div>
-         <div class="form-group">
-         <label for="exampleInputEmail1">តម្លៃ/៦ខែ</label>
-         <input type="text" class="form-control" placeholder="Enter Price" name="txtprice_month" >
-         </div>
-         <div class="form-group">
-         <label for="exampleInputEmail1">តម្លៃ/១ឆ្នាំ</label>
-         <input type="text" class="form-control" placeholder="Enter Price" name="txtprice_year" >
-         </div>
 
          <div class="form-group">
          <label for="exampleInputEmail1">តម្លៃ/១វគ្គ</label>
@@ -332,7 +315,7 @@ function query_category()
 {
     $id_branch = branch_id();
 
-    $select = query("SELECT * from tbl_subject  where id_branch= $id_branch order by sj_id ASC");
+    $select = query("SELECT * from tbl_subject  where id_branch= '$id_branch' order by sj_id ASC");
     confirm($select);
 
     while ($row = $select->fetch_object()) {
@@ -341,8 +324,6 @@ function query_category()
         <td>' . $row->sj_id . '</td>
         <td>' . $row->sj_name . '</td>
         <td>' . $row->sj_price . '</td>
-        <td>' . $row->sj_price_six . '</td>
-        <td>' . $row->sj_price_year . '</td>
         <td>' . $row->price_session . '</td>
         <td>
         <button type="submit" class="btn btn-primary" value="' . $row->sj_id . '" name="btnedit">Edit</button>
@@ -360,7 +341,7 @@ function insert_update_delete_studytime()
     if (isset($_POST['btnsave'])) {
 
         $category = $_POST['txtcategory'];
-        $qty = $_POST['txtcategory_qty'];
+        $id_branch = branch_id();
         if (empty($category)) {
             set_message(' <script>
             Swal.fire({
@@ -371,7 +352,7 @@ function insert_update_delete_studytime()
             redirect('itemt?studytime');
         } else {
 
-            $insert = query("INSERT into tbl_studytime (sdi_name,qty) values('{$category}','{$qty}')");
+            $insert = query("INSERT into tbl_studytime (sdi_name,id_branch) values('{$category}','{$id_branch}')");
             confirm($insert);
             if ($insert) {
                 set_message(' <script>
@@ -396,9 +377,9 @@ function insert_update_delete_studytime()
 
 
     if (isset($_POST['btnupdate'])) {
-
+        $id_branch = branch_id();
         $category = $_POST['txtcategory'];
-        $qty = $_POST['txtcategory_qty'];
+        
         $id = $_POST['txtcatid'];
 
         if (empty($category)) {
@@ -411,7 +392,7 @@ function insert_update_delete_studytime()
             redirect('itemt?studytime');
         } else {
 
-            $update = query("UPDATE tbl_studytime set sdi_name='$category',qty='$qty' where sdi_id=" . $id);
+            $update = query("UPDATE tbl_studytime set sdi_name='$category',id_branch='$id_branch' where sdi_id=" . $id);
             confirm($update);
 
             if ($update) {
@@ -480,10 +461,7 @@ function edit_studytime()
 
                <input type="text" class="form-control" placeholder="Enter Qty"  value="' . $row->sdi_name   . '" name="txtcategory" >
                </div>
-               <div class="form-group">
-               <label for="exampleInputEmail1">ចំនួនម៉ោង</label>
-               <input type="text" class="form-control" placeholder="Enter Category" value="' . $row->qty   . '" name="txtcategory_qty" >
-               </div>
+         
 
                <div class="card-footer">
                <button type="submit" class="btn btn-info" name="btnupdate">Update</button>
@@ -498,10 +476,7 @@ function edit_studytime()
          <label for="exampleInputEmail1">Title</label>
          <input type="text" class="form-control" placeholder="Enter Title"  name="txtcategory" >
          </div>
-         <div class="form-group">
-         <label for="exampleInputEmail1">ចំនួនម៉ោង</label>
-         <input type="text" class="form-control" placeholder="Enter Qty"  name="txtcategory_qty" >
-         </div>
+   
          <div class="card-footer">
          <button type="submit" class="btn btn-warning" name="btnsave">Save</button>
          </div>
@@ -514,7 +489,8 @@ function edit_studytime()
 
 function query_studytime()
 {
-    $select = query("SELECT * from tbl_studytime order by sdi_id ASC");
+    $id_branch = $_SESSION['id_branch'];
+    $select = query("SELECT * from tbl_studytime where id_branch = $id_branch order by sdi_id ASC");
     confirm($select);
 
     while ($row = $select->fetch_object()) {

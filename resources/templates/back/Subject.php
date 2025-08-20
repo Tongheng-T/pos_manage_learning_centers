@@ -59,8 +59,6 @@ insert_update_delete();
                                         <td>#</td>
                                         <td>មុខវិជ្ជា</td>
                                         <td>តម្លៃសិក្សារ/ខែ</td>
-                                        <td>តម្លៃសិក្សារ/6ខែ</td>
-                                        <td>តម្លៃសិក្សារ/ឆ្នាំ</td>
                                         <td>តម្លៃសិក្សារ/វគ្គ</td>
                                         <td>Edit</td>
                                         <td>Delete</td>

@@ -2,6 +2,10 @@
 
 require_once("../../config.php");
 
+students_Payroll();
+
+display_message();
+
 if (isset($_POST['date'])) {
     $datee = $_POST['date'];
     $date = date('Y-m-d', strtotime($datee));
@@ -53,14 +57,11 @@ if (isset($_POST['id'])) {
 
     if (mysqli_num_rows($query_pay) == 0) {
         $total_order = $date = date('m-d');
-    } elseif ($sd_studytime == 'years') {
+    } elseif ($sd_studytime == 'session') {
         $roww = $query_pay->fetch_array();
-        $newdate = $roww['date_new'];
-        $total_order = $roww['date_new'];
-    } elseif ($sd_studytime == '6month') {
-        $roww = $query_pay->fetch_array();
-        $newdate = $roww['date_new'];
-        $total_order = $roww['date_new'];
+        $newdate = $roww['date'];
+        $total_order = $roww['date'];
+    
     } else {
         $roww = $query_pay->fetch_array();
         $total_order = $roww['date'];
@@ -70,7 +71,7 @@ if (isset($_POST['id'])) {
     //     $new = $year . '-' . $month;
     //     $new_mont = date('Y-m-d', strtotime('+12 month', strtotime($total_order)));
     // } else {
-    
+
 
     // }
     $result = explode('-', $total_order);
@@ -113,21 +114,8 @@ if (isset($_POST['id'])) {
     } else {
         $count_datee = $date_of_enrollment;
     }
-    
 }
 
-function show_datepay($id, $new)
-{
-
-    $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%'  order by sdpay_id DESC");
-    while ($row = fetch_array($query_pay)) {
-        $money =  $row['money'];
-        $dbe_date = $row['date'];
-        $numdate = $row['numdate'];
-        echo $datedbe = '<h6>ថ្ងៃ: ' . date('d-m-Y', strtotime($dbe_date)) . ' ចំនួន ' . number_format($money) . '៛ : ' . $numdate . 'ថ្ងៃ </h6>';
-    }
-    
-}
 
 
 
@@ -139,14 +127,13 @@ function show_datepay($id, $new)
 
 <div class="card card-warning ">
 
-    <form action="" method="POST" enctype="multipart/form-data">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
 
                     <div class="form-group">
                         <label>ឈ្មោះជាភាសាខ្មែរ</label>
-                        <input type="text" class="form-control" placeholder="បញ្ចូល ឈ្មោះជាភាសាខ្មែរ" name="txtnamekh" value="<?php echo $namekh; ?>" readonly>
+                        <input type="text" class="form-control txtnamekh" placeholder="បញ្ចូល ឈ្មោះជាភាសាខ្មែរ" name="txtnamekh" value="<?php echo $namekh; ?>" readonly>
                     </div>
                     <div class="form-group">
                         <label>ថ្ងៃខែឆ្នាំកំណើត</label>
@@ -186,7 +173,7 @@ function show_datepay($id, $new)
                 </div>
 
 
-                <div class="col-md-4">
+                <div class="col-md-3">
 
                     <div class="form-group">
                         <label>ឈ្មោះជាអក្សរឡាតាំង</label>
@@ -194,7 +181,7 @@ function show_datepay($id, $new)
                     </div>
                     <div class="form-group">
                         <label>រៀនជា: ខែ/ឆ្នាំ</label>
-                        <input type="text" class="form-control" placeholder="បញ្ចូល លេខទូរសព្ទ" name="txtstudytime" required value="<?php echo $sd_studytime; ?>" readonly>
+                        <input type="text" class="form-control txtstudytime" placeholder="បញ្ចូល លេខទូរសព្ទ" name="txtstudytime" required value="<?php echo $sd_studytime; ?>" readonly>
                     </div>
                     <div class="form-group">
                         <label>តម្លៃសិក្សារ</label>
@@ -214,58 +201,62 @@ function show_datepay($id, $new)
                         $datetime2 = new DateTime($datenow);
                         $interval = $datetime1->diff($datetime2);
                         echo $interval->format('%a days'); ?>
-                        <input type="hidden" name="txt_numdate" value="<?php echo $interval->format('%a'); ?>">
+                        <input type="hidden" class="txt_numdate" name="txt_numdate" value="<?php echo $interval->format('%a'); ?>">
                     </div>
 
 
                 </div>
 
 
-                <div class="col-md-4" style="border-left: 1px solid rgb(221 41 41 / 49%);height: 378px;overflow: auto;">
+                <div class="col-md-6" style="border-left: 1px solid rgb(221 41 41 / 49%);height: 378px;overflow: auto;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>ថ្ងៃខែឆ្នាំបង់</label>
+                                <div class="input-group date" id="date_2" data-target-input="nearest">
+                                    <input type="text" class="form-control date_2" data-target="#date_2" id="datee" name="txtdatesalary" value="<?php echo date('d-m-Y', strtotime($_SESSION['dated'])); ?>">
+                                    <div class="input-group-append" data-target="#date_2" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
 
-                    <div class="form-group">
-                        <label>ថ្ងៃខែឆ្នាំបង់</label>
-                        <div class="input-group date" id="date_2" data-target-input="nearest">
-                            <input type="text" class="form-control date_2" data-target="#date_2" id="datee" name="txtdatesalary" value="<?php echo date('d-m-Y', strtotime($_SESSION['dated'])); ?>">
-                            <div class="input-group-append" data-target="#date_2" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                <label>ប្រាក់ត្រូវបង់: </label>
+                                <input type="text" class="form-control txt_salaryy" placeholder="បញ្ចូល ប្រាក់" name="txt_salaryy" onkeyup="mult(this.value)" value="<?php echo $total; ?>" autocomplete="off">
+                                <label><?php echo $debt_tit; ?></label>
+                                <label><?php echo  $new_mont; ?></label>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>ប្រាក់ជំពាក់: </label>
+                                <input type="text" class="form-control txt_salarys" placeholder="បញ្ចូល ប្រាក់" name="txt_jompeak" id="txt_salarys" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+
+                            <buttone type="text" style="margin-top: 35px;" class="btn btn-danger sd ">ស្វែងរក​</buttone>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                            <?php show_datepay($id, $new); ?>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label>ប្រាក់ត្រូវបង់: </label>
-                        <input type="text" class="form-control txt_salaryy" placeholder="បញ្ចូល ប្រាក់ខែ" name="txt_salaryy" onkeyup="mult(this.value)" value="<?php echo $total; ?>" autocomplete="off">
-                        <label><?php echo $debt_tit; ?></label>
-                        <label><?php echo  $new_mont; ?></label>
-                    </div>
-                    <div class="form-group">
-                        <label>ប្រាក់ជំពាក់: </label>
-                        <input type="text" class="form-control txt_salarys" placeholder="បញ្ចូល ប្រាក់ខែ" name="txt_jompeak" id="txt_salarys" autocomplete="off">
-
-
-                    </div>
-
-                    <buttone type="text" class="btn btn-danger sd ">ស្វែងរក​</buttone>
-                    <div class="input-group date" id="date_2" data-target-input="nearest">
-
-                    </div>
-                    <br>
-
-                    <?php show_datepay($id, $new); ?>
-
                 </div>
-
             </div>
         </div>
 
         <div class="card-footer">
             <div class="text-center">
                 <button type="submit" class="btn btn-danger id" name="submit" value="<?php echo $id; ?>">បង់ប្រាក់</button>
-    </form>
-    <form action="" method="GET" enctype="multipart/form-data">
-        <a href="invoice_80mm.php?id=<?php echo $id; ?>" class="btn btn-success " target="_blank" role="button"><span class="fa fa-print"></span> Print</a>
-    </form>
+
+
+    <a href="invoice_80mm.php?id=<?php echo $id; ?>" class="btn btn-success " target="_blank" role="button"><span class="fa fa-print"></span> Print</a>
+
 </div>
 </div>
 
@@ -303,6 +294,48 @@ function show_datepay($id, $new)
                 }
             });
         });
+        $('.close').on('click', function() {
+
+            window.location.reload();
+        });
+
+
+        $('.id').on('click', function() {
+
+            var txt_numdate = $('.txt_numdate').val();
+            var sd_teacher_id = $('.sd_teacher_id').val();
+            var txt_salarys = $('.txt_salarys').val();
+            var txt_salaryy = $('.txt_salaryy').val();
+            var txtstudytime = $('.txtstudytime').val();
+            var txtnamekh = $('.txtnamekh').val();
+
+
+            var date = $('.date_2').val();
+            var id = $('.id').val();
+            $.ajax({
+                url: "../resources/templates/back/Payroll_pay_tudents.php",
+                method: "Post",
+                data: {
+                    submit: id,
+                    id: id,
+                    txt_numdate: txt_numdate,
+                    sd_teacher_id: sd_teacher_id,
+                    txt_jompeak: txt_salarys,
+                    txt_salaryy: txt_salaryy,
+                    txtdatesalary: date,
+                    txtstudytime: txtstudytime,
+                    txtnamekh: txtnamekh
+
+                },
+                success: function(data) {
+
+                    $('#payroll').html(data);
+                    $('#payroll').append(data.htmlresponse);
+
+                }
+            });
+        });
+
     });
 
 

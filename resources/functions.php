@@ -79,7 +79,7 @@ function login_user()
         confirm($query);
 
         if (mysqli_num_rows($query) == 0) {
-            $query2 = query("SELECT * from tbl_user where useremail='$useremail' AND password='$password' and role ='User'");
+            $query2 = query("SELECT * from tbl_user where useremail='$useremail' AND password='$password' and role ='User' or useremail='$useremail' AND password='$password' and role ='Adminn'");
             confirm($query2);
             if (mysqli_num_rows($query2) == 0) {
 
@@ -93,6 +93,7 @@ function login_user()
                 $_SESSION['useremail'] = $row['useremail'];
                 $_SESSION['img'] = $row['img'];
                 $_SESSION['role'] = $row['role'];
+                $_SESSION['id_branch'] = $row['id_branch'];
 
                 $_SESSION['status'] = "Login success By User";
                 $_SESSION['status_code'] = "success";
@@ -105,6 +106,7 @@ function login_user()
             $_SESSION['username'] = $row['username'];
             $_SESSION['useremail'] = $row['useremail'];
             $_SESSION['role'] = $row['role'];
+            $_SESSION['id_branch'] = $row['id_branch'];
 
             $_SESSION['status'] = "Login success By Admin";
             $_SESSION['status_code'] = "success";

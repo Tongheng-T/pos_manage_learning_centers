@@ -14,22 +14,130 @@ function st_active($id)
   }
 }
 
-function tudentslist()
+function tudentslist($searchh)
 {
+
   $id_branch = branch_id();
-  $select = query("SELECT * from tbl_students where id_branch= $id_branch ");
-  confirm($select);
-  $echo = "";
-  while ($row = $select->fetch_object()) {
-    $id = $row->sd_id;
-    $salary = $row->txtprice;
-    $rdstudts = st_active($id);
-    $sd_studytime = $row->sd_studytime;
+
+  if (empty($searchh)) {
+
+    $searchh = "";
+    $select = query("SELECT * from tbl_students where id_branch= $id_branch ");
+    confirm($select);
+    $rows = mysqli_num_rows($select);
+    $lik = "";
+  } else {
+    $search = preg_replace('#[^0-9,a-z,ក-អ]#', '', $searchh);
+  
+    $select = query("SELECT * FROM tbl_students  WHERE id_branch = $id_branch AND (sd_namekh LIKE '{$search}%' OR sd_id LIKE '{$search}%' OR sd_nameen LIKE '{$search}%')");
+
+    $rows = mysqli_num_rows($select);
+
+    $lik = "AND (sd_namekh LIKE '{$search}%' OR sd_id LIKE '{$search}%' OR sd_nameen LIKE '{$search}%')";
+
+  }
+
+  if (mysqli_num_rows($select) == 0) {
+
+    echo '<tr class="odd"><td valign="top" colspan="12" class="dataTables_empty text-center">No matching records found</td></tr></tbody>
+    </table>
+    </div>';
+  } else {
+
+    if (isset($_GET['page'])) {
+
+      $page = preg_replace('#[^0-9]#', '', $_GET['page']);
+    } else {
+
+      $page = 1;
+    }
+    if (empty($_SESSION['perPage'])) {
+      $perPage = 10;
+      $_SESSION['perPage'] = $perPage;
+      $perPage = $_SESSION['perPage'];
+    } else {
+
+      $perPage = $_SESSION['perPage'];
+    }
+    $lastPage = ceil($rows / $perPage);
+    if ($page < 1) {
+      $page = 1;
+    } elseif ($page > $lastPage) {
+
+      $page = $lastPage;
+    }
+
+    $middleNumbers = '';
+    $sub1 = $page - 1;
+    $sub2 = $page - 2;
+    $add1 = $page + 1;
+    $add2 = $page + 2;
+
+    if ($page == 1) {
+
+      $middleNumbers .= '<li class="page-item active"><buttone class="btn page-link">' . $page . '</buttone></li>';
+
+      $middleNumbers .= '<li class="page-item "><buttone class="btn page-link sd_page" page=' . $add1 . ' ">' . $add1 . '</buttone></li>';
+    } elseif ($page == $lastPage) {
+
+      $middleNumbers .= '<li class="page-item "><buttone class=" btn page-link sd_page" page=' . $sub1 . ' ">' . $sub1 . '</buttone></li>';
+
+      $middleNumbers .= '<li class="page-item active"><buttone class="btn page-link ">' . $page . '</buttone></li>';
+    } elseif ($page > 2 && $page < ($lastPage - 1)) {
+
+      $middleNumbers .= '<li class="page-item "><buttone class="btn page-link sd_page" page=' . $sub2 . ' ">' . $sub2 . '</buttone></li>';
+
+      $middleNumbers .= '<li class="page-item "><buttone class="btn page-link sd_page" page=' . $sub1 . ' ">' . $sub1 . '</buttone></li>';
+
+      $middleNumbers .= '<li class="page-item active"><buttone class="btn page-link">' . $page . '</buttone></li>';
+
+      $middleNumbers .= '<li class="page-item "><buttone class="btn page-link sd_page" page=' . $add1 . ' ">' . $add1 . '</buttone></li>';
+
+      $middleNumbers .= '<li class="page-item "><buttone class="btn page-link sd_page" page=' . $add2 . ' ">' . $add2 . '</buttone></li>';
+    } elseif ($page > 1 && $page < $lastPage) {
+
+      $middleNumbers .= '<li class="page-item "><buttone class="btn page-link sd_page" page=' . $sub1 . ' ">' . $sub1 . '</buttone></li>';
+
+      $middleNumbers .= '<li class="page-item active"><buttone class="btn page-link ">' . $page . '</buttone></li>';
+
+      $middleNumbers .= '<li class="page-item "><buttone class="btn page-link sd_page" page=' . $add1 . ' ">' . $add1 . '</buttone></li>';
+    }
+
+    $limit = 'LIMIT ' . ($page - 1) * $perPage . ',' . $perPage;
+
+    $query2 =  query("SELECT * FROM tbl_students WHERE id_branch= $id_branch $lik order by sd_id DESC $limit");
+
+    confirm($query2);
+
+    $outputPagination = "";
+
+    if ($page != 1) {
+      $prev = $page - 1;
+      $outputPagination .= '<li class="page-item "><buttone class="btn page-link sd_page" page=' . $prev . ' ">Back</buttone></li>';
+    }
+
+    $outputPagination .= $middleNumbers;
+
+    if ($page != $lastPage) {
+      $next = $page + 1;
+      $outputPagination .= '<li class="page-item "><buttone class="btn page-link sd_page" page=' . $next . ' ">Next</buttone></li>';
+    }
 
 
-    $date_of_enrollment = $row->sd_date_of_enrollment;
-    $echo .= '
+
+    $echo = "";
+    $no = 1;
+    while ($row = $query2->fetch_object()) {
+      $id = $row->sd_id;
+      $salary = $row->txtprice;
+      $rdstudts = st_active($id);
+      $sd_studytime = $row->sd_studytime;
+
+
+      $date_of_enrollment = $row->sd_date_of_enrollment;
+      $echo .= '
            <tr class="' . $rdstudts . '">
+           <td>' . $no . '</td>
            <td>' . $id . '</td>
            <td>' . $row->sd_namekh . ' <image src="../productimages/students/' . $row->sd_img . '" class="img-rounded" width="40px" height="40px/"></td>
            <td>' . $row->sd_nameen . '</td>
@@ -40,90 +148,88 @@ function tudentslist()
            <td>' . show_subject($row->sd_subject_id) . '</td>
            <td>' . show_teacher($row->sd_teacher_id) . '</td>
 
-           <td>' . show_classroom($row->sd_class_id) . '</td>';
+           ';
 
 
-    if ($row->sd_studytime == "month") {
+      if ($row->sd_studytime == "month") {
 
-      $echo .= '<td><span class="badge badgeth badge-danger">' . $row->sd_studytime . '</span></td>';
-    } else {
-      $echo .= '<td><span class="badge badgeth badge-primary">' . $row->sd_studytime . '</span></td>';
-    }
-
-
-
-    $query_cddate = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id ");
-
-    if (mysqli_num_rows($query_cddate) > 0) {
-      $query_date = query("SELECT date,MAX(date) as max_date FROM tbl_employee_students WHERE sd_id = $id  ");
-      $roww = $query_date->fetch_assoc();
-      $count_datee = $roww['max_date'];
-    } else {
-      $count_datee = $date_of_enrollment;
-    }
-
-
-    $date = date('d-m-Y');
-    $result = explode('-', $date);
-    $month = $result[1];
-    $year = $result[2];
-    // $salary = show_price($row->sd_subject_id, $id,$row->sd_time_id);
-
-    if ($sd_studytime == 'years') {
-      $new = $year;
-      $selectt = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id");
-      if (mysqli_num_rows($selectt) > 0) {
-
-        while ($rowe = fetch_array($selectt)) {
-          $dbe_date = $rowe['date'];
-          $text = '<span class="badge badgeth badge-success">' . date('d-m-Y', strtotime($dbe_date)) . '</span>';
-        }
-      }else{
-      $text = '<span class="badge badgeth badge-warning">' . date('d-m-Y', strtotime($date_of_enrollment)) . '</span>';
-    }
-    } elseif($sd_studytime == '6month') {
-      $selectt = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id");
-      if (mysqli_num_rows($selectt) > 0) {
-
-        while ($rowe = fetch_array($selectt)) {
-          $dbe_date = $rowe['date'];
-          $text = '<span class="badge badgeth badge-success">' . date('d-m-Y', strtotime($dbe_date)) . '</span>';
-        }
-      }else{
-      $text = '<span class="badge badgeth badge-warning">' . date('d-m-Y', strtotime($date_of_enrollment)) . '</span>';
-    }
-    }
-    else {
-      $new = $year . '-' . $month;
-   
-    $selectt = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id");
-    $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%' ");
-    if (mysqli_num_rows($query_pay) > 0) {
-
-      $total = 0;
-      $money = 0;
-      while ($rowe = fetch_array($query_pay)) {
-        $dbe_date = $rowe['date'];
-        $money +=  $rowe['money'];
-        $total = $salary - $money;
+        $echo .= '<td><span class="badge badgeth badge-danger">' . $row->sd_studytime . '</span></td>';
+      } else {
+        $echo .= '<td><span class="badge badgeth badge-primary">' . $row->sd_studytime . '</span></td>';
       }
-      $text = date('d-m-Y', strtotime($dbe_date));
-    } elseif(mysqli_num_rows($selectt) > 0){
-
-      $total = $salary;
-     
-      $roww = $selectt->fetch_object();
-
-      $darex = $roww->date;
-      $text = '<span class="badge badgeth badge-danger">' . date('d-m-Y', strtotime($darex)) . '</span>';
-    }else{
-      $text = '<span class="badge badgeth badge-warning">' . date('d-m-Y', strtotime($date_of_enrollment)) . '</span>';
-    }
-
-  }
 
 
-    $echo .= '
+
+      $query_cddate = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id ");
+
+      if (mysqli_num_rows($query_cddate) > 0) {
+        $query_date = query("SELECT date,MAX(date) as max_date FROM tbl_employee_students WHERE sd_id = $id  ");
+        $roww = $query_date->fetch_assoc();
+        $count_datee = $roww['max_date'];
+      } else {
+        $count_datee = $date_of_enrollment;
+      }
+
+
+      $date = date('d-m-Y');
+      $result = explode('-', $date);
+      $month = $result[1];
+      $year = $result[2];
+      // $salary = show_price($row->sd_subject_id, $id,$row->sd_time_id);
+
+      if ($sd_studytime == 'years') {
+        $new = $year;
+        $selectt = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id");
+        if (mysqli_num_rows($selectt) > 0) {
+
+          while ($rowe = fetch_array($selectt)) {
+            $dbe_date = $rowe['date'];
+            $text = '<span class="badge badgeth badge-success">' . date('d-m-Y', strtotime($dbe_date)) . '</span>';
+          }
+        } else {
+          $text = '<span class="badge badgeth badge-warning">' . date('d-m-Y', strtotime($date_of_enrollment)) . '</span>';
+        }
+      } elseif ($sd_studytime == '6month') {
+        $selectt = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id");
+        if (mysqli_num_rows($selectt) > 0) {
+
+          while ($rowe = fetch_array($selectt)) {
+            $dbe_date = $rowe['date'];
+            $text = '<span class="badge badgeth badge-success">' . date('d-m-Y', strtotime($dbe_date)) . '</span>';
+          }
+        } else {
+          $text = '<span class="badge badgeth badge-warning">' . date('d-m-Y', strtotime($date_of_enrollment)) . '</span>';
+        }
+      } else {
+        $new = $year . '-' . $month;
+
+        $selectt = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id");
+        $query_pay = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%' ");
+        if (mysqli_num_rows($query_pay) > 0) {
+
+          $total = 0;
+          $money = 0;
+          while ($rowe = fetch_array($query_pay)) {
+            $dbe_date = $rowe['date'];
+            $money +=  $rowe['money'];
+            $total = $salary - $money;
+          }
+          $text = date('d-m-Y', strtotime($dbe_date));
+        } elseif (mysqli_num_rows($selectt) > 0) {
+
+          $total = $salary;
+
+          $roww = $selectt->fetch_object();
+
+          $darex = $roww->date;
+          $text = '<span class="badge badgeth badge-danger">' . date('d-m-Y', strtotime($darex)) . '</span>';
+        } else {
+          $text = '<span class="badge badgeth badge-warning">' . date('d-m-Y', strtotime($date_of_enrollment)) . '</span>';
+        }
+      }
+
+
+      $echo .= '
            <td>' . $text . '</td>	
   
            
@@ -131,8 +237,8 @@ function tudentslist()
            
            
            <div class="btn-group">
-           <a href="students_id.php?id=' . $row->sd_id . '" class="btn btn-primary btn-xs" role="button"><span class="fa fa-id-card" style="color:#ffffff" data-toggle="tooltip" title="ID students"></span></a>
-           <a href="students_certificate.php?id=' . $row->sd_id . '" class="btn btn-secondary btn-xs" role="button" target="_blank"><span class="fa fa-certificate" style="color:#ffffff" data-toggle="tooltip" title="Certificate"></span></a>
+           <a href="students_id?id=' . $row->sd_id . '" class="btn btn-primary btn-xs" role="button"><span class="fa fa-id-card" style="color:#ffffff" data-toggle="tooltip" title="ID students"></span></a>
+           <a href="certificate?id=' . $row->sd_id . '" class="btn btn-secondary btn-xs" role="button" target="_blank"><span class="fa fa-certificate" style="color:#ffffff" data-toggle="tooltip" title="Certificate"></span></a>
            
            <button id=' . $row->sd_id . ' class="btn btn-info btn-xs payroll" data-toggle="modal" data-target="#exampleModalpay"><span class="fas fa-money-bill-alt" style="color:#ffffff" data-toggle="tooltip" title="បង់ប្រាក់"></span></button>
            
@@ -148,9 +254,20 @@ function tudentslist()
            
            </td>
            
-           </tr>';
+           </tr>
+          ';
+      $no++;
+    }
+    echo $echo;
+    echo ' </tbody></table>
+    <div class="row">
+    <div class="col-sm-12 col-md-5"><div class="dataTables_info" id="table_orderlist_info" role="status" aria-live="polite">Showing ' . $page . ' to ' . $lastPage . ' of ' . $rows . ' entries</div></div>';
+    echo "<div class='col-sm-12 col-md-7'>
+    <div class='dataTables_paginate paging_simple_numbers'>
+    <ul class='pagination' >{$outputPagination}</ul></div></div></div></div>";
   }
-  echo $echo;
+  unset($_SESSION['search']);
+  unset($_SESSION['perPage']);
 }
 
 
@@ -180,31 +297,13 @@ function show_price($sj_id, $sd_id, $sdi_id)
 
   $time = $row['qty'];
 
-  if ($sdRow['sd_studytime'] == "years") {
-    $price = $sjRow->sj_price_year * $time;
-
-    if ($sdRow['sd_car_id'] > 1) {
-      $carr = $sjRow->car_price_year;
-    } else {
-      $carr = 0;
-    }
-    return $price - $carr;
-  } elseif ($sdRow['sd_studytime'] == "session") {
-    $price = $sjRow->price_session * $time;
-
-    if ($sdRow['sd_car_id'] > 1) {
-      $carr = $sjRow->car_price_year;
-    } else {
-      $carr = 0;
-    }
+  if ($sdRow['sd_studytime'] == "session") {
+    $price = $sjRow->price_session;
+    return $price;
   } else {
-    $price = $sjRow->sj_price * $time;
-    if ($sdRow['sd_car_id'] > 1) {
-      $carr = $sjRow->car_price_month;
-    } else {
-      $carr = 0;
-    }
-    return $price - $carr;
+    $price = $sjRow->sj_price;
+
+    return $price;
   }
 }
 function viewstudents()
@@ -233,8 +332,7 @@ function viewstudents()
   <li class="list-group-item"><b>មុខវិជ្ជា</b> <span class="badge label badge-info float-right">' . show_subject($row->sd_subject_id) . '</span></li>
   <li class="list-group-item"><b>ម៉ោងសិក្សារ</b> <span class="badge label badge-dark float-right">' . show_studytime($row->sd_time_id) . '</span></li>
   <li class="list-group-item"><b>គ្រូ</b> <span class="badge label badge-primary float-right">' . show_teacher($row->sd_teacher_id) . '</span></li>
-  <li class="list-group-item"><b>រថយន្ត</b> <span class="badge label badge-danger float-right">' . show_car_driver($row->sd_car_id) . '</span></li>
-  <li class="list-group-item"><b>ថ្នាក់រៀន</b> <span class="badge label badge-dark float-right">' . show_classroom($row->sd_class_id) . '</span></li>
+
   <li class="list-group-item"><b>រៀនគិតជា</b> <span class="badge label badge-dark float-right">' . $row->sd_studytime . '</span></li>
 
   <li class="list-group-item"><b>តម្លៃសិក្សារ</b> <span class="badge label badge-dark float-right">' . show_price($row->sd_subject_id, $row->sd_id, $row->sd_time_id) . '</span></li>
@@ -265,7 +363,7 @@ function viewstudents()
 function addstudents()
 {
   if (isset($_POST['btnsave'])) {
-
+    // txtnamekh txtsubject txtstudytime txtprice txtdate_of_enrollment txtnameen txtphone txtaddress txttim txtteacher sex
     $txtnamekh                  = $_POST['txtnamekh'];
     $txtdb                      = $_POST['txtdb'];
     $date_db                    = date('Y-m-d', strtotime($txtdb));
@@ -274,9 +372,9 @@ function addstudents()
     $txtnameen                  = $_POST['txtnameen'];
     $txtphone                   = $_POST['txtphone'];
     $txttim                     = $_POST['txttim'];
-    $txtcar                     = $_POST['txtcar'];
+    // $txtcar                     = $_POST['txtcar'];
     $sex                        = $_POST['sex'];
-    $txtclass                   = $_POST['txtclass'];
+    // $txtclass                   = $_POST['txtclass'];
     $txtstudytime               = $_POST['txtstudytime'];
     $txt_date_of_enrollment     = $_POST['txtdate_of_enrollment'];
     $txtprice                   = $_POST['txtprice'];
@@ -308,8 +406,8 @@ function addstudents()
 
             $productimage = $f_newfile;
 
-            $insert = query("INSERT into tbl_students ( sd_namekh,sd_nameen,sd_sex,sd_db,sd_phone,sd_address,sd_subject_id,sd_time_id,sd_teacher_id,sd_car_id,sd_img,sd_class_id,sd_studytime,sd_date_of_enrollment,id_branch,txtprice) 
-                        values('{$txtnamekh}','{$txtnameen}','{$sex}','{$date_db}','{$txtphone}','{$txtaddress}','{$txtsubject}','{$txttim}','{$txtteacher}','{$txtcar}','{$productimage}','{$txtclass}','{$txtstudytime}','{$dateof_employment}','{$id_branch}','{$txtprice}')");
+            $insert = query("INSERT into tbl_students (sd_namekh,sd_nameen,sd_sex,sd_db,sd_phone,sd_address,sd_subject_id,sd_time_id,sd_teacher_id,sd_img,sd_studytime,sd_date_of_enrollment,id_branch,txtprice) 
+                        values('{$txtnamekh}','{$txtnameen}','{$sex}','{$date_db}','{$txtphone}','{$txtaddress}','{$txtsubject}','{$txttim}','{$txtteacher}','{$productimage}','{$txtstudytime}','{$dateof_employment}','{$id_branch}','{$txtprice}')");
             confirm($insert);
             $pid = last_id(); // which was the 5
 
@@ -354,8 +452,8 @@ function addstudents()
     } else {
       $productimage = 'display.jpg';
 
-      $insert = query("INSERT into tbl_students ( sd_namekh,sd_nameen,sd_sex,sd_db,sd_phone,sd_address,sd_subject_id,sd_time_id,sd_teacher_id,sd_car_id,sd_img,sd_class_id,sd_studytime,sd_date_of_enrollment,id_branch,txtprice) 
-                        values('{$txtnamekh}','{$txtnameen}','{$sex}','{$date_db}','{$txtphone}','{$txtaddress}','{$txtsubject}','{$txttim}','{$txtteacher}','{$txtcar}','{$productimage}','{$txtclass}','{$txtstudytime}','{$dateof_employment}','{$id_branch}','{$txtprice}')");
+      $insert = query("INSERT into tbl_students (sd_namekh,sd_nameen,sd_sex,sd_db,sd_phone,sd_address,sd_subject_id,sd_time_id,sd_teacher_id,sd_img,sd_studytime,sd_date_of_enrollment,id_branch,txtprice) 
+                        values('{$txtnamekh}','{$txtnameen}','{$sex}','{$date_db}','{$txtphone}','{$txtaddress}','{$txtsubject}','{$txttim}','{$txtteacher}','{$productimage}','{$txtstudytime}','{$dateof_employment}','{$id_branch}','{$txtprice}')");
       confirm($insert);
       $pid = last_id(); // which was the 5
       // $query = query("INSERT INTO tbl_employee_students(sd_id,money,date,id_branch) VALUES('{$pid}','{$txtprice}','{$dateof_employment}','{$id_branch}')");
@@ -383,7 +481,7 @@ function addstudents()
                               title: "Students Inserted Failed"
                             });
                           </script>');
-        redirect('itemt?add_tudents');
+        redirect('itemt?tudentslist');
       }
     }
   }
@@ -408,9 +506,9 @@ function update_tudents()
     $txtnameen                  = $_POST['txtnameen'];
     $txtphone                   = $_POST['txtphone'];
     $txttim                     = $_POST['txttim'];
-    $txtcar                     = $_POST['txtcar'];
+    // $txtcar                     = $_POST['txtcar'];
     $sex                        = $_POST['sex'];
-    $txtclass                   = $_POST['txtclass'];
+    // $txtclass                   = $_POST['txtclass'];
     $txtstudytime               = $_POST['txtstudytime'];
     $txt_date_of_enrollment     = $_POST['txtdate_of_enrollment'];
     $txt_date_of_enrollment     = $_POST['txtdate_of_enrollment'];
@@ -468,9 +566,9 @@ function update_tudents()
             $query .= "sd_subject_id           = '{$txtsubject}'        , ";
             $query .= "sd_time_id              = '{$txttim}'            , ";
             $query .= "sd_teacher_id           = '{$txtteacher}'        , ";
-            $query .= "sd_car_id               = '{$txtcar}'            , ";
+            // $query .= "sd_car_id               = '{$txtcar}'            , ";
             $query .= "sd_img                  = '{$students_image}'    , ";
-            $query .= "sd_class_id             = '{$txtclass}'          , ";
+            // $query .= "sd_class_id             = '{$txtclass}'          , ";
             $query .= "sd_studytime            = '{$txtstudytime}'      , ";
             $query .= "sd_date_of_enrollment   = '{$dateof_employment}' , ";
             $query .= "studyclose              = '{$studyclose}'        , ";
@@ -522,8 +620,8 @@ function update_tudents()
       $query .= "sd_subject_id           = '{$txtsubject}'        , ";
       $query .= "sd_time_id              = '{$txttim}'            , ";
       $query .= "sd_teacher_id           = '{$txtteacher}'        , ";
-      $query .= "sd_car_id               = '{$txtcar}'            , ";
-      $query .= "sd_class_id             = '{$txtclass}'          , ";
+      // $query .= "sd_car_id               = '{$txtcar}'            , ";
+      // $query .= "sd_class_id             = '{$txtclass}'          , ";
       $query .= "sd_studytime            = '{$txtstudytime}'      , ";
       $query .= "sd_date_of_enrollment   = '{$dateof_employment}' , ";
       $query .= "studyclose              = '{$studyclose}'        , ";
@@ -576,15 +674,6 @@ function students_Payroll()
     $year = $result[0];
     $new = $year . '-' . $month;
 
-    if ($txtstudytime == '6month') {
-      $new_mont = date('Y-m-d', strtotime('+6 month', strtotime($datedb)));
-    } elseif ($txtstudytime == 'years') {
-      $new_mont = date('Y-m-d', strtotime('+12 month', strtotime($datedb)));
-    } elseif ($txtstudytime == 'session') {
-      $new_mont = date('Y-m-d', strtotime('+2 month', strtotime($datedb)));
-    } else {
-      $new_mont = date('Y-m-d', strtotime('+1 month', strtotime($datedb)));
-    }
 
 
     if ($money == 0) {
@@ -594,10 +683,9 @@ function students_Payroll()
             title: "Money Feild is Empty"
             });
            </script>');
-      redirect('itemt?tudentslist');
     } else {
 
-      $query = query("INSERT INTO tbl_employee_students(sd_id,tc_id,money,date,date_new,numdate,id_branch) VALUES('{$sd_id}','{$sd_teacher_id}','{$money}','{$datedb}','{$new_mont}','{$numdate}','{$id_branch}')");
+      $query = query("INSERT INTO tbl_employee_students(sd_id,money,date,numdate,id_branch) VALUES('{$sd_id}','{$money}','{$datedb}','{$numdate}','{$id_branch}')");
       $last_id = last_id();
       confirm($query);
       $insert = query(" UPDATE tbl_students set debt='$txt_jompeak' WHERE sd_id = $sd_id");
@@ -609,8 +697,6 @@ function students_Payroll()
         text:"សិស្ស ' . $name . ' បានបង់ប្រាក់ចំនូន ' . $money . '",
         });
        </script>');
-
-      redirect("itemth?tudentslist");
     }
   }
 }
@@ -683,11 +769,100 @@ function students_pay()
   <tr> 
   <td colspan="6"></td>
   <td>សរុប</td>
-  <td><span class="badge badgeth badge-danger">' .number_format($total). ' ៛</span></td>
+  <td><span class="badge badgeth badge-danger">' . number_format($total) . ' ៛</span></td>
   
   </tr>
 
   ';
 
   echo $echo;
+}
+
+
+// ///////////////////////pay
+function show_datepay($id, $new)
+{
+  $query = query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%'  order by sdpay_id DESC");
+  confirm($query);
+
+  if (mysqli_num_rows($query) > 0) {
+
+    $rows = mysqli_num_rows($query);
+
+    if (isset($_POST['page'])) {
+
+      $page = preg_replace('#[^0-9]#', '', $_POST['page']);
+    } else {
+
+      $page = 1;
+    }
+
+    $perPage = 20;
+    $lastPage = ceil($rows / $perPage);
+    if ($page < 1) {
+      $page = 1;
+    } elseif ($page > $lastPage) {
+
+      $page = $lastPage;
+    }
+
+    $middleNumbers = '';
+    $sub1 = $page - 1;
+    $sub2 = $page - 2;
+    $add1 = $page + 1;
+    $add2 = $page + 2;
+
+    if ($page == 1) {
+
+      $middleNumbers .= '<li class="page-item active"><buttone class="btn page-link btn-xs page" page=' . $page . '>' . $page . '</buttone></li>';
+
+      $middleNumbers .= '<li class="page-item "><buttone class="btn page-link btn-xs page" page=' . $add1 . '>' . $add1 . '</buttone></li>';
+    } elseif ($page == $lastPage) {
+
+      $middleNumbers .= '<li class="page-item "><buttone class="btn page-link btn-xs page" page=' . $sub1 . '>' . $sub1 . '</buttone></li>';
+
+      $middleNumbers .= '<li class="page-item active"><buttone class="btn page-link btn-xs page" page=' . $page . '>' . $page . '</buttone></li>';
+    } elseif ($page > 2 && $page < ($lastPage - 1)) {
+
+      $middleNumbers .= '<li class="page-item "><buttone class="btn page-link btn-xs page" page=' . $sub2 . '>' . $sub2 . '</buttone></li>';
+
+      $middleNumbers .= '<li class="page-item "><buttone class="btn page-link btn-xs page" page=' . $sub1 . '>' . $sub1 . '</buttone></li>';
+
+      $middleNumbers .= '<li class="page-item active"><buttone class="btn page-link btn-xs page" page=' . $page . '>' . $page . '</buttone></li>';
+
+      $middleNumbers .= '<li class="page-item "><buttone class="btn page-link btn-xs page" page=' . $add1 . '>' . $add1 . '</buttone></li>';
+
+      $middleNumbers .= '<li class="page-item "><buttone class="btn page-link btn-xs page" page=' . $add2 . '>' . $add2 . '</buttone></li>';
+    } elseif ($page > 1 && $page < $lastPage) {
+
+      $middleNumbers .= '<li class="page-item "><buttone class="btn page-link btn-xs page" page=' . $sub1 . '>' . $sub1 . '</buttone></li>';
+
+      $middleNumbers .= '<li class="page-item active"><buttone class="btn page-link btn-xs page" page=' . $page . '>' . $page . '</buttone></li>';
+
+      $middleNumbers .= '<li class="page-item "><buttone class="btn page-link btn-xs page" page=' . $add1 . '>' . $add1 . '</buttone></li>';
+    }
+
+    $limit = 'LIMIT ' . ($page - 1) * $perPage . ',' . $perPage;
+
+
+    $query2 =  query("SELECT * FROM tbl_employee_students WHERE sd_id = $id and date like '{$new}%'  order by sdpay_id DESC");
+    confirm($query2);
+
+    $outputPagination = "";
+    $outputPagination .= $middleNumbers;
+    $totall = 0;
+    $no = 1;
+    while ($row = fetch_array($query2)) {
+      $money =  $row['money'];
+      $totall += $money;
+      $dbe_date = $row['date'];
+      $numdate = $row['numdate'];
+      echo '<h6>' . $no . ' ថ្ងៃ: ' . date('d-m-Y', strtotime($dbe_date)) . ' ចំនួន ' . number_format($money) . '៛ : ' . $numdate . 'ថ្ងៃ </h6>';
+      $no++;
+    }
+    echo  '<h5 style="color: #001ff9;white-space: nowrap;">     ' . '  សរុបៈ ' . number_format($totall) . '៛​ </h5>';
+    echo "<div class='text-center'><ul class='pagination'>{$outputPagination}</ul></div>";
+  } else {
+    echo '<h5 class="text-center" style="color: #001ff9;white-space: nowrap;">No matching records found</h5>';
+  }
 }

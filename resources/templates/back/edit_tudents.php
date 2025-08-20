@@ -18,9 +18,9 @@ if (isset($_GET['id'])) {
     $subject_id         = $row['sd_subject_id'];
     $time_id            = $row['sd_time_id'];
     $teacher_id         = $row['sd_teacher_id'];
-    $car_idd             = $row['sd_car_id'];
+    // $car_idd             = $row['sd_car_id'];
     $img                = $row['sd_img'];
-    $class_id           = $row['sd_class_id'];
+    // $class_id           = $row['sd_class_id'];
     $studytime          = $row['sd_studytime'];
     $date_of_enrollment = $row['sd_date_of_enrollment'];
     $date_of            = date('d-m-Y', strtotime($date_of_enrollment));
@@ -83,8 +83,6 @@ if (isset($_GET['id'])) {
               <select class="form-control select2 year select2s" data-dropdown-css-class="select2" data-minimum-results-for-search="Infinity" name="txtstudytime" required>
 
                 <option value="month" <?php echo ($studytime == 'month') ? 'selected' : '' ?>>១ខែ</option>
-                <option value="6month" <?php echo ($studytime == '6month') ? 'selected' : '' ?>>៦ខែ</option>
-                <option value="years" <?php echo ($studytime == 'years') ? 'selected' : '' ?>>១ឆ្នាំ</option>
                 <option value="session" <?php echo ($studytime == 'session') ? 'selected' : '' ?>>១វគ្គ</option>
 
               </select>
@@ -203,7 +201,7 @@ if (isset($_GET['id'])) {
           <p>Upload image</p>
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label>ថ្នាក់រៀន</label>
           <select class="form-control select2" data-dropdown-css-class="select2-purple" data-minimum-results-for-search="Infinity" name="txtclass" required>
             <option value="" disabled selected>ជ្រើសរើសថ្នាក់រៀន</option>
@@ -224,8 +222,8 @@ if (isset($_GET['id'])) {
 
             ?>
           </select>
-        </div>
-        <div class="form-group">
+        </div> -->
+        <!-- <div class="form-group">
           <label>រថយន្ត</label>
           <select class="form-control select2 car select2s" data-minimum-results-for-search="Infinity" name="txtcar" required>
             <option value="0" disabled selected>ជ្រើសរើសរថយន្ត/មធ្យោបាយធ្វើដំណើរ</option>
@@ -247,7 +245,7 @@ if (isset($_GET['id'])) {
             ?>
 
           </select>
-        </div>
+        </div> -->
 
       </div>
     </div>
@@ -272,7 +270,6 @@ if (isset($_GET['id'])) {
 
       var productid = $(".subject").val();
       var year = $(".year").val();
-      var car = $(".car").val();
       var sdi_id = $(".time").val();
 
 
@@ -283,7 +280,6 @@ if (isset($_GET['id'])) {
           id: productid,
           sdi_id: sdi_id,
           year: year,
-          car: car,
         },
         success: function(data) {
 

@@ -221,7 +221,7 @@ while ($item = $select->fetch_object()) {
 
         <!-- <p class="top_l"><?php echo date('d-m-Y', strtotime($date)) ?></p> -->
 
-        <div class="namee blul">នាមត្រគោល និងនាមខ្លួន...<b class="bluln"><?php echo $sd_namekh ?></b>...ឈ្មោះឡាតាំង...<b class="bluln"><?php echo $sd_nameen ?></b>...............ភេទភេទ</div>
+        <div class="namee blul">នាមត្រគោល និងនាមខ្លួន..............<b class="bluln"><?php echo $sd_namekh ?></b>.................ឈ្មោះឡាតាំង........<b class="bluln"><?php echo $sd_nameen ?></b>...............ភេទភេទ</div>
 
 
         <div class="icheck-primary d-inline blul">

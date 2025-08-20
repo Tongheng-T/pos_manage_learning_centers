@@ -65,7 +65,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
         <div class="top-namelogo"><img src="../productimages/logo/<?php echo $rowd->logo ?>" alt=""></div>
         <div class="name_khmer"><?php echo $rowd->name_receipt ?></div>
         <div class="name_english "><?php echo $rowd->name_receipt_en ?> </div>
-        
+
         <div class="gender">&'
         </div>
         <div class="Status">វិញ្ញាបនបត្របញ្ជប់ការសិក្សា
@@ -74,9 +74,11 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
         </div>
         <div class="location"><?php echo $rowd->Technology_Top ?> </div>
 
-        <div class="number">សិស្សឈ្មោះ៖ &nbsp;<p class="name_MoulLight"><?php echo $sd_namekh ?></p> &nbsp; ភេទ៖ &nbsp; <p class="name_MoulLight"><?php echo $row->sd_sex ?></p></div>
+        <div class="number">សិស្សឈ្មោះ៖ &nbsp;<p class="name_MoulLight"><?php echo $sd_namekh ?></p> &nbsp; ភេទ៖ &nbsp; <p class="name_MoulLight"><?php echo $row->sd_sex ?></p>
+        </div>
 
-        <div class="titil_left">ថ្ងៃខែឆ្នាំកំណើត៖ &nbsp; <p class="name_MoulLight"><?php echo "ថ្ងៃទី " . $day_dkh . " ខែ " . $mon_kh . " ឆ្នាំ " . $day_ykh ?></p> </div>
+        <div class="titil_left">ថ្ងៃខែឆ្នាំកំណើត៖ &nbsp; <p class="name_MoulLight"><?php echo "ថ្ងៃទី " . $day_dkh . " ខែ " . $mon_kh . " ឆ្នាំ " . $day_ykh ?></p>
+        </div>
 
         <div class="date"><?php echo $rowd->Technology_txt ?> <?php echo show_subject($row->sd_subject_id) ?> <?php echo $rowd->Technology_Study ?></div>
         <div class="date_k">នាយកសាលា</div>
@@ -91,7 +93,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
 
         <div class="date_of_certificate"><?php echo $rowd->Date_of_certificate ?></div>
         <!-- =============================================== -->
-        
+
         <div class="top-titil">ព្រះរាជាណាចក្រកម្ពុជា</div>
         <div class="titil_right">KINGDOM OF CAMBODIA</div>
         <div class="Generation"> ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
@@ -125,21 +127,23 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
   </div>
 
 
-  <script src="dom-to-image.js"></script>
-
+  <script src="../dist/js/html2canvas.min.js"></script>
 
   <script>
-    var ti = document.getElementsByClassName("dowjpg")[0];
-    var ddd = document.getElementById("dw_bt");
+    document.getElementById("dw_bt").addEventListener("click", () => {
+      var node = document.getElementsByClassName("dowjpg")[0];
 
-    ddd.addEventListener("click", () => {
-      domtoimage.toJpeg(ti).then((data) => {
+      html2canvas(node, {
+        backgroundColor: "#ffffff",
+        scale: 2, // កើនគុណភាព
+        useCORS: true
+      }).then(canvas => {
         var link = document.createElement("a");
         link.download = "<?php show_customer_name() ?>.jpg";
-        link.href = data;
+        link.href = canvas.toDataURL("image/jpeg", 1.0);
         link.click();
-      })
-    })
+      });
+    });
   </script>
 </body>
 

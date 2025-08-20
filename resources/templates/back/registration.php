@@ -41,17 +41,18 @@ registration();
                                 <tbody>
 
                                     <?php
-
-                                    $select = query("SELECT * from tbl_user order by user_id ASC");
+                                    $id_branch = branch_id();
+                                    $select = query("SELECT * from tbl_user  WHERE id_branch='$id_branch' order by user_id ASC");
                                     confirm($select);
 
                                     $admin = 'Admin';
+                                    $adminn = 'Adminn';
                                     $user = 'User';
                                     while ($row = $select->fetch_object()) {
 
                                         $branch = show_branch_name($row->id_branch);
 
-                                        if ($row->role == $admin or $row->role == $user) {
+                                        if ($row->role == $admin or $row->role == $adminn or $row->role == $user) {
                                             $password = "********";
                                         } else {
                                             $password = $row->password;
@@ -67,7 +68,7 @@ registration();
                                        <td> <img height="50" src="../productimages/user/' . $row->img . '" alt=""> ' . $row->username . '</td>
                                        <td>' . $row->useremail . '</td>
                                        <td>' . $password . '</td> 
-                                       <td>'.$branch.'</td>
+                                       <td>' . $branch . '</td>
                                        <td>' . $row->role . '</td>
                                        <td><button type="submit" class="btn btn-primary" value="' . $row->user_id . '" name="btnedit">Edit</button></td>
                                        <td>' . $delete . '</td>

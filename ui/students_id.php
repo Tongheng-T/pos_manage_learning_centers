@@ -71,7 +71,7 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
         <h2 class="st_name_img"><img src="../productimages/students/<?php echo $sd_img ?>" alt=""></h2>
 
         <h2 class="st_name"><?php echo $sd_namekh ?></h2>
-        <h2 class="qr"><img src="<?php qr(); ?>" alt=""></h2>
+        <h2 class="qr"><img src="<?php qr(); ?>" alt="">ss</h2>
 
 
       </div>

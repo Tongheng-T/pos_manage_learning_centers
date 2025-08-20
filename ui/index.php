@@ -4,6 +4,8 @@
 
 if ($_SESSION['role'] == "Admin") {
     include_once(TEMPLATE_BACK . "/header.php");
+} elseif ($_SESSION['role'] == "Adminn"){
+    include_once(TEMPLATE_BACK . "/headeradminn.php");
 } else {
     include_once(TEMPLATE_BACK . "/headeruser.php");
 }
@@ -45,6 +47,10 @@ if ($_SESSION['useremail'] == "" or $_SESSION['role'] == "User") {
     if (isset($_GET['dashboard'])) {
 
         include(TEMPLATE_BACK . "/dashboard.php");
+    }
+        if (isset($_GET['certificate'])) {
+
+        include(TEMPLATE_BACK . "/certificate.php");
     }
 
     if (isset($_GET['subject'])) {

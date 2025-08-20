@@ -39,10 +39,9 @@ require_once("../../config.php");
             <div class="form-group">
               <label>ខែ/ឆ្នាំ</label>
               <select class="form-control select2 year select2s" data-dropdown-css-class="select2" data-minimum-results-for-search="Infinity" name="txtstudytime" required>
-                <option value="month">១ខែ</option>
-                <option value="6month">៦ខែ</option>
-                <option value="years">១ឆ្នាំ</option>
                 <option value="session">១វគ្គ</option>
+                <option value="month">១ខែ</option>
+
 
               </select>
             </div>
@@ -81,7 +80,7 @@ require_once("../../config.php");
         </div>
         <div class="form-group">
           <label>ម៉ោងសិក្សារ</label>
-          <select style="height: 46px;" class="form-control select2 select2s time" data-dropdown-css-class="select2-purple" data-minimum-results-for-search="Infinity" name="txttim" required>
+          <select style="height: 46px;" class="form-control select2  time" data-dropdown-css-class="select2-purple" data-minimum-results-for-search="Infinity" name="txttim" required>
             <option value="" disabled selected>ជ្រើសរើសម៉ោង</option>
             <?php echo fill_studytime(); ?>
           </select>
@@ -124,20 +123,20 @@ require_once("../../config.php");
           <p>Upload image</p>
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label>ថ្នាក់រៀន</label>
           <select class="form-control select2" data-dropdown-css-class="select2-purple" data-minimum-results-for-search="Infinity" name="txtclass" required>
             <option value="" disabled selected>ជ្រើសរើសថ្នាក់រៀន</option>
             <?php echo fill_classroom(); ?>
           </select>
-        </div>
-        <div class="form-group">
+        </div> -->
+        <!-- <div class="form-group">
           <label>រថយន្ត</label>
           <select class="form-control select2 select2s car" name="txtcar" data-minimum-results-for-search="Infinity" required>
             <option value="" disabled selected>ជ្រើសរើសរថយន្ត/មធ្យោបាយធ្វើដំណើរ</option>
             <?php echo fill_car_driver(); ?>
           </select>
-        </div>
+        </div> -->
 
       </div>
     </div>
@@ -162,8 +161,9 @@ require_once("../../config.php");
 
       var productid = $(".subject").val();
       var year = $(".year").val();
-      var car = $(".car").val();
+      // var car = $(".car").val();
       var sdi_id = $(".time").val();
+  
 
 
       $.ajax({
@@ -172,8 +172,8 @@ require_once("../../config.php");
         data: {
           id: productid,
           sdi_id: sdi_id,
-          year: year,
-          car: car,
+          year: year
+      
         },
         success: function(data) {
 

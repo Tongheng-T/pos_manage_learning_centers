@@ -307,8 +307,7 @@ $total_subject = $row->cate;
                                         <td>ID</td>
                                         <td>មុខវិជ្ជា</td>
                                         <td>តម្លៃសិក្សារ/ខែ</td>
-                                        <td>តម្លៃសិក្សារ/6ខែ</td>
-                                        <td>តម្លៃសិក្សារ/១ឆ្មាំ</td>
+                          
                                         <td>តម្លៃសិក្សារ/១វគ្គ</td>
 
                                     </tr>
@@ -332,8 +331,8 @@ $total_subject = $row->cate;
                                         <td><span class="badge badgeth badge-dark">' . $row->sj_name . '</td></span>
                                         
                                         <td><span class="badge badgeth badge-success">' . number_format($row->sj_price)  . '</span></td>
-                                        <td><span class="badge badgeth badge-primary">' . number_format($row->sj_price_six)  . '</span></td>
-                                        <td><span class="badge badgeth badge-info">' . number_format($row->sj_price_year)  . '</span></td>
+                                       
+                       
                                         <td><span class="badge badgeth badge-warning">' . number_format($row->price_session) . '</span></td>
 
                                         ';
