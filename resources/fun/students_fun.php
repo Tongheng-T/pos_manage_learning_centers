@@ -295,7 +295,7 @@ function show_price($sj_id, $sd_id, $sdi_id)
   confirm($selectr);
   $row = $selectr->fetch_assoc();
 
-  $time = $row['qty'];
+  // $time = $row['qty'];
 
   if ($sdRow['sd_studytime'] == "session") {
     $price = $sjRow->price_session;

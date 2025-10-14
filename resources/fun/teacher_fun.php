@@ -27,11 +27,11 @@ function teacher_list()
            <div class="btn-group">
            <a href="teacher_id.php?id=' . $row->tc_id . '" class="btn btn-primary btn-xs" role="button"><span class="fa fa-id-card" style="color:#ffffff" data-toggle="tooltip" title="Delete students"></span></a>
            
-           <button id=' . $row->tc_id . ' class="btn btn-info btn-xs payroll" data-toggle="modal" role="button" data-target="#exampleModalpay"><span class="fas fa-money-bill-alt" style="color:#ffffff" data-toggle="tooltip" title="បើកប្រាក់ខែ"></span></button>
+           <button data-id=' . $row->tc_id . ' class="btn btn-info btn-xs payroll" data-toggle="modal" role="button" data-target="#exampleModalpay"><span class="fas fa-money-bill-alt" style="color:#ffffff" data-toggle="tooltip" title="បើកប្រាក់ខែ"></span></button>
            
-           <button id=' . $row->tc_id . ' class="btn btn-warning btn-xs view" data-toggle="modal" role="button" data-target="#exampleModal_view"><span class="fa fa-eye" style="color:#ffffff" data-toggle="tooltip" title="View teacher"></span></button>
+           <button data-id=' . $row->tc_id . ' class="btn btn-warning btn-xs view" data-toggle="modal" role="button" data-target="#exampleModal_view"><span class="fa fa-eye" style="color:#ffffff" data-toggle="tooltip" title="View teacher"></span></button>
            
-           <button id=' . $row->tc_id . ' class="btn btn-success btn-xs btnedit" data-toggle="modal" role="button" data-target="#exampleModal"><span class="fa fa-edit" style="color:#ffffff" data-toggle="tooltip" title="Edit teacher"></span></button>
+           <button data-id=' . $row->tc_id . ' class="btn btn-success btn-xs btnedit" data-toggle="modal" role="button" data-target="#exampleModal"><span class="fa fa-edit" style="color:#ffffff" data-toggle="tooltip" title="Edit teacher"></span></button>
            
            <a href="../resources/templates/back/delete_teacher.php?id=' . $row->tc_id . '" class="btn btn-danger btn-delete btn-xs" role="button"><span class="fa fa-trash" style="color:#ffffff" data-toggle="tooltip" title="Delete teacher"></span></a>
           
